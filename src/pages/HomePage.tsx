@@ -10,6 +10,7 @@ import { CREATE_WASTE_PHOTO } from '@/lib/graphql/queries'
 import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType } from '@/types'
 import { Recycle, Sparkles } from 'lucide-react'
+import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -76,15 +77,16 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <GreenGradientBackground>
+      <div className="min-h-screen p-8 landscape:px-16 text-white">
       {/* Предупреждение для неавторизованных пользователей */}
       {!isAuthenticated && !effectiveCompanyId && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 glass rounded-xl p-4 border border-yellow-300 bg-yellow-50"
+          className="mb-6 glass rounded-xl p-4 border border-yellow-300/50 bg-yellow-500/20"
         >
-          <p className="text-sm text-yellow-800">
+          <p className="text-sm text-white">
             ⚠️ Вы используете демо-режим. Для полного функционала{' '}
             <button
               onClick={() => navigate('/register')}
@@ -113,22 +115,22 @@ export default function HomePage() {
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           >
-            <Recycle className="w-16 h-16 text-green-500" />
+            <Recycle className="w-16 h-16 text-white" />
           </motion.div>
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+          <h1 className="text-6xl font-bold text-white">
             Smart Trash
           </h1>
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Sparkles className="w-12 h-12 text-yellow-400" />
+            <Sparkles className="w-12 h-12 text-white" />
           </motion.div>
         </div>
-        <p className="text-2xl text-gray-600 mb-4">
+        <p className="text-2xl text-white/90 mb-4">
           Интерактивный помощник по раздельному сбору отходов
         </p>
-        <p className="text-lg text-gray-500">
+        <p className="text-lg text-white/80">
           Определите тип отхода и получите инструкции по правильной утилизации
         </p>
       </motion.div>
@@ -150,7 +152,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto">
           <div className="glass rounded-2xl p-12 text-center">
             <h2 className="text-3xl font-bold mb-4">Сканирование штрихкода</h2>
-            <p className="text-gray-600 mb-8">
+            <p className="text-white/90 mb-8">
               Функция сканирования штрихкода будет доступна в ближайшее время
             </p>
             <button
@@ -173,19 +175,20 @@ export default function HomePage() {
         <div className="inline-flex gap-8 glass rounded-2xl px-12 py-6">
           <div>
             <div className="text-4xl font-bold text-green-600">♻️</div>
-            <div className="text-sm text-gray-600 mt-2">Экологично</div>
+            <div className="text-sm text-white/80 mt-2">Экологично</div>
           </div>
           <div>
             <div className="text-4xl font-bold text-blue-600">⚡</div>
-            <div className="text-sm text-gray-600 mt-2">Быстро</div>
+            <div className="text-sm text-white/80 mt-2">Быстро</div>
           </div>
           <div>
             <div className="text-4xl font-bold text-purple-600">🎯</div>
-            <div className="text-sm text-gray-600 mt-2">Точно</div>
+            <div className="text-sm text-white/80 mt-2">Точно</div>
           </div>
         </div>
       </motion.div>
-    </div>
+      </div>
+    </GreenGradientBackground>
   )
 }
 

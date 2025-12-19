@@ -49,3 +49,4 @@ export default function BinIcon({ type, size = 'md', highlighted = false, onClic
   )
 }
 
+

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import { 
   Recycle, 
   Trophy, 
@@ -41,15 +42,16 @@ export default function EmployeeDashboard() {
   }
 
   return (
-    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto">
+    <GreenGradientBackground>
+      <div className="min-h-screen p-8 landscape:px-16 text-white">
+        <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold text-white">
               Мой профиль
             </h1>
-            <p className="text-gray-600 mt-2">Ваша статистика и достижения</p>
+            <p className="text-white/90 mt-2">Ваша статистика и достижения</p>
           </div>
           <Button onClick={handleLogout} variant="ghost" size="lg">
             <LogOut className="w-5 h-5 mr-2" />
@@ -58,79 +60,79 @@ export default function EmployeeDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <Card className="p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <Recycle className="w-8 h-8 text-green-500" />
+              <Recycle className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-gray-800 mb-1">
+            <div className="text-3xl font-bold text-white mb-1">
               {stats.totalSorts}
             </div>
-            <div className="text-sm text-gray-600">Сортировок</div>
-          </Card>
+            <div className="text-sm text-white/80">Сортировок</div>
+          </div>
 
-          <Card className="p-6">
+          <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <Trophy className="w-8 h-8 text-yellow-500" />
+              <Trophy className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-gray-800 mb-1">
+            <div className="text-3xl font-bold text-white mb-1">
               #{stats.currentRank}
             </div>
-            <div className="text-sm text-gray-600">Место в рейтинге</div>
-          </Card>
+            <div className="text-sm text-white/80">Место в рейтинге</div>
+          </div>
 
-          <Card className="p-6">
+          <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <Award className="w-8 h-8 text-purple-500" />
+              <Award className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-gray-800 mb-1">
+            <div className="text-3xl font-bold text-white mb-1">
               {stats.achievements}
             </div>
-            <div className="text-sm text-gray-600">Ачивок получено</div>
-          </Card>
+            <div className="text-sm text-white/80">Ачивок получено</div>
+          </div>
 
-          <Card className="p-6">
+          <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-8 h-8 text-blue-500" />
+              <TrendingUp className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-gray-800 mb-1">
+            <div className="text-3xl font-bold text-white mb-1">
               {stats.streak}
             </div>
-            <div className="text-sm text-gray-600">Дней подряд</div>
-          </Card>
+            <div className="text-sm text-white/80">Дней подряд</div>
+          </div>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-6 mb-8">
-          <Card hover className="p-8 cursor-pointer" onClick={() => navigate('/tablet')}>
+          <Card hover className="p-8 cursor-pointer border-white/20" onClick={() => navigate('/tablet')}>
             <div className="text-center">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-lg"
+                className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-4"
               >
                 <Camera className="w-10 h-10 text-white" />
               </motion.div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              <h3 className="text-2xl font-bold text-white mb-2">
                 Сортировать отходы
               </h3>
-              <p className="text-gray-600">
+              <p className="text-white/80">
                 Определите тип отхода и получите инструкции
               </p>
             </div>
           </Card>
 
-          <Card hover className="p-8 cursor-pointer" onClick={() => navigate('/leaderboard')}>
+          <Card hover className="p-8 cursor-pointer border-white/20" onClick={() => navigate('/leaderboard')}>
             <div className="text-center">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="w-20 h-20 rounded-2xl bg-gradient-to-br from-yellow-500 to-amber-600 flex items-center justify-center mx-auto mb-4 shadow-lg"
+                className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-4"
               >
                 <Trophy className="w-10 h-10 text-white" />
               </motion.div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              <h3 className="text-2xl font-bold text-white mb-2">
                 Таблица лидеров
               </h3>
-              <p className="text-gray-600">
+              <p className="text-white/80">
                 Посмотрите свой рейтинг и достижения
               </p>
             </div>
@@ -139,10 +141,10 @@ export default function EmployeeDashboard() {
 
         {/* Recent Activity + Achievements */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="p-6">
+          <Card className="p-6 border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">Последние активности</h2>
-              <Button variant="ghost" size="sm" onClick={() => navigate('/history')}>
+              <h2 className="text-2xl font-bold text-white">Последние активности</h2>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/history')} className="text-white hover:bg-white/20">
                 <History className="w-4 h-4 mr-2" />
                 Вся история
               </Button>
@@ -154,25 +156,25 @@ export default function EmployeeDashboard() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: item * 0.1 }}
-                  className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl"
+                  className="flex items-center gap-4 p-4 bg-white/10 rounded-xl border border-white/20"
                 >
-                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                    <Recycle className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                    <Recycle className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-800">Сортировка отходов</div>
-                    <div className="text-sm text-gray-600">Пластик • +10 очков</div>
+                    <div className="font-semibold text-white">Сортировка отходов</div>
+                    <div className="text-sm text-white/80">Пластик • +10 очков</div>
                   </div>
-                  <div className="text-sm text-gray-500">2 часа назад</div>
+                  <div className="text-sm text-white/60">2 часа назад</div>
                 </motion.div>
               ))}
             </div>
           </Card>
 
-          <Card className="p-6">
+          <Card className="p-6 border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">Ачивки компании</h2>
-              <Button variant="ghost" size="sm" onClick={() => navigate('/admin/achievements')}>
+              <h2 className="text-2xl font-bold text-white">Ачивки компании</h2>
+              <Button variant="ghost" size="sm" onClick={() => navigate('/admin/achievements')} className="text-white hover:bg-white/20">
                 <Award className="w-4 h-4 mr-2" />
                 Все ачивки
               </Button>
@@ -190,8 +192,9 @@ export default function EmployeeDashboard() {
             История сортировок
           </Button>
         </div>
+        </div>
       </div>
-    </div>
+    </GreenGradientBackground>
   )
 }
 

@@ -10,6 +10,7 @@ import Button from '@/components/ui/Button'
 import { ArrowLeft, Building, Upload, X, QrCode, Save } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useWasteStore } from '@/store/useWasteStore'
+import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 
 interface CompanyFormData {
   name: string
@@ -52,7 +53,7 @@ export default function CompanySettingsPage() {
       const formData = new FormData()
       formData.append('file', file)
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
       const response = await fetch(`${apiUrl}/images/upload`, {
         method: 'POST',
         body: formData,
@@ -106,32 +107,36 @@ export default function CompanySettingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-      </div>
+      <GreenGradientBackground>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+      </GreenGradientBackground>
     )
   }
 
   return (
-    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <Button
-            onClick={() => navigate('/admin/dashboard')}
-            variant="ghost"
-            size="lg"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Назад
-          </Button>
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-            Настройки компании
-          </h1>
-          <p className="text-gray-600 mt-2">Управление информацией о компании</p>
-        </div>
+    <GreenGradientBackground>
+      <div className="min-h-screen p-8 landscape:px-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <Button
+              onClick={() => navigate('/admin/dashboard')}
+              variant="ghost"
+              size="lg"
+              className="text-white hover:text-white/80"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Назад
+            </Button>
+            <h1 className="text-5xl font-bold text-white mt-4">
+              Настройки компании
+            </h1>
+            <p className="text-white/80 mt-2">Управление информацией о компании</p>
+          </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Card className="p-8 mb-6">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Card className="p-8 mb-6 border-gray-200 bg-white shadow-xl">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
               <Building className="w-6 h-6" />
               Основная информация
@@ -144,7 +149,7 @@ export default function CompanySettingsPage() {
                 </label>
                 <input
                   {...register('name', { required: 'Название обязательно' })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-gray-800 placeholder-gray-400"
                   placeholder="ООО Моя Компания"
                 />
                 {errors.name && (
@@ -159,14 +164,14 @@ export default function CompanySettingsPage() {
                 <textarea
                   {...register('description')}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none resize-none"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none resize-none text-gray-800 placeholder-gray-400"
                   placeholder="Краткое описание вашей компании..."
                 />
               </div>
             </div>
           </Card>
 
-          <Card className="p-8 mb-6">
+          <Card className="p-8 mb-6 border-gray-200 bg-white shadow-xl">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
               <Upload className="w-6 h-6" />
               Логотип компании
@@ -217,7 +222,7 @@ export default function CompanySettingsPage() {
           </Card>
 
           {company?.qrCode && (
-            <Card className="p-8 mb-6">
+            <Card className="p-8 mb-6 border-gray-200 bg-white shadow-xl">
               <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
                 <QrCode className="w-6 h-6" />
                 QR-код компании
@@ -257,7 +262,8 @@ export default function CompanySettingsPage() {
           </div>
         </form>
       </div>
-    </div>
+      </div>
+    </GreenGradientBackground>
   )
 }
 

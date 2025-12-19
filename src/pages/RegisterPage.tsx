@@ -8,6 +8,7 @@ import { REGISTER_ADMIN } from '@/lib/graphql/mutations'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import { Recycle, User, Mail, Lock, Building, FileText, Upload, ArrowLeft, X } from 'lucide-react'
+import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 
 interface RegisterFormData {
   fullName: string
@@ -62,16 +63,6 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      let logoId: string | undefined
-
-      // Загружаем логотип если есть
-      if (logoFile) {
-        const uploadedLogoId = await handleLogoUpload(logoFile)
-        if (uploadedLogoId) {
-          logoId = uploadedLogoId
-        }
-      }
-
       const { data: result } = await registerAdmin({
         variables: {
           input: {
@@ -80,7 +71,6 @@ export default function RegisterPage() {
             password: data.password,
             companyName: data.companyName.trim(),
             companyDescription: data.companyDescription?.trim() || null,
-            logoId: logoId || null,
           },
         },
       })
@@ -97,13 +87,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-green-50 via-white to-blue-50 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl"
-      >
-        <Card className="p-8">
+    <GreenGradientBackground>
+      <div className="min-h-screen flex items-center justify-center p-6 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-2xl"
+        >
+          <Card className="p-8 border-gray-200 bg-white shadow-xl">
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center gap-3 mb-6">
               <Recycle className="w-10 h-10 text-green-500" />
@@ -341,7 +332,8 @@ export default function RegisterPage() {
           </div>
         </Card>
       </motion.div>
-    </div>
+      </div>
+    </GreenGradientBackground>
   )
 }
 

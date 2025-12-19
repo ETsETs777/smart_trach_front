@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button'
 import { UPDATE_SELF } from '@/lib/graphql/mutations'
 import { GET_ME } from '@/lib/graphql/queries'
 import { ArrowLeft, User, Lock, Upload, X } from 'lucide-react'
+import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 
 interface ProfileFormData {
   fullName?: string
@@ -48,7 +49,7 @@ export default function ProfilePage() {
       const formData = new FormData()
       formData.append('file', file)
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
       const response = await fetch(`${apiUrl}/images/upload`, {
         method: 'POST',
         body: formData,
@@ -92,21 +93,24 @@ export default function ProfilePage() {
 
   if (meLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-      </div>
+      <GreenGradientBackground>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+      </GreenGradientBackground>
     )
   }
 
   return (
-    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
-      <div className="max-w-3xl mx-auto">
-        <Button onClick={() => navigate(-1)} variant="ghost" size="lg" className="mb-6">
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          Назад
-        </Button>
+    <GreenGradientBackground>
+      <div className="min-h-screen p-8 landscape:px-16">
+        <div className="max-w-3xl mx-auto">
+          <Button onClick={() => navigate(-1)} variant="ghost" size="lg" className="mb-6 text-white hover:text-white/80">
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Назад
+          </Button>
 
-        <Card className="p-8">
+          <Card className="p-8 border-gray-200 bg-white shadow-xl">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Мой профиль</h1>
           <p className="text-gray-600 mb-1">
             {me?.email} · {me?.role}
@@ -123,7 +127,7 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   {...register('fullName')}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-gray-800 placeholder-gray-400"
                   defaultValue={me?.fullName || ''}
                   placeholder="Иванов Иван Иванович"
                 />
@@ -144,7 +148,7 @@ export default function ProfilePage() {
                   {...register('password', {
                     minLength: { value: 6, message: 'Минимум 6 символов' },
                   })}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none text-gray-800 placeholder-gray-400"
                   placeholder="••••••••"
                 />
               </div>
@@ -208,7 +212,8 @@ export default function ProfilePage() {
           </form>
         </Card>
       </div>
-    </div>
+      </div>
+    </GreenGradientBackground>
   )
 }
 
