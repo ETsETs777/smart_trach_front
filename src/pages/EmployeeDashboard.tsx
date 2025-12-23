@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
+import { memo } from 'react'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import { 
   Recycle, 
@@ -38,7 +40,7 @@ export default function EmployeeDashboard() {
     currentRank: 5,
     achievements: 3,
     streak: 7,
-    topCount: data?.companyAnalytics?.leaderboard?.[0]?.wasteCount || 0,
+    topCount: data?.companyAnalytics?.leaderboard?.[0]?.totalClassifiedPhotos || 0,
   }
 
   return (
@@ -197,4 +199,6 @@ export default function EmployeeDashboard() {
     </GreenGradientBackground>
   )
 }
+
+export default memo(EmployeeDashboard)
 

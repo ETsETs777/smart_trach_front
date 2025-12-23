@@ -8,6 +8,7 @@ import BinIcon from '@/components/ui/BinIcon'
 import BinLayout from '@/components/BinLayout'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { CheckCircle, Loader, XCircle, ArrowLeft, Trophy, Info, RefreshCw, AlertTriangle } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -63,16 +64,7 @@ export default function ResultPage() {
   }, [status])
 
   if (loading && !wastePhoto) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        >
-          <Loader className="w-16 h-16 text-green-500" />
-        </motion.div>
-      </div>
-    )
+    return <LoadingSpinner fullScreen text="Загрузка результата..." />
   }
 
   if (error) {

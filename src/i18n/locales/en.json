@@ -1,0 +1,242 @@
+{
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "description": "Description",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Company management and analytics",
+      "totalSorts": "Total sorts",
+      "containerTypes": "Container types",
+      "activeEmployees": "Active employees",
+      "sortLeader": "Sort leader",
+      "collectionAreas": "Collection Areas",
+      "collectionAreasDesc": "Manage collection points",
+      "employees": "Employees",
+      "employeesDesc": "Team management",
+      "settings": "Settings",
+      "settingsDesc": "Company settings",
+      "achievements": "Achievements",
+      "achievementsDesc": "Manage achievements",
+      "containers": "Containers",
+      "containersDesc": "Manage containers",
+      "analytics": "Analytics",
+      "analyticsDesc": "Company statistics",
+      "topEmployees": "Top employees",
+      "moreDetails": "More details",
+      "sorts": "sorts",
+      "containerUsage": "Container usage"
+    },
+    "footer": {
+      "documentation": "Documentation",
+      "help": "Help",
+      "aboutSystem": "About System",
+      "api": "API",
+      "changelog": "Updates",
+      "guide": "Guide",
+      "copyright": "© 2024 Smart Trash. All rights reserved."
+    },
+    "docs": {
+      "title": "Documentation",
+      "subtitle": "Complete guide to using Smart Trash system",
+      "employeeManagement": "Employee Management",
+      "employeeManagementDesc": "In the \"Employees\" section, you can add new employees, manage their access rights and track their activity.",
+      "collectionAreas": "Collection Areas",
+      "collectionAreasDesc": "Create and manage waste collection points in your company.",
+      "analytics": "Analytics and Statistics",
+      "analyticsDesc": "Track the effectiveness of your company's waste sorting program.",
+      "companySettings": "Company Settings",
+      "companySettingsDesc": "Configure your company profile, upload a logo and configure system parameters."
+    },
+    "help": {
+      "title": "Help and Support",
+      "subtitle": "Frequently asked questions and support contacts",
+      "faq": {
+        "addEmployee": {
+          "q": "How to add a new employee?",
+          "a": "Go to the \"Employees\" section, click \"Add Employee\" and enter the email. The employee will receive a registration invitation."
+        },
+        "createArea": {
+          "q": "How to create a collection area?",
+          "a": "In the \"Collection Areas\" section, click \"Create Area\", specify the name and description, then add containers."
+        },
+        "viewStats": {
+          "q": "How to view statistics?",
+          "a": "Open the \"Analytics\" section to view detailed statistics on sorts, containers and employees."
+        },
+        "changeSettings": {
+          "q": "How to change company settings?",
+          "a": "Go to the \"Settings\" section where you can change the name, description and upload the company logo."
+        },
+        "noInvite": {
+          "q": "What to do if an employee did not receive an invitation?",
+          "a": "Check the email address is correct. If the problem persists, try deleting and re-adding the employee."
+        }
+      },
+      "contactSupport": "Contact Support",
+      "supportEmail": "Email: support@smarttrash.ru",
+      "supportPhone": "Phone: +7 (800) 123-45-67",
+      "supportHours": "Support hours: Mon-Fri, 9:00 - 18:00 (MSK)"
+    },
+    "about": {
+      "title": "About System",
+      "subtitle": "Information about Smart Trash platform",
+      "version": "System Version",
+      "versionNumber": "Version:",
+      "releaseDate": "Release date:",
+      "license": "License:",
+      "systemGoal": "System Goal",
+      "systemGoalDesc": "Smart Trash helps companies effectively manage waste sorting, increasing environmental responsibility and reducing negative impact on the environment.",
+      "technologies": "Technologies",
+      "technologiesDesc": "We use modern technologies: artificial intelligence for waste recognition, cloud computing and mobile applications for convenience.",
+      "security": "Security",
+      "securityDesc": "All data is protected by modern encryption methods. We comply with all personal data protection requirements.",
+      "scalability": "Scalability",
+      "scalabilityDesc": "The system easily scales and can be adapted to the needs of companies of any size - from small businesses to large corporations."
+    },
+    "api": {
+      "title": "API Documentation",
+      "subtitle": "GraphQL API documentation",
+      "graphqlEndpoint": "GraphQL Endpoint",
+      "openPlayground": "Open GraphQL Playground",
+      "mainQueries": "Main Queries",
+      "authentication": "Authentication",
+      "companyAnalytics": "Company Analytics",
+      "createEmployee": "Create Employee",
+      "endpointDescription": "The system uses GraphQL API for all operations. You can use GraphQL Playground to test queries.",
+      "exampleQuery": "Example Query",
+      "exampleMutation": "Example Mutation"
+    },
+    "changelog": {
+      "title": "Changelog",
+      "subtitle": "System update log",
+      "version": "Version",
+      "latestVersion": "Latest Version",
+      "releaseDate": "Release Date",
+      "newFeatures": "New Features",
+      "improvements": "Improvements",
+      "bugFixes": "Bug Fixes"
+    },
+    "guide": {
+      "title": "Getting Started Guide",
+      "subtitle": "Step-by-step system setup instructions",
+      "setupCompany": "Company Setup",
+      "setupCompanyDesc": "Fill in company information, upload a logo and configure basic parameters.",
+      "createCollectionAreas": "Create Collection Areas",
+      "createCollectionAreasDesc": "Create waste collection areas in your company and configure containers for each area.",
+      "addEmployees": "Add Employees",
+      "addEmployeesDesc": "Invite employees to the system by sending them registration invitations.",
+      "setupAchievements": "Setup Achievements",
+      "setupAchievementsDesc": "Create an achievement system to motivate employees to actively sort waste.",
+      "monitoring": "Monitoring and Analytics",
+      "monitoringDesc": "Track sorting statistics, employee activity and program effectiveness.",
+      "goToSettings": "Go to Settings",
+      "manageAreas": "Manage Areas",
+      "manageEmployees": "Manage Employees",
+      "manageAchievements": "Manage Achievements",
+      "viewAnalytics": "View Analytics"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "loginButton": "Login",
+      "noAccount": "Don't have an account?",
+      "register": "Register",
+      "forgotPassword": "Forgot password?"
+    },
+    "register": {
+      "title": "Company Registration",
+      "email": "Email",
+      "password": "Password",
+      "fullName": "Full Name",
+      "companyName": "Company Name",
+      "companyDescription": "Company Description",
+      "registerButton": "Register",
+      "hasAccount": "Already have an account?",
+      "login": "Login"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "fullName": "Full Name",
+    "email": "Email",
+    "role": "Role",
+    "company": "Company",
+    "avatar": "Avatar",
+    "updateProfile": "Update Profile",
+    "profileUpdated": "Profile updated"
+  },
+  "company": {
+    "name": "Company Name",
+    "description": "Company Description",
+    "logo": "Company Logo",
+    "updateSettings": "Update Settings",
+    "settingsUpdated": "Company settings updated!"
+  },
+  "waste": {
+    "selectMethod": "Select sorting method",
+    "photo": "Photo recognition",
+    "manual": "Manual selection",
+    "barcode": "Barcode scan",
+    "uploadPhoto": "Upload photo",
+    "processing": "Processing...",
+    "result": "Result",
+    "recommendedBin": "Recommended container",
+    "instructions": "Instructions",
+    "history": "Sorting history",
+    "noHistory": "No sorting history yet"
+  },
+  "employee": {
+    "dashboard": {
+      "title": "Employee Dashboard",
+      "subtitle": "Your sorting statistics",
+      "totalSorts": "Total sorts",
+      "achievements": "Achievements",
+      "rank": "Your rank",
+      "startSorting": "Start sorting"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "subtitle": "Company ranking",
+      "position": "Position",
+      "employee": "Employee",
+      "sorts": "Sorts",
+      "noData": "No data available"
+    }
+  },
+  "errors": {
+    "loadingError": "Error loading data",
+    "saveError": "Error saving data",
+    "deleteError": "Error deleting",
+    "networkError": "Network error",
+    "tryAgain": "Try again"
+  },
+  "success": {
+    "saved": "Saved successfully",
+    "deleted": "Deleted successfully",
+    "created": "Created successfully",
+    "updated": "Updated successfully"
+  }
+}
+

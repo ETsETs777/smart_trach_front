@@ -1,40 +1,53 @@
 import { ApolloProvider } from '@apollo/client'
 import { Toaster } from 'react-hot-toast'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 import { apolloClient } from './lib/apollo'
 import ProtectedRoute from './components/ProtectedRoute'
-import LandingPage from './pages/LandingPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import ConfirmEmailPage from './pages/ConfirmEmailPage'
-import HomePage from './pages/HomePage'
-import PublicModePage from './pages/PublicModePage'
-import BarcodeScannerPage from './pages/BarcodeScannerPage'
-import ResultPage from './pages/ResultPage'
-import EmployeeRegisterPage from './pages/EmployeeRegisterPage'
-import AdminDashboard from './pages/AdminDashboard'
-import EmployeeDashboard from './pages/EmployeeDashboard'
-import CollectionAreasPage from './pages/CollectionAreasPage'
-import EmployeesPage from './pages/EmployeesPage'
-import CompanySettingsPage from './pages/CompanySettingsPage'
-import AchievementsPage from './pages/AchievementsPage'
-import BinsManagementPage from './pages/BinsManagementPage'
-import AnalyticsPage from './pages/AnalyticsPage'
-import ProfilePage from './pages/ProfilePage'
-import WasteHistoryPage from './pages/WasteHistoryPage'
-import AdminPage from './pages/AdminPage'
-import LeaderboardPage from './pages/LeaderboardPage'
-import AboutPage from './pages/AboutPage'
-import HowItWorksPage from './pages/HowItWorksPage'
-import ForCompaniesPage from './pages/ForCompaniesPage'
-import ContactsPage from './pages/ContactsPage'
+import PageTransition from './components/ui/PageTransition'
+import LoadingSpinner from './components/ui/LoadingSpinner'
+
+// Lazy loading для всех страниц
+const LandingPage = lazy(() => import('./pages/LandingPage'))
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const ConfirmEmailPage = lazy(() => import('./pages/ConfirmEmailPage'))
+const HomePage = lazy(() => import('./pages/HomePage'))
+const PublicModePage = lazy(() => import('./pages/PublicModePage'))
+const BarcodeScannerPage = lazy(() => import('./pages/BarcodeScannerPage'))
+const ResultPage = lazy(() => import('./pages/ResultPage'))
+const EmployeeRegisterPage = lazy(() => import('./pages/EmployeeRegisterPage'))
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
+const EmployeeDashboard = lazy(() => import('./pages/EmployeeDashboard'))
+const CollectionAreasPage = lazy(() => import('./pages/CollectionAreasPage'))
+const EmployeesPage = lazy(() => import('./pages/EmployeesPage'))
+const CompanySettingsPage = lazy(() => import('./pages/CompanySettingsPage'))
+const AchievementsPage = lazy(() => import('./pages/AchievementsPage'))
+const BinsManagementPage = lazy(() => import('./pages/BinsManagementPage'))
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'))
+const ProfilePage = lazy(() => import('./pages/ProfilePage'))
+const WasteHistoryPage = lazy(() => import('./pages/WasteHistoryPage'))
+const AdminPage = lazy(() => import('./pages/AdminPage'))
+const LeaderboardPage = lazy(() => import('./pages/LeaderboardPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
+const ForCompaniesPage = lazy(() => import('./pages/ForCompaniesPage'))
+const ContactsPage = lazy(() => import('./pages/ContactsPage'))
+const DocumentationPage = lazy(() => import('./pages/admin/DocumentationPage'))
+const HelpPage = lazy(() => import('./pages/admin/HelpPage'))
+const AboutSystemPage = lazy(() => import('./pages/admin/AboutSystemPage'))
+const ApiDocsPage = lazy(() => import('./pages/admin/ApiDocsPage'))
+const ChangelogPage = lazy(() => import('./pages/admin/ChangelogPage'))
+const GuidePage = lazy(() => import('./pages/admin/GuidePage'))
 
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <BrowserRouter>
         <div className="min-h-screen">
-          <Routes>
+          <PageTransition>
+            <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+              <Routes>
             {/* Публичные роуты */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -161,8 +174,58 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          </Routes>
-          <Toaster
+            <Route
+              path="/admin/docs"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <DocumentationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/help"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <HelpPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/about-system"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <AboutSystemPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/api-docs"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <ApiDocsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/changelog"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <ChangelogPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/guide"
+              element={
+                <ProtectedRoute requiredRole="ADMIN_COMPANY">
+                  <GuidePage />
+                </ProtectedRoute>
+              }
+            />
+            </Routes>
+          </Suspense>
+        </PageTransition>
+        <Toaster
             position="top-center"
             toastOptions={{
               duration: 4000,

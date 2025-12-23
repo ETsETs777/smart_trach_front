@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { UPDATE_SELF } from '@/lib/graphql/mutations'
 import { GET_ME } from '@/lib/graphql/queries'
 import { ArrowLeft, User, Lock, Upload, X } from 'lucide-react'
@@ -94,8 +95,10 @@ export default function ProfilePage() {
   if (meLoading) {
     return (
       <GreenGradientBackground>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        <div className="min-h-screen p-8 landscape:px-16">
+          <div className="max-w-3xl mx-auto">
+            <SkeletonLoader variant="card" className="bg-white" />
+          </div>
         </div>
       </GreenGradientBackground>
     )

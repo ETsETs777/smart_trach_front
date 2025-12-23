@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { GET_COMPANY_ANALYTICS, GET_ME } from '@/lib/graphql/queries'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { Trophy, Medal, Award, ArrowLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useWasteStore } from '@/store/useWasteStore'
@@ -21,7 +22,7 @@ export default function LeaderboardPage() {
 
   const leaderboard = data?.companyAnalytics?.leaderboard || []
   const meId = meData?.me?.id
-  const myIndex = leaderboard.findIndex((entry: any) => entry.userId === meId)
+  const myIndex = leaderboard.findIndex((entry: any) => entry.employee?.id === meId)
   const myEntry = myIndex >= 0 ? leaderboard[myIndex] : null
   const top3 = leaderboard.slice(0, 3)
   const rest = leaderboard.slice(3)
@@ -51,9 +52,11 @@ export default function LeaderboardPage() {
         </div>
 
         {loading ? (
-          <Card className="p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          </Card>
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonLoader key={i} variant="card" className="bg-white" />
+            ))}
+          </div>
         ) : leaderboard.length === 0 ? (
           <Card className="p-12 text-center">
             <Trophy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -71,7 +74,7 @@ export default function LeaderboardPage() {
             <div className="grid grid-cols-3 gap-4 mb-6">
               {top3.map((entry: any, index: number) => (
                 <Card
-                  key={entry.userId}
+                  key={entry.employee?.id || index}
                   className={`
                     p-6 text-center relative overflow-hidden
                     ${index === 0 ? 'bg-gradient-to-br from-yellow-100 to-amber-50' : 'bg-gray-50'}
@@ -81,24 +84,24 @@ export default function LeaderboardPage() {
                     #{index + 1}
                   </div>
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 mx-auto mb-3 flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
-                    {entry.logo?.url ? (
-                      <img src={entry.logo.url} alt={entry.userName} className="w-full h-full object-cover" />
+                    {entry.employee?.logo?.url ? (
+                      <img src={entry.employee.logo.url} alt={entry.employee.fullName} className="w-full h-full object-cover" />
                     ) : (
-                      entry.userName?.[0] || 'U'
+                      entry.employee?.fullName?.[0] || 'U'
                     )}
                   </div>
                   <div className="text-lg font-bold text-gray-800">
-                    {entry.userName || `Пользователь ${index + 1}`}
+                    {entry.employee?.fullName || `Пользователь ${index + 1}`}
                   </div>
                   <div className="text-sm text-gray-600 mb-3">
-                    {entry.wasteCount || 0} сортировок
+                    {entry.totalClassifiedPhotos || 0} сортировок
                   </div>
                   <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-green-500"
                       style={{
                         width: `${Math.min(
-                          ((entry.wasteCount || 0) / (top3[0]?.wasteCount || 1)) * 100,
+                          ((entry.totalClassifiedPhotos || 0) / (top3[0]?.totalClassifiedPhotos || 1)) * 100,
                           100,
                         )}%`,
                       }}
@@ -113,7 +116,7 @@ export default function LeaderboardPage() {
               <div className="space-y-4">
                 {rest.map((entry: any, index: number) => (
                   <motion.div
-                    key={entry.userId}
+                    key={entry.employee?.id || index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -124,23 +127,23 @@ export default function LeaderboardPage() {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-gray-800">
-                        {entry.userName || `Пользователь ${index + 4}`}
+                        {entry.employee?.fullName || `Пользователь ${index + 4}`}
                       </h3>
-                      <p className="text-gray-600">Сортировок: {entry.wasteCount || 0}</p>
+                      <p className="text-gray-600">Сортировок: {entry.totalClassifiedPhotos || 0}</p>
                     </div>
                     <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-green-500"
                         style={{
                           width: `${Math.min(
-                            ((entry.wasteCount || 0) / (top3[0]?.wasteCount || 1)) * 100,
+                            ((entry.totalClassifiedPhotos || 0) / (top3[0]?.totalClassifiedPhotos || 1)) * 100,
                             100,
                           )}%`,
                         }}
                       ></div>
                     </div>
                     <div className="text-2xl font-bold text-green-600">
-                      {entry.wasteCount || 0}
+                      {entry.totalClassifiedPhotos || 0}
                     </div>
                   </motion.div>
                 ))}
@@ -151,22 +154,22 @@ export default function LeaderboardPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold overflow-hidden">
-                        {myEntry.logo?.url ? (
-                          <img src={myEntry.logo.url} alt={myEntry.userName} className="w-full h-full object-cover" />
+                        {myEntry.employee?.logo?.url ? (
+                          <img src={myEntry.employee.logo.url} alt={myEntry.employee.fullName} className="w-full h-full object-cover" />
                         ) : (
-                          myEntry.userName?.[0] || 'U'
+                          myEntry.employee?.fullName?.[0] || 'U'
                         )}
                       </div>
                       <div>
                         <div className="font-semibold text-gray-800">
-                          {myEntry.userName || 'Вы'}
+                          {myEntry.employee?.fullName || 'Вы'}
                         </div>
                         <div className="text-sm text-gray-600">
                           Ваша позиция: #{myIndex + 1}
                         </div>
                       </div>
                     </div>
-                    <div className="text-lg font-bold text-green-600">{myEntry.wasteCount || 0}</div>
+                    <div className="text-lg font-bold text-green-600">{myEntry.totalClassifiedPhotos || 0}</div>
                   </div>
                 </div>
               )}
@@ -184,13 +187,13 @@ export default function LeaderboardPage() {
           >
             <Card className="text-center p-6">
               <div className="text-4xl font-bold text-green-600 mb-2">
-                {data.companyAnalytics.totalWastePhotos || 0}
+                {data.companyAnalytics.areas?.reduce((sum: number, area: any) => sum + (area.totalPhotos || 0), 0) || 0}
               </div>
               <div className="text-gray-600">Всего сортировок</div>
             </Card>
             <Card className="text-center p-6">
               <div className="text-4xl font-bold text-blue-600 mb-2">
-                {data.companyAnalytics.binUsageStats?.length || 0}
+                {data.companyAnalytics.binUsage?.length || 0}
               </div>
               <div className="text-gray-600">Типов контейнеров</div>
             </Card>

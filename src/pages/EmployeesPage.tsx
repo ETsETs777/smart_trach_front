@@ -12,6 +12,7 @@ import {
 } from '@/lib/graphql/mutations'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { Plus, UserCheck, UserX, Edit, Trash2, ArrowLeft, X, Mail, Users } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useWasteStore } from '@/store/useWasteStore'
@@ -290,9 +291,11 @@ export default function EmployeesPage() {
 
         {/* Employees List */}
         {loading ? (
-          <Card className="p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          </Card>
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <SkeletonLoader key={i} variant="card" className="bg-white" />
+            ))}
+          </div>
         ) : employees.length === 0 ? (
           <Card className="p-12 text-center">
             <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />

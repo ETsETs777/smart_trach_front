@@ -7,6 +7,7 @@ import { GET_COLLECTION_AREAS, GET_COLLECTION_AREA } from '@/lib/graphql/queries
 import { CREATE_COLLECTION_AREA, UPDATE_COLLECTION_AREA, DELETE_COLLECTION_AREA } from '@/lib/graphql/mutations'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { Plus, Edit, Trash2, ArrowLeft, X, MapPin } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useWasteStore } from '@/store/useWasteStore'
@@ -278,9 +279,11 @@ export default function CollectionAreasPage() {
 
         {/* Areas List */}
         {loading ? (
-          <Card className="p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <SkeletonLoader key={i} variant="card" className="bg-white" />
+            ))}
+          </div>
         ) : areas.length === 0 ? (
           <Card className="p-12 text-center">
             <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />

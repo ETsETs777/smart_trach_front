@@ -13,6 +13,7 @@ import {
 } from '@/lib/graphql/mutations'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType, BIN_CONFIGS } from '@/types'
 import { useForm } from 'react-hook-form'
@@ -135,7 +136,11 @@ export default function BinsManagementPage() {
         <Card className="p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Выберите область сбора</h2>
           {areasLoading ? (
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500"></div>
+            <div className="space-y-2">
+              {[1, 2, 3].map((i) => (
+                <SkeletonLoader key={i} variant="rectangular" height="60px" className="bg-gray-100 rounded-lg" />
+              ))}
+            </div>
           ) : areas.length === 0 ? (
             <div className="flex items-center gap-3 text-gray-600">
               <MapPin className="w-5 h-5" />

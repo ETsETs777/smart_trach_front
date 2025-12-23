@@ -62,18 +62,38 @@ export const GET_COLLECTION_AREAS = gql`
 `
 
 export const GET_COMPANY_ANALYTICS = gql`
-  query GetCompanyAnalytics($companyId: ID!, $dateFrom: DateTime, $dateTo: DateTime) {
+  query GetCompanyAnalytics($companyId: String!, $dateFrom: DateTime, $dateTo: DateTime) {
     companyAnalytics(companyId: $companyId, dateFrom: $dateFrom, dateTo: $dateTo) {
-      totalWastePhotos
-      binUsageStats {
+      companyId
+      binUsage {
         binType
         count
       }
       leaderboard {
-        userId
-        userName
-        wasteCount
+        employee {
+          id
+          fullName
+          email
+        }
+        totalClassifiedPhotos
       }
+      hallOfFame {
+        employee {
+          id
+          fullName
+          email
+        }
+        totalClassifiedPhotos
+      }
+      areas {
+        area {
+          id
+          name
+        }
+        totalPhotos
+      }
+      dateFrom
+      dateTo
     }
   }
 `
@@ -166,12 +186,15 @@ export const GET_COMPANY_ACHIEVEMENTS = gql`
 `
 
 export const GET_COMPANY_LEADERBOARD = gql`
-  query GetCompanyLeaderboard($companyId: ID!) {
+  query GetCompanyLeaderboard($companyId: String!) {
     companyAnalytics(companyId: $companyId) {
       leaderboard {
-        userId
-        userName
-        wasteCount
+        employee {
+          id
+          fullName
+          email
+        }
+        totalClassifiedPhotos
       }
     }
   }

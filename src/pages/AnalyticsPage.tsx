@@ -1,15 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, memo } from 'react'
 import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { useWasteStore } from '@/store/useWasteStore'
 import { GET_COMPANY_ANALYTICS } from '@/lib/graphql/queries'
 import { ArrowLeft, BarChart3, Activity, Users, Trophy, TrendingUp, Download } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-export default function AnalyticsPage() {
+function AnalyticsPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { companyId } = useWasteStore()
   const [dateFrom, setDateFrom] = useState<string>('')
@@ -21,7 +24,7 @@ export default function AnalyticsPage() {
   })
 
   const analytics = data?.companyAnalytics
-  const bins = analytics?.binUsageStats || []
+  const bins = analytics?.binUsage || []
   const leaderboard = analytics?.leaderboard || []
 
   const totalBins = bins.reduce((acc: number, b: any) => acc + Number(b.count || 0), 0)
@@ -60,19 +63,25 @@ export default function AnalyticsPage() {
           <div>
             <Button onClick={() => navigate('/admin/dashboard')} variant="ghost" size="lg">
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              Аналитика компании
+              {t('admin.dashboard.analytics')}
             </h1>
-            <p className="text-gray-600 mt-2">Использование контейнеров и активность</p>
+            <p className="text-gray-600 mt-2">{t('admin.dashboard.analyticsDesc')}</p>
           </div>
         </div>
 
         {loading ? (
-          <Card className="p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          </Card>
+          <div className="grid grid-cols-4 gap-6 mb-8">
+            {[1, 2, 3, 4].map((i) => (
+              <SkeletonLoader key={i} variant="card" className="bg-white" />
+            ))}
+          </div>
+          <div className="space-y-6">
+            <SkeletonLoader variant="card" className="bg-white" />
+            <SkeletonLoader variant="card" className="bg-white" />
+          </div>
         ) : error ? (
           <Card className="p-6 text-center text-red-600">
             Ошибка загрузки аналитики: {error.message}
@@ -123,7 +132,7 @@ export default function AnalyticsPage() {
                   <TrendingUp className="w-5 h-5 text-blue-500" />
                 </div>
                 <div className="text-3xl font-bold text-gray-800 mb-1">
-                  {analytics.totalWastePhotos || 0}
+                  {analytics.areas?.reduce((sum: number, area: any) => sum + (area.totalPhotos || 0), 0) || 0}
                 </div>
                 <div className="text-sm text-gray-600">Всего сортировок</div>
               </Card>
@@ -153,7 +162,7 @@ export default function AnalyticsPage() {
                   <Trophy className="w-8 h-8 text-yellow-500" />
                 </div>
                 <div className="text-3xl font-bold text-gray-800 mb-1">
-                  {leaderboard?.[0]?.wasteCount || 0}
+                  {leaderboard?.[0]?.totalClassifiedPhotos || 0}
                 </div>
                 <div className="text-sm text-gray-600">Лидер сортировок</div>
               </Card>
@@ -205,7 +214,7 @@ export default function AnalyticsPage() {
                 <div className="space-y-3">
                   {leaderboard.slice(0, 8).map((entry: any, index: number) => (
                     <motion.div
-                      key={entry.userId}
+                      key={entry.employee?.id || index}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
@@ -217,15 +226,15 @@ export default function AnalyticsPage() {
                         </div>
                         <div>
                           <div className="font-semibold text-gray-800">
-                            {entry.userName || `Пользователь ${index + 1}`}
+                            {entry.employee?.fullName || `Пользователь ${index + 1}`}
                           </div>
                           <div className="text-sm text-gray-600">
-                            {entry.wasteCount || 0} сортировок
+                            {entry.totalClassifiedPhotos || 0} сортировок
                           </div>
                         </div>
                       </div>
                       <div className="text-lg font-bold text-green-600">
-                        +{entry.wasteCount || 0}
+                        +{entry.totalClassifiedPhotos || 0}
                       </div>
                     </motion.div>
                   ))}

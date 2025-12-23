@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
+import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { ArrowLeft, Filter } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
@@ -135,4 +136,6 @@ export default function WasteHistoryPage() {
     </div>
   )
 }
+
+export default memo(WasteHistoryPage)
 
