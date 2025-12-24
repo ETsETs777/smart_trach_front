@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { GET_WASTE_PHOTO } from '@/lib/graphql/queries'
 import { TrashBinType, WastePhotoStatus, BIN_CONFIGS } from '@/types'
 import BinIcon from '@/components/ui/BinIcon'
@@ -13,6 +14,7 @@ import { CheckCircle, Loader, XCircle, ArrowLeft, Trophy, Info, RefreshCw, Alert
 import toast from 'react-hot-toast'
 
 export default function ResultPage() {
+  const { t } = useTranslation()
   const { wastePhotoId } = useParams<{ wastePhotoId: string }>()
   const navigate = useNavigate()
   const [pollingInterval, setPollingInterval] = useState(2000)
@@ -59,12 +61,12 @@ export default function ResultPage() {
 
     if (status === WastePhotoStatus.FAILED) {
       setProgress(0)
-      toast.error('Не удалось определить тип отхода, выберите вариант ниже')
+      toast.error(t('result.failedToDetermine'))
     }
-  }, [status])
+  }, [status, t])
 
   if (loading && !wastePhoto) {
-    return <LoadingSpinner fullScreen text="Загрузка результата..." />
+    return <LoadingSpinner fullScreen text={t('result.loadingResult')} />
   }
 
   if (error) {
@@ -72,10 +74,10 @@ export default function ResultPage() {
       <div className="min-h-screen flex items-center justify-center p-8">
         <Card className="max-w-2xl text-center">
           <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold mb-4">Ошибка</h2>
+          <h2 className="text-3xl font-bold mb-4">{t('result.error')}</h2>
           <p className="text-gray-600 mb-6">{error.message}</p>
           <Button onClick={() => navigate('/')} variant="primary">
-            Вернуться на главную
+            {t('result.returnHome')}
           </Button>
         </Card>
       </div>
@@ -100,7 +102,7 @@ export default function ResultPage() {
             size="lg"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Назад
+            {t('common.back')}
           </Button>
         </div>
 
@@ -117,8 +119,8 @@ export default function ResultPage() {
                   <>
                     <Loader className="w-8 h-8 text-blue-500 animate-spin" />
                     <div>
-                      <h3 className="font-semibold text-lg">Обработка...</h3>
-                      <p className="text-gray-600">Анализируем ваш отход</p>
+                      <h3 className="font-semibold text-lg">{t('result.processing')}</h3>
+                      <p className="text-gray-600">{t('result.analyzingWaste')}</p>
                       <div className="mt-3">
                         <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
                           <motion.div
@@ -128,7 +130,7 @@ export default function ResultPage() {
                             className="h-full bg-gradient-to-r from-blue-500 to-emerald-500"
                           />
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">Обычно это занимает до 15 секунд</p>
+                        <p className="text-xs text-gray-500 mt-2">{t('result.usuallyTakes')}</p>
                       </div>
                     </div>
                   </>
@@ -137,8 +139,8 @@ export default function ResultPage() {
                   <>
                     <CheckCircle className="w-8 h-8 text-green-500" />
                     <div>
-                      <h3 className="font-semibold text-lg">Готово!</h3>
-                      <p className="text-gray-600">Анализ завершён</p>
+                      <h3 className="font-semibold text-lg">{t('result.ready')}</h3>
+                      <p className="text-gray-600">{t('result.analysisComplete')}</p>
                     </div>
                   </>
                 )}
@@ -146,8 +148,8 @@ export default function ResultPage() {
                   <>
                     <XCircle className="w-8 h-8 text-red-500" />
                     <div>
-                      <h3 className="font-semibold text-lg">Ошибка</h3>
-                      <p className="text-gray-600">Не удалось определить тип отхода</p>
+                      <h3 className="font-semibold text-lg">{t('result.error')}</h3>
+                      <p className="text-gray-600">{t('result.failedToDetermine')}</p>
                       <div className="mt-4 flex flex-wrap gap-3">
                         <Button
                           variant="primary"
@@ -156,7 +158,7 @@ export default function ResultPage() {
                           className="flex items-center gap-2"
                         >
                           <AlertTriangle className="w-4 h-4" />
-                          Выбрать тип вручную
+                          {t('result.selectTypeManually')}
                         </Button>
                         <Button
                           variant="outline"
@@ -165,7 +167,7 @@ export default function ResultPage() {
                           className="flex items-center gap-2"
                         >
                           <RefreshCw className="w-4 h-4" />
-                          Попробовать снова
+                          {t('result.tryAgain')}
                         </Button>
                       </div>
                     </div>
@@ -191,7 +193,7 @@ export default function ResultPage() {
                 <Card className="p-8">
                   <div className="text-center mb-6">
                     <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                      Используйте этот контейнер
+                      {t('result.useThisContainer')}
                     </h2>
                     <motion.div
                       initial={{ scale: 0 }}
@@ -229,7 +231,7 @@ export default function ResultPage() {
                 <Card className="p-8">
                   <h2 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
                     <Trophy className="w-8 h-8 text-yellow-500" />
-                    Инструкции
+                    {t('result.instructions')}
                   </h2>
                   <ul className="space-y-4">
                     {config.instructions.map((instruction, index) => (
@@ -255,8 +257,8 @@ export default function ResultPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm opacity-90">Вы получили</p>
-                        <p className="text-3xl font-bold">+10 очков</p>
+                        <p className="text-sm opacity-90">{t('result.pointsEarned')}</p>
+                        <p className="text-3xl font-bold">+10 {t('result.points')}</p>
                       </div>
                       <Trophy className="w-12 h-12" />
                     </div>
@@ -272,7 +274,7 @@ export default function ResultPage() {
                   className="mt-8"
                 >
                   <Card className="p-6">
-                    <h3 className="text-xl font-semibold mb-4">Ваше фото</h3>
+                    <h3 className="text-xl font-semibold mb-4">{t('result.yourPhoto')}</h3>
                     <img
                       src={wastePhoto.image.url}
                       alt="Waste photo"
@@ -290,14 +292,14 @@ export default function ResultPage() {
                   size="lg"
                   className="flex-1"
                 >
-                  Отлично! Продолжить
+                  {t('result.excellentContinue')}
                 </Button>
                 <Button
                   onClick={() => navigate('/leaderboard')}
                   variant="outline"
                   size="lg"
                 >
-                  Посмотреть рейтинг
+                  {t('result.viewLeaderboard')}
                 </Button>
               </div>
             </motion.div>
@@ -307,13 +309,13 @@ export default function ResultPage() {
         {!config && status === WastePhotoStatus.FAILED && (
           <Card className="text-center p-12">
             <XCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-4">Не удалось определить тип</h2>
+            <h2 className="text-3xl font-bold mb-4">{t('result.failedToDetermineType')}</h2>
             <p className="text-gray-600 mb-6">
-              Попробуйте сделать более чёткое фото или выберите тип вручную
+              {t('result.tryClearerPhoto')}
             </p>
             <div className="flex gap-4 justify-center">
               <Button onClick={() => navigate('/')} variant="primary" size="lg">
-                Попробовать снова
+                {t('result.tryAgain')}
               </Button>
             </div>
           </Card>

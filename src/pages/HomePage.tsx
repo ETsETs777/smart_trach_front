@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import WasteMethodSelector from '@/components/WasteMethodSelector'
 import PhotoUploader from '@/components/PhotoUploader'
 import ManualSelector from '@/components/ManualSelector'
@@ -15,6 +16,7 @@ import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 type Method = 'photo' | 'manual' | 'barcode' | null
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const [method, setMethod] = useState<Method>(null)
   const [createWastePhoto, { loading }] = useMutation(CREATE_WASTE_PHOTO)
   const navigate = useNavigate()
@@ -62,11 +64,11 @@ export default function HomePage() {
         // Сохраняем ID для использования
         const wastePhotoId = data.createWastePhoto.id
         navigate(`/result/${wastePhotoId}`)
-        toast.success('Фото отправлено на анализ!')
+        toast.success(t('home.photoSent'))
       }
     } catch (error) {
       console.error('Error uploading photo:', error)
-      toast.error('Ошибка при загрузке фото')
+      toast.error(t('home.photoUploadError'))
     }
   }
 
@@ -87,19 +89,19 @@ export default function HomePage() {
           className="mb-6 glass rounded-xl p-4 border border-yellow-300/50 bg-yellow-500/20"
         >
           <p className="text-sm text-white">
-            ⚠️ Вы используете демо-режим. Для полного функционала{' '}
+            {t('home.demoWarning')}{' '}
             <button
               onClick={() => navigate('/register')}
               className="underline font-semibold"
             >
-              зарегистрируйте компанию
+              {t('home.registerCompany')}
             </button>
-            {' '}или{' '}
+            {' '}{t('home.or')}{' '}
             <button
               onClick={() => navigate('/login')}
               className="underline font-semibold"
             >
-              войдите в систему
+              {t('home.loginToSystem')}
             </button>
           </p>
         </motion.div>
@@ -118,7 +120,7 @@ export default function HomePage() {
             <Recycle className="w-16 h-16 text-white" />
           </motion.div>
           <h1 className="text-6xl font-bold text-white">
-            Smart Trash
+            {t('home.title')}
           </h1>
           <motion.div
             animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
@@ -128,10 +130,10 @@ export default function HomePage() {
           </motion.div>
         </div>
         <p className="text-2xl text-white/90 mb-4">
-          Интерактивный помощник по раздельному сбору отходов
+          {t('home.subtitle')}
         </p>
         <p className="text-lg text-white/80">
-          Определите тип отхода и получите инструкции по правильной утилизации
+          {t('home.description')}
         </p>
       </motion.div>
 
@@ -151,15 +153,15 @@ export default function HomePage() {
       ) : method === 'barcode' ? (
         <div className="max-w-2xl mx-auto">
           <div className="glass rounded-2xl p-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">Сканирование штрихкода</h2>
+            <h2 className="text-3xl font-bold mb-4">{t('home.barcodeScanning')}</h2>
             <p className="text-white/90 mb-8">
-              Функция сканирования штрихкода будет доступна в ближайшее время
+              {t('home.barcodeComingSoon')}
             </p>
             <button
               onClick={() => setMethod(null)}
               className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 transition-colors"
             >
-              Назад
+              {t('common.back')}
             </button>
           </div>
         </div>
@@ -175,15 +177,15 @@ export default function HomePage() {
         <div className="inline-flex gap-8 glass rounded-2xl px-12 py-6">
           <div>
             <div className="text-4xl font-bold text-green-600">♻️</div>
-            <div className="text-sm text-white/80 mt-2">Экологично</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.ecoFriendly')}</div>
           </div>
           <div>
             <div className="text-4xl font-bold text-blue-600">⚡</div>
-            <div className="text-sm text-white/80 mt-2">Быстро</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.fast')}</div>
           </div>
           <div>
             <div className="text-4xl font-bold text-purple-600">🎯</div>
-            <div className="text-sm text-white/80 mt-2">Точно</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.accurate')}</div>
           </div>
         </div>
       </motion.div>

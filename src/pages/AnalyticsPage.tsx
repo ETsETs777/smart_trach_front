@@ -2,7 +2,6 @@ import { useMemo, useState, memo } from 'react'
 import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { useTranslation } from 'react-i18next'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
@@ -12,7 +11,6 @@ import { ArrowLeft, BarChart3, Activity, Users, Trophy, TrendingUp, Download } f
 import { useNavigate } from 'react-router-dom'
 
 function AnalyticsPage() {
-  const { t } = useTranslation()
   const navigate = useNavigate()
   const { companyId } = useWasteStore()
   const [dateFrom, setDateFrom] = useState<string>('')
@@ -63,12 +61,12 @@ function AnalyticsPage() {
           <div>
             <Button onClick={() => navigate('/admin/dashboard')} variant="ghost" size="lg">
               <ArrowLeft className="w-5 h-5 mr-2" />
-              {t('common.back')}
+              Назад
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              {t('admin.dashboard.analytics')}
+              Аналитика компании
             </h1>
-            <p className="text-gray-600 mt-2">{t('admin.dashboard.analyticsDesc')}</p>
+            <p className="text-gray-600 mt-2">Использование контейнеров и активность</p>
           </div>
         </div>
 

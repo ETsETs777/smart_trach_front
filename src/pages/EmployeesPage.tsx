@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import { GET_COMPANY_EMPLOYEES } from '@/lib/graphql/queries'
 import {
@@ -25,6 +26,7 @@ interface EmployeeFormData {
 }
 
 export default function EmployeesPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { companyId } = useWasteStore()
   const [isCreating, setIsCreating] = useState(false)
@@ -37,43 +39,43 @@ export default function EmployeesPage() {
 
   const [createEmployee] = useMutation(CREATE_EMPLOYEE, {
     onCompleted: () => {
-      toast.success('Сотрудник создан! Приглашение отправлено на email.')
+      toast.success(t('admin.employees.employeeCreated'))
       setIsCreating(false)
       refetch()
     },
     onError: (error) => {
-      toast.error(error.message || 'Ошибка создания сотрудника')
+      toast.error(error.message || t('admin.employees.errorCreating'))
     },
   })
 
   const [confirmEmployee] = useMutation(CONFIRM_EMPLOYEE, {
     onCompleted: () => {
-      toast.success('Сотрудник подтверждён!')
+      toast.success(t('admin.employees.employeeConfirmed'))
       refetch()
     },
     onError: (error) => {
-      toast.error(error.message || 'Ошибка подтверждения')
+      toast.error(error.message || t('admin.employees.errorConfirming'))
     },
   })
 
   const [updateEmployee] = useMutation(UPDATE_EMPLOYEE, {
     onCompleted: () => {
-      toast.success('Данные сотрудника обновлены!')
+      toast.success(t('admin.employees.employeeUpdated'))
       setEditingId(null)
       refetch()
     },
     onError: (error) => {
-      toast.error(error.message || 'Ошибка обновления')
+      toast.error(error.message || t('admin.employees.errorUpdating'))
     },
   })
 
   const [removeEmployee] = useMutation(REMOVE_EMPLOYEE_FROM_COMPANY, {
     onCompleted: () => {
-      toast.success('Сотрудник удалён из компании!')
+      toast.success(t('admin.employees.employeeRemoved'))
       refetch()
     },
     onError: (error) => {
-      toast.error(error.message || 'Ошибка удаления')
+      toast.error(error.message || t('admin.employees.errorRemoving'))
     },
   })
 
@@ -81,7 +83,7 @@ export default function EmployeesPage() {
 
   const onSubmit = async (data: EmployeeFormData) => {
     if (!companyId) {
-      toast.error('Компания не выбрана')
+      toast.error(t('admin.employees.companyNotSelected'))
       return
     }
 
@@ -133,7 +135,7 @@ export default function EmployeesPage() {
   }
 
   const handleDelete = async (userId: string) => {
-    if (!confirm('Вы уверены, что хотите удалить этого сотрудника из компании?')) {
+    if (!confirm(t('admin.employees.confirmDelete'))) {
       return
     }
 
@@ -166,12 +168,12 @@ export default function EmployeesPage() {
               size="lg"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              Сотрудники
+              {t('admin.employees.title')}
             </h1>
-            <p className="text-gray-600 mt-2">Управление сотрудниками компании</p>
+            <p className="text-gray-600 mt-2">{t('admin.employees.subtitle')}</p>
           </div>
           <Button
             onClick={() => setIsCreating(true)}
@@ -179,7 +181,7 @@ export default function EmployeesPage() {
             size="lg"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Добавить сотрудника
+            {t('admin.employees.addEmployee')}
           </Button>
         </div>
 
@@ -195,7 +197,7 @@ export default function EmployeesPage() {
               <Card className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">
-                    {editingId ? 'Редактировать сотрудника' : 'Добавить нового сотрудника'}
+                    {editingId ? t('admin.employees.editEmployee') : t('admin.employees.addNewEmployee')}
                   </h2>
                   <button
                     onClick={() => {
@@ -212,12 +214,12 @@ export default function EmployeesPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Имя *
+                        {t('admin.employees.firstName')} *
                       </label>
                       <input
-                        {...register('firstName', { required: 'Имя обязательно' })}
+                        {...register('firstName', { required: t('admin.employees.firstNameRequired') })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
-                        placeholder="Иван"
+                        placeholder="Ivan"
                       />
                       {errors.firstName && (
                         <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
@@ -226,12 +228,12 @@ export default function EmployeesPage() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Фамилия *
+                        {t('admin.employees.lastName')} *
                       </label>
                       <input
-                        {...register('lastName', { required: 'Фамилия обязательна' })}
+                        {...register('lastName', { required: t('admin.employees.lastNameRequired') })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
-                        placeholder="Иванов"
+                        placeholder="Ivanov"
                       />
                       {errors.lastName && (
                         <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
@@ -241,17 +243,17 @@ export default function EmployeesPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Email *
+                      {t('common.email')} *
                     </label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                       <input
                         type="email"
                         {...register('email', {
-                          required: 'Email обязателен',
+                          required: t('admin.employees.emailRequired'),
                           pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: 'Некорректный email',
+                            message: t('admin.employees.invalidEmail'),
                           },
                         })}
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
@@ -269,7 +271,7 @@ export default function EmployeesPage() {
                       variant="primary"
                       size="lg"
                     >
-                      {editingId ? 'Сохранить' : 'Создать и отправить приглашение'}
+                      {editingId ? t('common.save') : t('admin.employees.createAndSendInvite')}
                     </Button>
                     <Button
                       type="button"
@@ -280,7 +282,7 @@ export default function EmployeesPage() {
                         setEditingId(null)
                       }}
                     >
-                      Отмена
+                      {t('common.cancel')}
                     </Button>
                   </div>
                 </form>
@@ -299,13 +301,13 @@ export default function EmployeesPage() {
         ) : employees.length === 0 ? (
           <Card className="p-12 text-center">
             <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Нет сотрудников</h2>
+            <h2 className="text-2xl font-bold mb-2">{t('admin.employees.noEmployees')}</h2>
             <p className="text-gray-600 mb-6">
-              Добавьте первого сотрудника в вашу компанию
+              {t('admin.employees.addFirstEmployee')}
             </p>
             <Button onClick={() => setIsCreating(true)} variant="primary" size="lg">
               <Plus className="w-5 h-5 mr-2" />
-              Добавить сотрудника
+              {t('admin.employees.addEmployee')}
             </Button>
           </Card>
         ) : (
@@ -329,7 +331,7 @@ export default function EmployeesPage() {
                         </h3>
                         {!employee.isEmailConfirmed && (
                           <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
-                            Email не подтверждён
+                            {t('admin.employees.emailNotConfirmed')}
                           </span>
                         )}
                         {!employee.isEmployeeConfirmed && (
