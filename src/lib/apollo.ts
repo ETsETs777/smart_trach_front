@@ -2,6 +2,8 @@ import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/clien
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
 import toast from 'react-hot-toast'
+import { handleApolloError, logError } from './errorHandler'
+import i18n from '@/i18n/config'
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URL || 'http://localhost:5000/graphql',
@@ -18,19 +20,32 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
   if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      console.error(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-      toast.error(message || 'Произошла ошибка')
+    graphQLErrors.forEach((error) => {
+      logError(error, operation?.operationName)
+      const errorInfo = handleApolloError({ graphQLErrors: [error] } as any)
+      
+      // Don't show toast for authentication errors (will be handled by ProtectedRoute)
+      if (errorInfo.code !== 'UNAUTHENTICATED') {
+        // Try to translate error message, fallback to original
+        const translatedMessage = i18n.exists(errorInfo.message) 
+          ? i18n.t(errorInfo.message)
+          : errorInfo.message
+        toast.error(translatedMessage)
+      }
     })
   }
 
   if (networkError) {
-    console.error(`[Network error]: ${networkError}`)
-    toast.error('Ошибка сети. Проверьте подключение.')
+    logError(networkError as Error, operation?.operationName)
+    const errorInfo = handleApolloError({ networkError } as any)
+    
+    // Translate error message
+    const translatedMessage = i18n.exists(errorInfo.message) 
+      ? i18n.t(errorInfo.message)
+      : errorInfo.message
+    toast.error(translatedMessage)
   }
 })
 

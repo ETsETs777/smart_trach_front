@@ -80,7 +80,7 @@ export default function HomePage() {
 
   return (
     <GreenGradientBackground>
-      <div className="min-h-screen p-8 landscape:px-16 text-white">
+      <div className="min-h-screen p-4 sm:p-6 md:p-8 lg:p-12 landscape:px-8 lg:landscape:px-16 text-white">
       {/* Предупреждение для неавторизованных пользователей */}
       {!isAuthenticated && !effectiveCompanyId && (
         <motion.div
@@ -92,14 +92,16 @@ export default function HomePage() {
             {t('home.demoWarning')}{' '}
             <button
               onClick={() => navigate('/register')}
-              className="underline font-semibold"
+              className="underline font-semibold hover:text-yellow-200 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 rounded"
+              aria-label={t('home.registerCompany')}
             >
               {t('home.registerCompany')}
             </button>
             {' '}{t('home.or')}{' '}
             <button
               onClick={() => navigate('/login')}
-              className="underline font-semibold"
+              className="underline font-semibold hover:text-yellow-200 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 rounded"
+              aria-label={t('home.loginToSystem')}
             >
               {t('home.loginToSystem')}
             </button>
@@ -119,7 +121,7 @@ export default function HomePage() {
           >
             <Recycle className="w-16 h-16 text-white" />
           </motion.div>
-          <h1 className="text-6xl font-bold text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
             {t('home.title')}
           </h1>
           <motion.div
@@ -129,10 +131,10 @@ export default function HomePage() {
             <Sparkles className="w-12 h-12 text-white" />
           </motion.div>
         </div>
-        <p className="text-2xl text-white/90 mb-4">
+        <p className="text-lg sm:text-xl md:text-2xl text-white/90 mb-4">
           {t('home.subtitle')}
         </p>
-        <p className="text-lg text-white/80">
+        <p className="text-sm sm:text-base md:text-lg text-white/80">
           {t('home.description')}
         </p>
       </motion.div>
@@ -159,7 +161,8 @@ export default function HomePage() {
             </p>
             <button
               onClick={() => setMethod(null)}
-              className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 transition-colors"
+              className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400"
+              aria-label={t('common.back')}
             >
               {t('common.back')}
             </button>
@@ -174,7 +177,7 @@ export default function HomePage() {
         transition={{ delay: 0.5 }}
         className="mt-16 text-center"
       >
-        <div className="inline-flex gap-8 glass rounded-2xl px-12 py-6">
+        <div className="inline-flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 glass rounded-2xl px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6">
           <div>
             <div className="text-4xl font-bold text-green-600">♻️</div>
             <div className="text-sm text-white/80 mt-2">{t('home.ecoFriendly')}</div>

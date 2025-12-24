@@ -350,5 +350,48 @@
     "logo": "Company Logo",
     "updateSettings": "Update Settings",
     "settingsUpdated": "Company settings updated!"
+  },
+  "errors": {
+    "unknown": "An unknown error occurred",
+    "unauthenticated": "You are not authenticated. Please log in.",
+    "forbidden": "You don't have permission to perform this action",
+    "notFound": "The requested resource was not found",
+    "validationError": "Validation error",
+    "internalError": "An internal server error occurred",
+    "networkError": "Network error. Please check your connection.",
+    "serverError": "Server error. Please try again later.",
+    "timeout": "Request timeout. Please try again."
+  },
+  "fileUpload": {
+    "title": "Upload waste photo",
+    "dragDrop": "Drag and drop photo here or click button below",
+    "selectFile": "Select file",
+    "sendForAnalysis": "Send for analysis",
+    "invalidFormat": "Invalid file format. Please upload an image.",
+    "fileTooLarge": "File is too large. Maximum size is {{maxSize}}MB",
+    "uploading": "Uploading...",
+    "uploadProgress": "Upload progress: {{progress}}%"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "noData": "No data yet",
+    "startSorting": "Start sorting waste to get into the ranking!",
+    "startSortingButton": "Start sorting",
+    "topThree": "Top 3",
+    "restOfLeaderboard": "Rest of leaderboard",
+    "sorts": "sorts",
+    "user": "User {{number}}",
+    "you": "You",
+    "yourPosition": "Your position",
+    "statistics": "Statistics",
+    "totalSorts": "Total sorts",
+    "containerTypes": "Container types",
+    "participants": "Participants"
+  },
+  "achievements": {
+    "progress": "Progress",
+    "achieved": "Achievement unlocked!",
+    "unlocked": "Unlocked",
+    "locked": "Locked"
   }
 }
