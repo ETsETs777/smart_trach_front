@@ -21,7 +21,8 @@
     "actions": "Actions",
     "confirm": "Confirm",
     "required": "Required",
-    "optional": "Optional"
+    "optional": "Optional",
+    "print": "Print"
   },
   "home": {
     "title": "Smart Trash",
@@ -61,6 +62,34 @@
     "failedToDetermineType": "Failed to determine type",
     "tryClearerPhoto": "Try taking a clearer photo or select the type manually"
   },
+  "analytics": {
+    "title": "Company Analytics",
+    "subtitle": "Container usage and activity",
+    "loadError": "Error loading analytics",
+    "noData": "Analytics data unavailable",
+    "noDataExport": "No data to export",
+    "fromDate": "From date",
+    "toDate": "To date",
+    "apply": "Apply",
+    "totalSortings": "Total sortings",
+    "containerTypes": "Container types",
+    "activeEmployees": "Active employees",
+    "leaderSortings": "Leader sortings",
+    "containerUsage": "Container Usage",
+    "containerDistribution": "Container Distribution",
+    "employeeActivity": "Employee Activity",
+    "details": "Details",
+    "exportCSV": "Export CSV",
+    "exportExcel": "Export Excel",
+    "exportPDF": "Export PDF",
+    "exportSuccess": "Export successful",
+    "exportError": "Export failed",
+    "noContainerData": "No container data",
+    "topEmployees": "Top Employees",
+    "noEmployeeData": "No employee activity data",
+    "sortings": "sortings",
+    "user": "User {{number}}"
+  },
   "admin": {
     "dashboard": {
       "title": "Admin Dashboard",
@@ -93,7 +122,7 @@
       "api": "API",
       "changelog": "Updates",
       "guide": "Guide",
-      "copyright": "© 2024 Smart Trash. All rights reserved."
+      "copyright": "© 2025 Smart Trash. All rights reserved."
     },
     "docs": {
       "title": "Documentation",
@@ -393,5 +422,31 @@
     "achieved": "Achievement unlocked!",
     "unlocked": "Unlocked",
     "locked": "Locked"
+  },
+  "qrcode": {
+    "generate": "Generate QR Code",
+    "download": "Download QR Code",
+    "scanHint": "Scan this QR code to access: {{data}}",
+    "generated": "QR code generated",
+    "downloadSuccess": "QR code downloaded ({{format}})",
+    "print": "Print QR Code"
+  },
+  "theme": {
+    "switchToDark": "Switch to dark theme",
+    "switchToLight": "Switch to light theme"
+  },
+  "activity": {
+    "recentActivity": "Recent Activity",
+    "noActivities": "No recent activity",
+    "sortingActivity": "Sorted {{count}} waste items",
+    "areaActivity": "{{name}} area: {{count}} sortings",
+    "achievementUnlocked": "Unlocked achievement",
+    "employeeAdded": "New employee added"
+  },
+  "search": {
+    "placeholder": "Search...",
+    "clear": "Clear search",
+    "noResults": "No results found",
+    "results": "{{count}} results"
   }
 }

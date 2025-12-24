@@ -19,7 +19,7 @@ import { GET_COMPANY_LEADERBOARD } from '@/lib/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { useWasteStore } from '@/store/useWasteStore'
 
-export default function EmployeeDashboard() {
+function EmployeeDashboard() {
   const navigate = useNavigate()
   const { companyId } = useWasteStore()
 

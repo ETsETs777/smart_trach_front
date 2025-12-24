@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import {
   GET_COLLECTION_AREAS,
   GET_COLLECTION_AREA_BINS,
@@ -26,6 +27,7 @@ interface AddBinsFormData {
 
 export default function BinsManagementPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null)
 
@@ -100,7 +102,7 @@ export default function BinsManagementPage() {
       return
     }
     if (data.types.length === 0) {
-      toast.error('Выберите хотя бы один тип контейнера')
+      toast.error(t('admin.bins.selectBinTypeError'))
       return
     }
     await addBins({
@@ -123,12 +125,12 @@ export default function BinsManagementPage() {
           <div>
             <Button onClick={() => navigate('/admin/dashboard')} variant="ghost" size="lg">
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              Контейнеры
+              {t('admin.bins.title')}
             </h1>
-            <p className="text-gray-600 mt-2">Управление контейнерами в точках сбора</p>
+            <p className="text-gray-600 mt-2">{t('admin.bins.subtitle')}</p>
           </div>
         </div>
 
@@ -169,7 +171,7 @@ export default function BinsManagementPage() {
         {selectedAreaId && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Добавить контейнеры</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-4">{t('admin.bins.addContainers')}</h3>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-3 gap-3">
                   {Object.values(TrashBinType).map((type) => {
@@ -193,11 +195,11 @@ export default function BinsManagementPage() {
                   })}
                 </div>
                 {errors.types && (
-                  <p className="text-sm text-red-600">Выберите хотя бы один тип</p>
+                  <p className="text-sm text-red-600">{t('admin.bins.selectAtLeastOne')}</p>
                 )}
                 <Button type="submit" variant="primary" size="lg" isLoading={adding}>
                   <Plus className="w-4 h-4 mr-2" />
-                  Добавить
+                  {t('admin.bins.add')}
                 </Button>
               </form>
             </Card>

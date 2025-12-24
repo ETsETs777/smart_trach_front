@@ -4,7 +4,13 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -12,12 +18,19 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: 'localhost',
+    hmr: {
+      clientPort: 3000,
+    },
     proxy: {
       '/graphql': {
         target: 'http://localhost:5000',
         changeOrigin: true,
       },
     },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
   },
 })
 

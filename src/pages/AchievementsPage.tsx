@@ -118,7 +118,7 @@ export default function AchievementsPage() {
 
   const getCriterionLabel = (type: string) => {
     const criterion = criterionTypes.find(c => c.value === type)
-    return criterion?.label || type
+    return criterion ? t(criterion.label) : type
   }
 
   const getCriterionIcon = (type: string) => {
@@ -138,12 +138,12 @@ export default function AchievementsPage() {
               size="lg"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              Ачивки
+              {t('admin.achievements.title')}
             </h1>
-            <p className="text-gray-600 mt-2">Управление достижениями для сотрудников</p>
+            <p className="text-gray-600 mt-2">{t('admin.achievements.subtitle')}</p>
           </div>
           <Button
             onClick={() => setIsCreating(true)}
@@ -151,7 +151,7 @@ export default function AchievementsPage() {
             size="lg"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Создать ачивку
+            {t('admin.achievements.createAchievement')}
           </Button>
         </div>
 
@@ -166,7 +166,7 @@ export default function AchievementsPage() {
             >
               <Card className="p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">Создать новую ачивку</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">{t('admin.achievements.createNewAchievement')}</h2>
                   <button
                     onClick={() => setIsCreating(false)}
                     className="p-2 hover:bg-gray-100 rounded-full"
@@ -181,9 +181,9 @@ export default function AchievementsPage() {
                       Название ачивки *
                     </label>
                     <input
-                      {...register('title', { required: 'Название обязательно' })}
+                      {...register('title', { required: t('admin.achievements.achievementNameRequired') })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
-                      placeholder="Например: Первые 10 сортировок"
+                      placeholder={t('admin.achievements.achievementNamePlaceholder')}
                     />
                     {errors.title && (
                       <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
@@ -192,13 +192,13 @@ export default function AchievementsPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Описание *
+                      {t('admin.achievements.achievementDescription')} *
                     </label>
                     <textarea
-                      {...register('description', { required: 'Описание обязательно' })}
+                      {...register('description', { required: t('admin.achievements.achievementDescriptionRequired') })}
                       rows={3}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none resize-none"
-                      placeholder="Описание условия получения ачивки"
+                      placeholder={t('admin.achievements.achievementDescriptionPlaceholder')}
                     />
                     {errors.description && (
                       <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
@@ -207,7 +207,7 @@ export default function AchievementsPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-4">
-                      Тип критерия *
+                      {t('admin.achievements.criterionType')} *
                     </label>
                     <div className="grid grid-cols-3 gap-4">
                       {criterionTypes.map((criterion) => {
@@ -235,10 +235,10 @@ export default function AchievementsPage() {
                             />
                             <Icon className={`w-6 h-6 mb-2 ${isSelected ? 'text-green-600' : 'text-gray-400'}`} />
                             <div className="font-semibold text-gray-800 mb-1">
-                              {criterion.label}
+                              {t(criterion.label)}
                             </div>
                             <div className="text-xs text-gray-600">
-                              {criterion.description}
+                              {t(criterion.description)}
                             </div>
                           </label>
                         )
@@ -248,19 +248,19 @@ export default function AchievementsPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Пороговое значение *
+                      {t('admin.achievements.threshold')} *
                     </label>
                     <input
                       type="number"
                       {...register('threshold', {
-                        required: 'Пороговое значение обязательно',
-                        min: { value: 1, message: 'Минимум 1' },
+                        required: t('admin.achievements.thresholdRequired'),
+                        min: { value: 1, message: t('admin.achievements.thresholdMin') },
                       })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
                       placeholder="10"
                     />
                     <p className="mt-1 text-sm text-gray-500">
-                      Количество, которое нужно достичь для получения ачивки
+                      {t('admin.achievements.thresholdDescription')}
                     </p>
                     {errors.threshold && (
                       <p className="mt-1 text-sm text-red-600">{errors.threshold.message}</p>
@@ -273,7 +273,7 @@ export default function AchievementsPage() {
                       variant="primary"
                       size="lg"
                     >
-                      Создать ачивку
+                      {t('admin.achievements.createAchievement')}
                     </Button>
                     <Button
                       type="button"
@@ -281,7 +281,7 @@ export default function AchievementsPage() {
                       size="lg"
                       onClick={() => setIsCreating(false)}
                     >
-                      Отмена
+                      {t('common.cancel')}
                     </Button>
                   </div>
                 </form>
@@ -327,9 +327,9 @@ export default function AchievementsPage() {
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                         onClick={() => {
                           const newTitle = prompt('Новое название ачивки', achievement.title) || achievement.title
-                          const newDesc = prompt('Новое описание', achievement.description) || achievement.description
+                          const newDesc = prompt('New description', achievement.description) || achievement.description
                           const newThreshold = Number(
-                            prompt('Пороговое значение', String(achievement.threshold)) || achievement.threshold,
+                            prompt('Threshold value', String(achievement.threshold)) || achievement.threshold,
                           )
                           updateAchievement({
                             variables: {

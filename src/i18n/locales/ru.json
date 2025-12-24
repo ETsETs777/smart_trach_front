@@ -61,6 +61,27 @@
     "failedToDetermineType": "Не удалось определить тип",
     "tryClearerPhoto": "Попробуйте сделать более чёткое фото или выберите тип вручную"
   },
+  "analytics": {
+    "title": "Аналитика компании",
+    "subtitle": "Использование контейнеров и активность",
+    "loadError": "Ошибка загрузки аналитики",
+    "noData": "Данные аналитики недоступны",
+    "noDataExport": "Нет данных для экспорта",
+    "fromDate": "С даты",
+    "toDate": "По дату",
+    "apply": "Применить",
+    "totalSortings": "Всего сортировок",
+    "containerTypes": "Типов контейнеров",
+    "activeEmployees": "Активных сотрудников",
+    "leaderSortings": "Лидер сортировок",
+    "containerUsage": "Использование контейнеров",
+    "exportCSV": "Экспорт CSV",
+    "noContainerData": "Нет данных по контейнерам",
+    "topEmployees": "Топ сотрудников",
+    "noEmployeeData": "Нет данных по активности сотрудников",
+    "sortings": "сортировок",
+    "user": "Пользователь {{number}}"
+  },
   "admin": {
     "dashboard": {
       "title": "Панель администратора",
@@ -93,7 +114,7 @@
       "api": "API",
       "changelog": "Обновления",
       "guide": "Инструкции",
-      "copyright": "© 2024 Smart Trash. Все права защищены."
+      "copyright": "© 2025 Smart Trash. Все права защищены."
     },
     "docs": {
       "title": "Документация",
@@ -393,5 +414,31 @@
     "achieved": "Достижение разблокировано!",
     "unlocked": "Разблокировано",
     "locked": "Заблокировано"
+  },
+  "qrcode": {
+    "generate": "Сгенерировать QR-код",
+    "download": "Скачать QR-код",
+    "scanHint": "Отсканируйте этот QR-код для доступа: {{data}}",
+    "generated": "QR-код сгенерирован",
+    "downloadSuccess": "QR-код скачан ({{format}})",
+    "print": "Печать QR-кода"
+  },
+  "theme": {
+    "switchToDark": "Переключить на темную тему",
+    "switchToLight": "Переключить на светлую тему"
+  },
+  "activity": {
+    "recentActivity": "Последняя активность",
+    "noActivities": "Нет активности",
+    "sortingActivity": "Отсортировано {{count}} отходов",
+    "areaActivity": "Область {{name}}: {{count}} сортировок",
+    "achievementUnlocked": "Разблокировано достижение",
+    "employeeAdded": "Добавлен новый сотрудник"
+  },
+  "search": {
+    "placeholder": "Поиск...",
+    "clear": "Очистить поиск",
+    "noResults": "Ничего не найдено",
+    "results": "{{count}} результатов"
   }
 }

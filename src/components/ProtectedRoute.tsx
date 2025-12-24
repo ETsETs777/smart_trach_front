@@ -1,7 +1,8 @@
 import { Navigate, useLocation } from 'react-router-dom'
-import { ReactNode, useEffect, useMemo, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_ME } from '@/lib/graphql/queries'
+import LoadingSpinner from './ui/LoadingSpinner'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -35,11 +36,7 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
   if (requiredRole) {
     // Если роли нет, но идёт загрузка профиля — показываем лоадер
     if (!resolvedRole && loading) {
-      return (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent" />
-        </div>
-      )
+      return <LoadingSpinner fullScreen text="Загрузка..." />
     }
 
     if (resolvedRole && resolvedRole !== requiredRole) {

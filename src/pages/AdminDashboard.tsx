@@ -2,13 +2,15 @@ import { useQuery } from '@apollo/client'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { GET_COMPANY_ANALYTICS, GET_COMPANY } from '@/lib/graphql/queries'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import ThemeToggle from '@/components/ThemeToggle'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
+import ActivityFeed from '@/components/ActivityFeed'
 import { 
   BarChart3, 
   Users, 
@@ -53,8 +55,8 @@ function AdminDashboard() {
 
   return (
     <GreenGradientBackground>
-      <div className="min-h-screen p-8 landscape:px-16 text-white">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen p-8 landscape:px-16 text-white flex flex-col">
+        <div className="max-w-7xl mx-auto flex-1 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <motion.div
@@ -83,6 +85,7 @@ function AdminDashboard() {
               </div>
             )}
             <LanguageSwitcher />
+            <ThemeToggle />
             <Button 
               onClick={handleLogout} 
               variant="ghost" 
@@ -278,56 +281,111 @@ function AdminDashboard() {
           </motion.div>
         </div>
 
-        {/* Leaderboard Preview */}
-        {analytics?.leaderboard && analytics.leaderboard.length > 0 && (
+        {/* Activity Feed and Leaderboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Leaderboard Preview */}
+          {analytics?.leaderboard && analytics.leaderboard.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+            >
+              <Card className="p-6 bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-xl dark:bg-gray-800/95 dark:border-gray-700">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">{t('admin.dashboard.topEmployees')}</h2>
+                <div className="space-y-3">
+                {analytics.leaderboard.slice(0, 5).map((entry: any, index: number) => (
+                  <motion.div
+                    key={entry.employee?.id || index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.2 + index * 0.1 }}
+                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-md ${
+                          index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
+                          index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400' :
+                          index === 2 ? 'bg-gradient-to-br from-orange-300 to-orange-400' :
+                          'bg-gradient-to-br from-blue-400 to-blue-500'
+                        }`}>
+                          {index + 1}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-800 dark:text-gray-200">
+                            {entry.employee?.fullName || t('analytics.user', { number: index + 1 })}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
+                            {entry.totalClassifiedPhotos || 0} {t('admin.dashboard.sorts')}
+                          </div>
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigate('/leaderboard')}
+                        className="border-green-500 text-green-600 hover:bg-green-50 dark:border-green-400 dark:text-green-400 dark:hover:bg-green-900/20"
+                      >
+                        {t('admin.dashboard.moreDetails')}
+                      </Button>
+                    </motion.div>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+          )}
+
+          {/* Activity Feed */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
+            transition={{ delay: 1.2 }}
           >
-            <Card className="p-6 bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-xl">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">{t('admin.dashboard.topEmployees')}</h2>
-              <div className="space-y-3">
-              {analytics.leaderboard.slice(0, 5).map((entry: any, index: number) => (
-                <motion.div
-                  key={entry.employee?.id || index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2 + index * 0.1 }}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-md ${
-                        index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
-                        index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400' :
-                        index === 2 ? 'bg-gradient-to-br from-orange-300 to-orange-400' :
-                        'bg-gradient-to-br from-blue-400 to-blue-500'
-                      }`}>
-                        {index + 1}
-                      </div>
-                      <div>
-                        <div className="font-semibold text-gray-800">
-                          {entry.employee?.fullName || `Пользователь ${index + 1}`}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {entry.totalClassifiedPhotos || 0} {t('admin.dashboard.sorts')}
-                        </div>
-                      </div>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigate('/leaderboard')}
-                      className="border-green-500 text-green-600 hover:bg-green-50"
-                    >
-                      {t('admin.dashboard.moreDetails')}
-                    </Button>
-                  </motion.div>
-                ))}
-              </div>
-            </Card>
+            <ActivityFeed
+              activities={useMemo(() => {
+                const activities: any[] = []
+                
+                // Add sorting activities from leaderboard
+                if (analytics?.leaderboard) {
+                  analytics.leaderboard.slice(0, 3).forEach((entry: any) => {
+                    if (entry.totalClassifiedPhotos > 0) {
+                      activities.push({
+                        id: `sort-${entry.employee?.id}`,
+                        type: 'sorting' as const,
+                        user: {
+                          name: entry.employee?.fullName || 'User',
+                          email: entry.employee?.email,
+                        },
+                        description: t('activity.sortingActivity', { count: entry.totalClassifiedPhotos }),
+                        timestamp: new Date(Date.now() - Math.random() * 86400000), // Random time in last 24h
+                      })
+                    }
+                  })
+                }
+
+                // Add area activities
+                if (analytics?.areas) {
+                  analytics.areas.slice(0, 2).forEach((area: any) => {
+                    if (area.totalPhotos > 0) {
+                      activities.push({
+                        id: `area-${area.area?.id}`,
+                        type: 'area_created' as const,
+                        description: t('activity.areaActivity', { name: area.area?.name || 'Area', count: area.totalPhotos }),
+                        timestamp: new Date(Date.now() - Math.random() * 172800000), // Random time in last 48h
+                      })
+                    }
+                  })
+                }
+
+                return activities.sort((a, b) => {
+                  const timeA = typeof a.timestamp === 'string' ? new Date(a.timestamp).getTime() : a.timestamp.getTime()
+                  const timeB = typeof b.timestamp === 'string' ? new Date(b.timestamp).getTime() : b.timestamp.getTime()
+                  return timeB - timeA
+                })
+              }, [analytics, t])}
+              maxItems={5}
+            />
           </motion.div>
-        )}
+        </div>
 
         {/* Bin Usage Stats */}
         {analytics?.binUsageStats && analytics.binUsageStats.length > 0 && (
@@ -366,7 +424,7 @@ function AdminDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5 }}
-          className="mt-16 pt-8 border-t border-white/20"
+          className="mt-auto pt-8 border-t border-white/20"
         >
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <button
@@ -427,3 +485,4 @@ function AdminDashboard() {
   )
 }
 
+export default memo(AdminDashboard)

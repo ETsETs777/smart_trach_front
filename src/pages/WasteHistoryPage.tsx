@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
@@ -10,8 +11,9 @@ import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType, BIN_CONFIGS, WastePhotoStatus } from '@/types'
 import { useMemo, useState } from 'react'
 
-export default function WasteHistoryPage() {
+function WasteHistoryPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const { data: meData } = useQuery(GET_ME)
   const [typeFilter, setTypeFilter] = useState<string>('ALL')
@@ -43,7 +45,7 @@ export default function WasteHistoryPage() {
         <div className="flex items-center justify-between mb-6">
           <Button onClick={() => navigate(-1)} variant="ghost" size="lg">
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Назад
+            {t('common.back')}
           </Button>
           <div className="flex items-center gap-3 text-sm text-gray-600">
             <Filter className="w-4 h-4" />

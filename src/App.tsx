@@ -6,6 +6,7 @@ import { apolloClient } from './lib/apollo'
 import ProtectedRoute from './components/ProtectedRoute'
 import PageTransition from './components/ui/PageTransition'
 import LoadingSpinner from './components/ui/LoadingSpinner'
+import { ThemeProvider } from './components/ThemeProvider'
 
 // Lazy loading для всех страниц
 const LandingPage = lazy(() => import('./pages/LandingPage'))
@@ -42,9 +43,9 @@ const GuidePage = lazy(() => import('./pages/admin/GuidePage'))
 
 function App() {
   return (
-    <ApolloProvider client={apolloClient}>
-      <BrowserRouter>
-        <div className="min-h-screen">
+    <ThemeProvider>
+      <ApolloProvider client={apolloClient}>
+        <BrowserRouter>
           <PageTransition>
             <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
               <Routes>
@@ -66,7 +67,9 @@ function App() {
               path="/tablet"
               element={
                 <ProtectedRoute>
-                  <HomePage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <HomePage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -74,7 +77,9 @@ function App() {
               path="/result/:wastePhotoId"
               element={
                 <ProtectedRoute>
-                  <ResultPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <ResultPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -82,7 +87,9 @@ function App() {
               path="/leaderboard"
               element={
                 <ProtectedRoute>
-                  <LeaderboardPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <LeaderboardPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -90,7 +97,9 @@ function App() {
               path="/admin/dashboard"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <AdminDashboard />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <AdminDashboard />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -98,7 +107,9 @@ function App() {
               path="/employee/dashboard"
               element={
                 <ProtectedRoute requiredRole="EMPLOYEE">
-                  <EmployeeDashboard />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <EmployeeDashboard />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -106,7 +117,9 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <ProfilePage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -114,7 +127,9 @@ function App() {
               path="/history"
               element={
                 <ProtectedRoute>
-                  <WasteHistoryPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <WasteHistoryPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -122,7 +137,9 @@ function App() {
               path="/admin/areas"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <CollectionAreasPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <CollectionAreasPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -130,7 +147,9 @@ function App() {
               path="/admin/employees"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <EmployeesPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <EmployeesPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -138,7 +157,9 @@ function App() {
               path="/admin/settings"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <CompanySettingsPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <CompanySettingsPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -146,7 +167,9 @@ function App() {
               path="/admin/bins"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <BinsManagementPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <BinsManagementPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -154,7 +177,9 @@ function App() {
               path="/admin/analytics"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <AnalyticsPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <AnalyticsPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -162,7 +187,9 @@ function App() {
               path="/admin/achievements"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <AchievementsPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <AchievementsPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -170,7 +197,9 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <AdminPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <AdminPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -178,7 +207,9 @@ function App() {
               path="/admin/docs"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <DocumentationPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <DocumentationPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -186,7 +217,9 @@ function App() {
               path="/admin/help"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <HelpPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <HelpPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -194,7 +227,9 @@ function App() {
               path="/admin/about-system"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <AboutSystemPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <AboutSystemPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -202,7 +237,9 @@ function App() {
               path="/admin/api-docs"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <ApiDocsPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <ApiDocsPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -210,7 +247,9 @@ function App() {
               path="/admin/changelog"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <ChangelogPage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <ChangelogPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -218,7 +257,9 @@ function App() {
               path="/admin/guide"
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
-                  <GuidePage />
+                  <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                    <GuidePage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -249,9 +290,9 @@ function App() {
               },
             }}
           />
-        </div>
       </BrowserRouter>
     </ApolloProvider>
+    </ThemeProvider>
   )
 }
 

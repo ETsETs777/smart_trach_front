@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { QrCode, Camera, ArrowLeft } from 'lucide-react'
@@ -7,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 export default function BarcodeScannerPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [isScanning, setIsScanning] = useState(false)
 
   return (
@@ -14,7 +16,7 @@ export default function BarcodeScannerPage() {
       <div className="max-w-3xl mx-auto">
         <Button onClick={() => navigate(-1)} variant="ghost" size="lg" className="mb-6">
           <ArrowLeft className="w-5 h-5 mr-2" />
-          Назад
+          {t('common.back')}
         </Button>
 
         <Card className="p-8 text-center">
@@ -25,10 +27,9 @@ export default function BarcodeScannerPage() {
           >
             <QrCode className="w-12 h-12 text-purple-600" />
           </motion.div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-3">Сканирование штрихкода</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-3">{t('home.barcodeScanning')}</h1>
           <p className="text-gray-600 mb-6">
-            Возможность сканирования будет доступна в следующей версии. Пока используйте фото или
-            ручной выбор типа отхода.
+            {t('home.barcodeComingSoon')}
           </p>
           <div className="flex gap-4 justify-center">
             <Button
@@ -38,10 +39,10 @@ export default function BarcodeScannerPage() {
               disabled
             >
               <Camera className="w-5 h-5 mr-2" />
-              Начать сканирование (скоро)
+              Start Scanning (Coming Soon)
             </Button>
             <Button variant="outline" size="lg" onClick={() => navigate('/')}>
-              На главную
+              {t('common.back')} to Home
             </Button>
           </div>
         </Card>

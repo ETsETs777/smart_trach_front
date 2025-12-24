@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
@@ -18,6 +19,7 @@ interface ProfileFormData {
 }
 
 export default function ProfilePage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [logoPreview, setLogoPreview] = useState<string | null>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
@@ -110,11 +112,11 @@ export default function ProfilePage() {
         <div className="max-w-3xl mx-auto">
           <Button onClick={() => navigate(-1)} variant="ghost" size="lg" className="mb-6 text-white hover:text-white/80">
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Назад
+            {t('common.back')}
           </Button>
 
           <Card className="p-8 border-gray-200 bg-white shadow-xl">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Мой профиль</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">{t('profile.title')}</h1>
           <p className="text-gray-600 mb-1">
             {me?.email} · {me?.role}
           </p>
@@ -209,7 +211,7 @@ export default function ProfilePage() {
                 Сохранить
               </Button>
               <Button type="button" variant="outline" size="lg" onClick={() => navigate(-1)}>
-                Отмена
+                {t('common.cancel')}
               </Button>
             </div>
           </form>

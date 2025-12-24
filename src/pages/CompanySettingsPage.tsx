@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { GET_COMPANY } from '@/lib/graphql/queries'
 import { UPDATE_COMPANY } from '@/lib/graphql/mutations'
 import Card from '@/components/ui/Card'
@@ -21,6 +22,7 @@ interface CompanyFormData {
 
 export default function CompanySettingsPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const [logoPreview, setLogoPreview] = useState<string | null>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
@@ -128,12 +130,12 @@ export default function CompanySettingsPage() {
               className="text-white hover:text-white/80"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold text-white mt-4">
-              Настройки компании
+              {t('admin.companySettings.title')}
             </h1>
-            <p className="text-white/80 mt-2">Управление информацией о компании</p>
+            <p className="text-white/80 mt-2">{t('admin.companySettings.subtitle')}</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -258,7 +260,7 @@ export default function CompanySettingsPage() {
               size="lg"
               onClick={() => navigate('/admin/dashboard')}
             >
-              Отмена
+              {t('common.cancel')}
             </Button>
           </div>
         </form>

@@ -3,12 +3,14 @@ import { useQuery, useMutation } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { GET_COLLECTION_AREAS, GET_COLLECTION_AREA } from '@/lib/graphql/queries'
 import { CREATE_COLLECTION_AREA, UPDATE_COLLECTION_AREA, DELETE_COLLECTION_AREA } from '@/lib/graphql/mutations'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
-import { Plus, Edit, Trash2, ArrowLeft, X, MapPin } from 'lucide-react'
+import { Plus, Edit, Trash2, ArrowLeft, X, MapPin, QrCode } from 'lucide-react'
+import QRCodeGenerator from '@/components/QRCodeGenerator'
 import { useNavigate } from 'react-router-dom'
 import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType, BIN_CONFIGS } from '@/types'
@@ -21,9 +23,11 @@ interface CollectionAreaFormData {
 
 export default function CollectionAreasPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const [isCreating, setIsCreating] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [qrCodeAreaId, setQrCodeAreaId] = useState<string | null>(null)
 
   const { data, loading, refetch } = useQuery(GET_COLLECTION_AREAS, {
     variables: { companyId: companyId || 'default-company-id' },
@@ -119,7 +123,7 @@ export default function CollectionAreasPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Вы уверены, что хотите удалить эту область сбора?')) {
+    if (!confirm(t('admin.collectionAreas.confirmDelete'))) {
       return
     }
 
@@ -145,12 +149,12 @@ export default function CollectionAreasPage() {
               size="lg"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
-              Назад
+              {t('common.back')}
             </Button>
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mt-4">
-              Области сбора
+              {t('admin.collectionAreas.title')}
             </h1>
-            <p className="text-gray-600 mt-2">Управление точками сбора отходов</p>
+            <p className="text-gray-600 mt-2">{t('admin.collectionAreas.subtitle')}</p>
           </div>
           <Button
             onClick={() => setIsCreating(true)}
@@ -174,7 +178,7 @@ export default function CollectionAreasPage() {
               <Card className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-800">
-                    {editingId ? 'Редактировать область' : 'Создать новую область'}
+                    {editingId ? t('admin.collectionAreas.editArea') : t('admin.collectionAreas.createNewArea')}
                   </h2>
                   <button
                     onClick={() => {
@@ -257,7 +261,7 @@ export default function CollectionAreasPage() {
                       size="lg"
                       disabled={selectedBins.length === 0}
                     >
-                      {editingId ? 'Сохранить' : 'Создать'}
+                      {editingId ? t('common.save') : t('common.create')}
                     </Button>
                     <Button
                       type="button"
@@ -268,11 +272,59 @@ export default function CollectionAreasPage() {
                         setEditingId(null)
                       }}
                     >
-                      Отмена
+                      {t('common.cancel')}
                     </Button>
                   </div>
                 </form>
               </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* QR Code Modal */}
+        <AnimatePresence>
+          {qrCodeAreaId && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+              onClick={() => setQrCodeAreaId(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    {t('qrcode.generate')}
+                  </h2>
+                  <button
+                    onClick={() => setQrCodeAreaId(null)}
+                    className="p-2 hover:bg-gray-100 rounded-full"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                {(() => {
+                  const area = areas.find((a: any) => a.id === qrCodeAreaId)
+                  if (!area) return null
+                  const qrData = `${window.location.origin}/?areaId=${area.id}&companyId=${companyId}`
+                  return (
+                    <QRCodeGenerator
+                      data={qrData}
+                      title={area.name}
+                      size={256}
+                      onDownload={(format) => {
+                        toast.success(t('qrcode.downloadSuccess', { format: format.toUpperCase() }))
+                      }}
+                    />
+                  )
+                })()}
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -293,7 +345,7 @@ export default function CollectionAreasPage() {
             </p>
             <Button onClick={() => setIsCreating(true)} variant="primary" size="lg">
               <Plus className="w-5 h-5 mr-2" />
-              Создать область
+              {t('admin.collectionAreas.createArea')}
             </Button>
           </Card>
         ) : (
@@ -318,16 +370,23 @@ export default function CollectionAreasPage() {
                   </div>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => setEditingId(area.id)}
-                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                      onClick={() => setQrCodeAreaId(area.id)}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                      title={t('qrcode.generate')}
                     >
-                      <Edit className="w-4 h-4 text-blue-600" />
+                      <QrCode className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    </button>
+                    <button
+                      onClick={() => setEditingId(area.id)}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    >
+                      <Edit className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     </button>
                     <button
                       onClick={() => handleDelete(area.id)}
-                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     >
-                      <Trash2 className="w-4 h-4 text-red-600" />
+                      <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
                     </button>
                   </div>
                 </div>

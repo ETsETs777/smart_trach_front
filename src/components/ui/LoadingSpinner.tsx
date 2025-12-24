@@ -44,8 +44,10 @@ export default function LoadingSpinner({
 
   if (fullScreen) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-blue-50">
-        {spinner}
+      <div className="fixed inset-0 min-h-screen flex items-center justify-center bg-gradient-to-br from-green-600 via-emerald-600 via-teal-600 to-cyan-600 z-50">
+        <div className="relative z-10">
+          {spinner}
+        </div>
       </div>
     )
   }

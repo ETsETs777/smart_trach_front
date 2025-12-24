@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    background: linear-gradient(to bottom right, rgb(22 163 74), rgb(5 150 105), rgb(20 184 166));
+    min-height: 100vh;
+    transition: background 0.3s ease;
+  }
+
+  html.dark {
+    background: linear-gradient(to bottom right, rgb(15 23 42), rgb(30 41 59), rgb(51 65 85));
+  }
+  
   body {
     background: linear-gradient(to bottom right, rgb(240 253 244), rgb(255 255 255), rgb(239 246 255));
     color: rgb(17 24 39);
@@ -11,6 +21,13 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body.dark {
+    background: linear-gradient(to bottom right, rgb(15 23 42), rgb(30 41 59), rgb(51 65 85));
+    color: rgb(243 244 246);
   }
 }
 
