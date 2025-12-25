@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { handleApolloError, logError } from './errorHandler'
 import i18n from '@/i18n/config'
 import { performanceMonitor } from './performanceMonitor'
+import { tokenStorage } from './auth/tokenStorage'
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URL || 'http://localhost:5000/graphql',
@@ -20,7 +21,7 @@ const wsLink = new GraphQLWsLink(
   createClient({
     url: (import.meta.env.VITE_GRAPHQL_WS_URL || 'ws://localhost:5000/graphql').replace('http://', 'ws://').replace('https://', 'wss://'),
     connectionParams: () => {
-      const token = localStorage.getItem('auth_token')
+      const token = tokenStorage.getAccessToken()
       return {
         authorization: token ? `Bearer ${token}` : '',
       }
@@ -30,7 +31,7 @@ const wsLink = new GraphQLWsLink(
 )
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('auth_token')
+  const token = tokenStorage.getAccessToken()
   return {
     headers: {
       ...headers,

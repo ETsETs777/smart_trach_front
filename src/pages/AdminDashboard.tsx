@@ -29,6 +29,7 @@ import {
   BookOpen
 } from 'lucide-react'
 import { useWasteStore } from '@/store/useWasteStore'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 function AdminDashboard() {
   const navigate = useNavigate()
@@ -47,8 +48,7 @@ function AdminDashboard() {
   })
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token')
-    localStorage.removeItem('auth_role')
+    tokenStorage.clearAll()
     navigate('/')
   }
 

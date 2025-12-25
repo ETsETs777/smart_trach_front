@@ -9,6 +9,7 @@ import Card from '@/components/ui/Card'
 import { Recycle, Mail, Lock, ArrowLeft } from 'lucide-react'
 import { useWasteStore } from '@/store/useWasteStore'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 interface LoginFormData {
   email: string
@@ -37,9 +38,14 @@ export default function LoginPage() {
       })
 
       if (result?.login?.jwtToken) {
-        // Сохраняем токен
-        localStorage.setItem('auth_token', result.login.jwtToken)
-        localStorage.setItem('auth_role', result.login.role || '')
+        // Сохраняем токен в sessionStorage (более безопасно, чем localStorage)
+        // Access token хранится в sessionStorage (удаляется при закрытии вкладки)
+        // Refresh token должен быть в httpOnly cookie (настраивается на бэкенде)
+        tokenStorage.setTokens({
+          accessToken: result.login.jwtToken,
+          role: result.login.role || undefined,
+          expiresAt: result.login.tokenExpiresAt ? new Date(result.login.tokenExpiresAt).getTime() : undefined,
+        })
         
         // Устанавливаем companyId если есть
         const company = result.login.createdCompanies?.[0] || result.login.employeeCompanies?.[0]

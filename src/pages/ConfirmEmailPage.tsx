@@ -9,6 +9,7 @@ import Card from '@/components/ui/Card'
 import { Mail, CheckCircle, ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 export default function ConfirmEmailPage() {
   const navigate = useNavigate()
@@ -33,10 +34,11 @@ export default function ConfirmEmailPage() {
       })
 
       if (data?.confirmEmail?.jwtToken) {
-        localStorage.setItem('auth_token', data.confirmEmail.jwtToken)
-        if (data.confirmEmail.role) {
-          localStorage.setItem('auth_role', data.confirmEmail.role)
-        }
+        tokenStorage.setTokens({
+          accessToken: data.confirmEmail.jwtToken,
+          role: data.confirmEmail.role || undefined,
+          expiresAt: data.confirmEmail.tokenExpiresAt ? new Date(data.confirmEmail.tokenExpiresAt).getTime() : undefined,
+        })
         toast.success('Email подтверждён! Добро пожаловать!')
         
         // Редирект в зависимости от роли

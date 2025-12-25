@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { toastSuccess } from '@/lib/utils/toast'
+import { toastSuccess, toastError } from '@/lib/utils/toast'
 import { useTranslation } from 'react-i18next'
 import WasteMethodSelector from '@/components/WasteMethodSelector'
 import PhotoUploader from '@/components/PhotoUploader'
@@ -14,6 +14,7 @@ import { Recycle, Sparkles, QrCode } from 'lucide-react'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import Button from '@/components/ui/Button'
 import logger from '@/lib/logger'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -25,7 +26,7 @@ export default function HomePage() {
   const { companyId, collectionAreaId } = useWasteStore()
   
   // Проверяем, авторизован ли пользователь
-  const isAuthenticated = !!localStorage.getItem('auth_token')
+  const isAuthenticated = tokenStorage.isAuthenticated()
   
   // Если не авторизован и нет companyId, используем дефолтный или показываем предупреждение
   const effectiveCompanyId = companyId || import.meta.env.VITE_DEFAULT_COMPANY_ID || null
@@ -70,7 +71,7 @@ export default function HomePage() {
       }
     } catch (error) {
       logger.error('Error uploading photo', error instanceof Error ? error : new Error(String(error)), 'HomePage')
-      toast.error(t('home.photoUploadError'))
+      toastError(t('home.photoUploadError', { error: error instanceof Error ? error.message : String(error) }))
     }
   }
 

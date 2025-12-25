@@ -18,6 +18,7 @@ import AchievementsList from '@/components/AchievementsList'
 import { GET_COMPANY_LEADERBOARD } from '@/lib/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { useWasteStore } from '@/store/useWasteStore'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 function EmployeeDashboard() {
   const navigate = useNavigate()
@@ -29,8 +30,7 @@ function EmployeeDashboard() {
   })
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token')
-    localStorage.removeItem('auth_role')
+    tokenStorage.clearAll()
     navigate('/')
   }
 

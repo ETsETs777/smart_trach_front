@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_ME } from '@/lib/graphql/queries'
 import LoadingSpinner from './ui/LoadingSpinner'
+import { tokenStorage } from '@/lib/auth/tokenStorage'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -11,8 +12,8 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const location = useLocation()
-  const token = localStorage.getItem('auth_token')
-  const storedRole = localStorage.getItem('auth_role') as 'ADMIN_COMPANY' | 'EMPLOYEE' | null
+  const token = tokenStorage.getAccessToken()
+  const storedRole = tokenStorage.getRole() as 'ADMIN_COMPANY' | 'EMPLOYEE' | null
   const [resolvedRole, setResolvedRole] = useState<typeof storedRole>(storedRole)
 
   const shouldFetchProfile = !!token && !storedRole
@@ -23,7 +24,7 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
 
   useEffect(() => {
     if (data?.me?.role) {
-      localStorage.setItem('auth_role', data.me.role)
+      tokenStorage.setRole(data.me.role)
       setResolvedRole(data.me.role)
     }
   }, [data?.me?.role])
