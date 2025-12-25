@@ -60,7 +60,7 @@ export default function Pagination({
 
   return (
     <div className="flex items-center justify-between mt-6">
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-600 dark:text-gray-400">
         Показано {startItem}-{endItem} из {total}
       </div>
 
@@ -79,7 +79,7 @@ export default function Pagination({
           {getPageNumbers().map((page, index) => {
             if (page === '...') {
               return (
-                <span key={`ellipsis-${index}`} className="px-2 text-gray-400">
+                <span key={`ellipsis-${index}`} className="px-2 text-gray-400 dark:text-gray-500">
                   ...
                 </span>
               )

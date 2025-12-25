@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
-import { visualizer } from 'vite-bundle-visualizer'
+import { visualizer } from 'rollup-plugin-visualizer'
+
+// Bundle size analysis - run with ANALYZE=true npm run build
+const shouldAnalyze = process.env.ANALYZE === 'true'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,11 +14,12 @@ export default defineConfig({
       jsxRuntime: 'automatic',
     }),
     // Bundle analyzer (only in build mode)
-    process.env.ANALYZE === 'true' && visualizer({
+    shouldAnalyze && visualizer({
       open: true,
       filename: 'dist/stats.html',
       gzipSize: true,
       brotliSize: true,
+      template: 'treemap', // treemap, sunburst, network
     }),
   ].filter(Boolean),
   resolve: {
@@ -74,7 +78,7 @@ export default defineConfig({
     cssCodeSplit: true,
   },
   server: {
-    port: 3000,
+    port: 5173,
     proxy: {
       '/graphql': {
         target: 'http://localhost:5000',
@@ -84,7 +88,7 @@ export default defineConfig({
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      clientPort: 3000,
+      clientPort: 5173,
     },
   },
   // Optimize dependencies

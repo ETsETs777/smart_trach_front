@@ -10,9 +10,12 @@ import ManualSelector from '@/components/ManualSelector'
 import { CREATE_WASTE_PHOTO } from '@/lib/graphql/queries'
 import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType } from '@/types'
-import { Recycle, Sparkles } from 'lucide-react'
+import { Recycle, Sparkles, QrCode } from 'lucide-react'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
+import Button from '@/components/ui/Button'
 import logger from '@/lib/logger'
+import ThemeToggle from '@/components/ThemeToggle'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -21,7 +24,7 @@ export default function HomePage() {
   const [method, setMethod] = useState<Method>(null)
   const [createWastePhoto, { loading }] = useMutation(CREATE_WASTE_PHOTO)
   const navigate = useNavigate()
-  const { companyId, collectionAreaId, setCompanyId } = useWasteStore()
+  const { companyId, collectionAreaId } = useWasteStore()
   
   // Проверяем, авторизован ли пользователь
   const isAuthenticated = !!localStorage.getItem('auth_token')
@@ -154,20 +157,40 @@ export default function HomePage() {
           onCancel={() => setMethod(null)}
         />
       ) : method === 'barcode' ? (
-        <div className="max-w-2xl mx-auto">
-          <div className="glass rounded-2xl p-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">{t('home.barcodeScanning')}</h2>
-            <p className="text-white/90 mb-8">
-              {t('home.barcodeComingSoon')}
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="glass rounded-2xl p-8 sm:p-12 text-center"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
+              {t('home.barcodeScanning')}
+            </h2>
+            <p className="text-white/90 mb-8 text-lg sm:text-xl">
+              {t('barcode.description') || 'Отсканируйте штрихкод или QR-код на упаковке'}
             </p>
-            <button
-              onClick={() => setMethod(null)}
-              className="px-6 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400"
-              aria-label={t('common.back')}
-            >
-              {t('common.back')}
-            </button>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => navigate('/barcode')}
+                variant="primary"
+                size="xl"
+                className="min-h-[64px] text-xl px-12 touch-target"
+                aria-label={t('barcode.startScanning') || 'Начать сканирование'}
+              >
+                <QrCode className="w-6 h-6 mr-2" aria-hidden="true" />
+                {t('barcode.startScanning') || 'Начать сканирование'}
+              </Button>
+              <Button
+                onClick={() => setMethod(null)}
+                variant="outline"
+                size="xl"
+                className="min-h-[64px] text-xl px-12 bg-white/10 border-white/30 text-white hover:bg-white/20 touch-target"
+                aria-label={t('common.back')}
+              >
+                {t('common.back')}
+              </Button>
+            </div>
+          </motion.div>
         </div>
       ) : null}
 

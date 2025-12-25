@@ -11,14 +11,23 @@ import BinLayout from '@/components/BinLayout'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
+import ProgressBar from '@/components/ui/ProgressBar'
 import { CheckCircle, Loader, XCircle, ArrowLeft, Trophy, Info, RefreshCw, AlertTriangle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { usePushNotifications } from '@/hooks/usePushNotifications'
+import LazyImage from '@/components/ui/LazyImage'
 
 export default function ResultPage() {
   const { t } = useTranslation()
-  const { wastePhotoId } = useParams<{ wastePhotoId: string }>()
   const navigate = useNavigate()
+  const { wastePhotoId } = useParams<{ wastePhotoId: string }>()
+  
+  if (!wastePhotoId) {
+    useEffect(() => {
+      navigate('/')
+    }, [])
+    return null
+  }
   const [progress, setProgress] = useState(15)
   const { showNotification, hasPermission } = usePushNotifications()
 
@@ -50,8 +59,8 @@ export default function ResultPage() {
           
           // Show push notification if permission granted
           if (hasPermission) {
-            const binType = updatedPhoto.recommendedBinType
-            const binConfig = binType ? BIN_CONFIGS[binType] : null
+            const binType = updatedPhoto.recommendedBinType as TrashBinType | undefined
+            const binConfig = binType && binType in BIN_CONFIGS ? BIN_CONFIGS[binType] : null
             showNotification({
               title: t('result.classificationComplete'),
               body: binConfig 
@@ -125,27 +134,27 @@ export default function ResultPage() {
     )
   }
 
-  const binType = isManual ? manualBinType : recommendedBinType
-  const config = binType ? BIN_CONFIGS[binType] : null
+  const binType = (isManual ? manualBinType : recommendedBinType) as TrashBinType | undefined
+  const config = binType && binType in BIN_CONFIGS ? BIN_CONFIGS[binType] : null
 
   return (
     <div className="min-h-screen p-8 landscape:px-16">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-6xl mx-auto"
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <Button
-            onClick={() => navigate('/')}
-            variant="ghost"
-            size="lg"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            {t('common.back')}
-          </Button>
-        </div>
+      <main id="main-content" className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {/* Header */}
+          <header className="flex items-center justify-between mb-8">
+            <Button
+              onClick={() => navigate('/')}
+              variant="ghost"
+              size="lg"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              {t('common.back')}
+            </Button>
+          </header>
 
         {/* Status indicator */}
         {!isManual && (
@@ -162,15 +171,13 @@ export default function ResultPage() {
                     <div>
                       <h3 className="font-semibold text-lg">{t('result.processing')}</h3>
                       <p className="text-gray-600">{t('result.analyzingWaste')}</p>
-                      <div className="mt-3">
-                        <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-                          <motion.div
-                            initial={{ width: '10%' }}
-                            animate={{ width: `${progress}%` }}
-                            transition={{ duration: 0.6 }}
-                            className="h-full bg-gradient-to-r from-blue-500 to-emerald-500"
-                          />
-                        </div>
+                      <div className="mt-3 w-full">
+                        <ProgressBar
+                          progress={progress}
+                          animated
+                          showLabel
+                          ariaLabel={t('result.processing')}
+                        />
                         <p className="text-xs text-gray-500 mt-2">{t('result.usuallyTakes')}</p>
                       </div>
                     </div>
@@ -232,18 +239,24 @@ export default function ResultPage() {
               <div className="grid grid-cols-2 gap-8">
                 {/* Left: Bin recommendation */}
                 <Card className="p-8">
-                  <div className="text-center mb-6">
+                  <div className="text-center mb-6" role="region" aria-label={t('result.useThisContainer')}>
                     <h2 className="text-3xl font-bold text-gray-800 mb-4">
                       {t('result.useThisContainer')}
                     </h2>
                     <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ 
+                        type: 'spring', 
+                        stiffness: 200, 
+                        damping: 15,
+                        duration: 0.6
+                      }}
+                      aria-hidden="true"
                     >
-                      <BinIcon type={binType} size="xl" highlighted />
+                      {binType && <BinIcon type={binType} size="xl" highlighted />}
                     </motion.div>
-                    <h3 className="text-2xl font-semibold text-gray-800 mt-6">
+                    <h3 className="text-2xl font-semibold text-gray-800 mt-6" aria-label={`${t('result.useThisContainer')}: ${config.label}`}>
                       {config.label}
                     </h3>
                   </div>
@@ -274,16 +287,25 @@ export default function ResultPage() {
                     <Trophy className="w-8 h-8 text-yellow-500" />
                     {t('result.instructions')}
                   </h2>
-                  <ul className="space-y-4">
-                    {config.instructions.map((instruction, index) => (
+                  <ul className="space-y-4" role="list" aria-label={t('result.instructions')}>
+                    {config.instructions.map((instruction: string, index: number) => (
                       <motion.li
                         key={index}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
+                        transition={{ 
+                          delay: index * 0.1,
+                          type: 'spring',
+                          stiffness: 100,
+                          damping: 15
+                        }}
                         className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl"
+                        role="listitem"
                       >
-                        <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                        <CheckCircle 
+                          className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" 
+                          aria-hidden="true"
+                        />
                         <span className="text-gray-700 text-lg">{instruction}</span>
                       </motion.li>
                     ))}
@@ -316,10 +338,11 @@ export default function ResultPage() {
                 >
                   <Card className="p-6">
                     <h3 className="text-xl font-semibold mb-4">{t('result.yourPhoto')}</h3>
-                    <img
+                    <LazyImage
                       src={wastePhoto.image.url}
-                      alt="Waste photo"
+                      alt={t('result.yourPhoto')}
                       className="w-full max-w-md mx-auto rounded-xl"
+                      aria-label={t('result.yourPhoto')}
                     />
                   </Card>
                 </motion.div>
@@ -361,7 +384,8 @@ export default function ResultPage() {
             </div>
           </Card>
         )}
-      </motion.div>
+        </motion.div>
+      </main>
     </div>
   )
 }

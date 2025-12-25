@@ -32,7 +32,7 @@ export default function WasteMethodSelector({ onSelectMethod }: WasteMethodSelec
   ]
 
   return (
-    <div className="grid grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
       {methods.map((method, index) => {
         const Icon = method.icon
         return (
@@ -45,19 +45,19 @@ export default function WasteMethodSelector({ onSelectMethod }: WasteMethodSelec
             <Card
               hover
               onClick={() => onSelectMethod(method.id)}
-              className="text-center h-full flex flex-col items-center justify-center p-8 cursor-pointer"
+              className="text-center h-full flex flex-col items-center justify-center p-6 sm:p-8 lg:p-12 cursor-pointer min-h-[280px] sm:min-h-[320px] lg:min-h-[360px] transition-all duration-300 hover:shadow-2xl"
             >
               <motion.div
-                className={`w-24 h-24 rounded-2xl bg-gradient-to-br ${method.color} flex items-center justify-center mb-6 shadow-lg`}
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                className={`w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-2xl bg-gradient-to-br ${method.color} flex items-center justify-center mb-4 sm:mb-6 shadow-lg`}
+                whileHover={{ scale: 1.15, rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Icon className="w-12 h-12 text-white" />
+                <Icon className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 text-white" />
               </motion.div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-3">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-2 sm:mb-3">
                 {method.title}
               </h3>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-base sm:text-lg lg:text-xl">
                 {method.description}
               </p>
             </Card>

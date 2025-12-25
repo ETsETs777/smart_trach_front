@@ -4,6 +4,8 @@ import { Recycle, Camera, List, QrCode, Trophy, BarChart3, Users, Sparkles, Arro
 import Button from '@/components/ui/Button'
 import CompaniesCarousel from '@/components/CompaniesCarousel'
 import CompaniesCarouselBackground from '@/components/CompaniesCarouselBackground'
+import ThemeToggle from '@/components/ThemeToggle'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function LandingPage() {
   const features = [
@@ -60,7 +62,8 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="glass fixed top-0 left-0 right-0 z-50 border-b border-white/20">
+      <header>
+        <nav className="glass fixed top-0 left-0 right-0 z-50 border-b border-white/20" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -75,6 +78,8 @@ export default function LandingPage() {
               </span>
             </div>
             <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <LanguageSwitcher />
               <Link to="/login">
                 <Button variant="ghost" size="md">
                   Войти
@@ -89,8 +94,10 @@ export default function LandingPage() {
           </div>
         </div>
       </nav>
+      </header>
 
-      {/* Hero Section */}
+      <main id="main-content">
+        {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-white min-h-[600px]">
         {/* Companies Carousel Background */}
         <CompaniesCarouselBackground className="opacity-40" />
@@ -135,10 +142,10 @@ export default function LandingPage() {
                 <Sparkles className="w-16 h-16 text-yellow-400" />
               </motion.div>
             </div>
-            <h2 className="text-4xl font-semibold text-gray-800 mb-6">
+            <h2 className="text-4xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
               Интерактивный помощник по раздельному сбору отходов
             </h2>
-            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
               Установите над урной планшет, который поможет определить тип отхода, 
               подскажет нужный контейнер и даст инструкции по подготовке. 
               С геймификацией и аналитикой для вашей компании.
@@ -1039,6 +1046,7 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+      </main>
     </div>
   )
 }

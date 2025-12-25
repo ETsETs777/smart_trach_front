@@ -12,6 +12,7 @@ import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType, BIN_CONFIGS, WastePhotoStatus } from '@/types'
 import { useMemo, useState, useCallback } from 'react'
 import Pagination from '@/components/ui/Pagination'
+import { formatDateTime } from '@/lib/utils/dateFormat'
 
 function WasteHistoryPage() {
   const navigate = useNavigate()
@@ -78,7 +79,7 @@ function WasteHistoryPage() {
               {config?.label || 'Не определено'}
             </div>
             <div className="text-sm text-gray-600">{item.collectionArea?.name || '—'}</div>
-            <div className="text-xs text-gray-500">{new Date(item.createdAt).toLocaleString()}</div>
+            <div className="text-xs text-gray-500">{formatDateTime(item.createdAt)}</div>
           </div>
         </div>
         <div className="text-right">
@@ -140,9 +141,7 @@ function WasteHistoryPage() {
           </div>
 
           {loading ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500 mx-auto"></div>
-            </div>
+            <SkeletonLoader variant="list" count={5} className="bg-white" />
           ) : error ? (
             <div className="text-center text-red-600">Ошибка загрузки истории: {error.message}</div>
           ) : wastePhotos.length === 0 ? (

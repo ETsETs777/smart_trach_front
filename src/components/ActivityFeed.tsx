@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Clock, User, Recycle, Award, Users, MapPin } from 'lucide-react'
 import Card from './ui/Card'
 import { useTranslation } from 'react-i18next'
-import { formatDistanceToNow } from 'date-fns'
+import { formatRelativeTime } from '@/lib/utils/dateFormat'
 
 interface Activity {
   id: string
@@ -87,7 +87,7 @@ export default function ActivityFeed({ activities, maxItems = 10 }: ActivityFeed
                 )}
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 flex items-center gap-1">
                   <Clock className="w-3 h-3" />
-                  {formatDistanceToNow(timestamp, { addSuffix: true })}
+                  {formatRelativeTime(timestamp)}
                 </p>
               </div>
             </motion.div>

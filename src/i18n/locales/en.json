@@ -22,7 +22,9 @@
     "confirm": "Confirm",
     "required": "Required",
     "optional": "Optional",
-    "print": "Print"
+    "print": "Print",
+    "tryAgain": "Try again",
+    "toHome": "To home"
   },
   "home": {
     "title": "Smart Trash",
@@ -39,6 +41,25 @@
     "accurate": "Accurate",
     "photoSent": "Photo sent for analysis!",
     "photoUploadError": "Error uploading photo"
+  },
+  "barcode": {
+    "description": "Scan the barcode or QR code on the packaging to determine the waste type",
+    "scanningStarted": "Scanning started",
+    "scanningStopped": "Scanning stopped",
+    "codeScanned": "Code scanned successfully!",
+    "startScanning": "Start Scanning",
+    "stopScanning": "Stop Scanning",
+    "scanFromFile": "Scan from File",
+    "clickToStart": "Click the button below to start scanning",
+    "cameraPermissionDenied": "Camera access denied. Please allow access in browser settings.",
+    "cameraNotFound": "Camera not found. Make sure your device has a camera.",
+    "scanningError": "Scanning error",
+    "fileScanError": "File scan error",
+    "instructions": "Instructions:",
+    "instruction1": "Allow camera access when prompted",
+    "instruction2": "Point the camera at the barcode or QR code",
+    "instruction3": "Keep the device steady until recognition",
+    "instruction4": "Or upload a photo with the code via the \"Scan from File\" button"
   },
   "result": {
     "loadingResult": "Loading result...",
@@ -452,5 +473,12 @@
     "clear": "Clear search",
     "noResults": "No results found",
     "results": "{{count}} results"
+  },
+  "theme": {
+    "switchToDark": "Switch to dark theme",
+    "switchToLight": "Switch to light theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
   }
 }

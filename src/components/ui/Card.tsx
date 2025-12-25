@@ -12,7 +12,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <motion.div
         ref={ref}
         className={cn(
-          'glass rounded-2xl p-6 shadow-lg',
+          'glass dark:glass-dark rounded-2xl p-6 shadow-lg',
+          'bg-white/80 dark:bg-gray-800/80',
+          'text-gray-900 dark:text-gray-100',
           hover && 'cursor-pointer',
           className
         )}

@@ -1,12 +1,22 @@
 import { useState, useRef, useEffect, ImgHTMLAttributes } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import {
+  getOptimizedImageUrl,
+  generateSrcSet,
+  generateSizes,
+  DEFAULT_IMAGE_SIZES,
+  DEFAULT_SRCSET_WIDTHS,
+} from '@/lib/utils/imageOptimization'
 
 interface LazyImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string
   alt: string
-  placeholder?: string
+  placeholder?: React.ReactNode
   threshold?: number
   rootMargin?: string
+  responsive?: boolean
+  srcsetWidths?: number[]
+  sizes?: Array<{ media: string; size: string }>
 }
 
 /**
@@ -20,13 +30,23 @@ export default function LazyImage({
   threshold = 0.1,
   rootMargin = '50px',
   className = '',
+  responsive = true,
+  srcsetWidths = DEFAULT_SRCSET_WIDTHS,
+  sizes = DEFAULT_IMAGE_SIZES,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isInView, setIsInView] = useState(false)
   const [hasError, setHasError] = useState(false)
+  const [optimizedSrc, setOptimizedSrc] = useState<string>(src)
   const imgRef = useRef<HTMLImageElement>(null)
 
+  // Optimize image URL on mount
+  useEffect(() => {
+    getOptimizedImageUrl(src).then(setOptimizedSrc)
+  }, [src])
+
+  // Intersection Observer for lazy loading
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,9 +82,9 @@ export default function LazyImage({
   }
 
   const defaultPlaceholder = (
-    <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
+    <div className="w-full h-full bg-gray-200 dark:bg-gray-700 animate-pulse flex items-center justify-center">
       <svg
-        className="w-12 h-12 text-gray-400"
+        className="w-12 h-12 text-gray-400 dark:text-gray-500"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -99,9 +119,9 @@ export default function LazyImage({
             key="error"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-gray-100 flex items-center justify-center"
+            className="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
           >
-            <div className="text-center text-gray-400">
+            <div className="text-center text-gray-400 dark:text-gray-500">
               <svg
                 className="w-12 h-12 mx-auto mb-2"
                 fill="none"
@@ -123,7 +143,7 @@ export default function LazyImage({
         {isInView && !hasError && (
           <motion.img
             key="image"
-            src={src}
+            src={optimizedSrc}
             alt={alt}
             onLoad={handleLoad}
             onError={handleError}
@@ -132,6 +152,10 @@ export default function LazyImage({
             transition={{ duration: 0.3 }}
             className={`w-full h-full object-cover ${isLoaded ? '' : 'opacity-0'}`}
             loading="lazy"
+            {...(responsive && {
+              srcSet: generateSrcSet(optimizedSrc, srcsetWidths),
+              sizes: generateSizes(sizes),
+            })}
             {...props}
           />
         )}

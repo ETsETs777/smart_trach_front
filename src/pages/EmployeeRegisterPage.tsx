@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import toast from 'react-hot-toast'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -16,6 +17,7 @@ interface EmployeeRegisterForm {
 }
 
 export default function EmployeeRegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { companyId } = useWasteStore()

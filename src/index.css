@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import custom styles */
+@import './styles/typography.css';
+@import './styles/colors.css';
+@import './styles/animations.css';
+@import './styles/mobile.css';
+@import './styles/sections.css';
+
 /* Leaflet map styles */
 .leaflet-container {
   font-family: inherit;
@@ -47,6 +54,31 @@
 }
 
 @layer utilities {
+  /* Tablet-optimized touch targets (minimum 48x48px) */
+  .touch-target {
+    min-width: 48px;
+    min-height: 48px;
+    touch-action: manipulation; /* Disable double-tap zoom */
+  }
+
+  /* Landscape tablet optimizations */
+  @media (orientation: landscape) and (min-width: 768px) {
+    .landscape\:text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+    
+    .landscape\:text-3xl {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+    
+    .landscape\:text-4xl {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+
   /* Accessibility: Focus styles for all interactive elements */
   *:focus-visible {
     outline: 2px solid rgb(34, 197, 94);
@@ -106,6 +138,13 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass {
+    background-color: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(55, 65, 81, 0.2);
   }
   
   .glass-dark {
