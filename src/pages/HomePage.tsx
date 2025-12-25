@@ -12,6 +12,7 @@ import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType } from '@/types'
 import { Recycle, Sparkles } from 'lucide-react'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
+import logger from '@/lib/logger'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -67,7 +68,7 @@ export default function HomePage() {
         toast.success(t('home.photoSent'))
       }
     } catch (error) {
-      console.error('Error uploading photo:', error)
+      logger.error('Error uploading photo', error instanceof Error ? error : new Error(String(error)), 'HomePage')
       toast.error(t('home.photoUploadError'))
     }
   }
@@ -75,7 +76,7 @@ export default function HomePage() {
   const handleManualSelect = (type: TrashBinType) => {
     // For manual selection, we can navigate directly to result
     // or create a waste photo with the selected type
-    navigate(`/result/manual/${type}`)
+    navigate(`/result/manual-${type}`)
   }
 
   return (

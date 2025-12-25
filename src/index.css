@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Leaflet map styles */
+.leaflet-container {
+  font-family: inherit;
+}
+
+.custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.user-location-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
 @layer base {
   html {
     background: linear-gradient(to bottom right, rgb(22 163 74), rgb(5 150 105), rgb(20 184 166));
@@ -32,6 +47,60 @@
 }
 
 @layer utilities {
+  /* Accessibility: Focus styles for all interactive elements */
+  *:focus-visible {
+    outline: 2px solid rgb(34, 197, 94);
+    outline-offset: 2px;
+  }
+
+  /* Skip to main content link for screen readers */
+  .skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+  }
+
+  .skip-to-main:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: rgb(34, 197, 94);
+    color: white;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* Touch-friendly improvements */
+  @media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets for mobile */
+    button, a, input, select, textarea {
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    /* Better spacing for touch */
+    .touch-target {
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  /* Smooth scrolling for better mobile experience */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Improved mobile viewport */
+  @supports (-webkit-touch-callout: none) {
+    /* iOS specific fixes */
+    .mobile-safe-area {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+
   .glass {
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);

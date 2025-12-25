@@ -15,14 +15,23 @@ import {
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
+import MapWithMarkers from '@/components/MapWithMarkers'
 import { useWasteStore } from '@/store/useWasteStore'
 import { TrashBinType, BIN_CONFIGS } from '@/types'
 import { useForm } from 'react-hook-form'
-import { ArrowLeft, Plus, Trash2, MapPin } from 'lucide-react'
+import { ArrowLeft, Plus, Trash2, MapPin, Map } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import logger from '@/lib/logger'
 
 interface AddBinsFormData {
   types: TrashBinType[]
+}
+
+interface MapMarker {
+  id: string
+  position: [number, number]
+  type: TrashBinType
+  label?: string
 }
 
 export default function BinsManagementPage() {
@@ -30,6 +39,9 @@ export default function BinsManagementPage() {
   const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const [selectedAreaId, setSelectedAreaId] = useState<string | null>(null)
+  const [selectedBinTypeForMap, setSelectedBinTypeForMap] = useState<TrashBinType | null>(null)
+  const [mapMarkers, setMapMarkers] = useState<MapMarker[]>([])
+  const [showMap, setShowMap] = useState(false)
 
   const { data: areasData, loading: areasLoading } = useQuery(GET_COLLECTION_AREAS, {
     variables: { companyId: companyId || 'default-company-id' },
@@ -118,6 +130,77 @@ export default function BinsManagementPage() {
   const areas = useMemo(() => areasData?.collectionAreas || [], [areasData])
   const bins = useMemo(() => binsData?.collectionAreaBins || [], [binsData])
 
+  // Convert bins to map markers (only if they have coordinates)
+  const binMarkers = useMemo(() => {
+    return bins
+      .filter((bin: any) => bin.latitude != null && bin.longitude != null)
+      .map((bin: any) => {
+        // TypeORM returns decimal as string, so we need to parse it
+        const lat = typeof bin.latitude === 'string' ? parseFloat(bin.latitude) : bin.latitude
+        const lng = typeof bin.longitude === 'string' ? parseFloat(bin.longitude) : bin.longitude
+        return {
+          id: bin.id,
+          position: [lat, lng] as [number, number],
+          type: bin.type,
+          label: BIN_CONFIGS[bin.type].label,
+        }
+      })
+  }, [bins])
+
+  // Handle marker addition from map
+  const handleMarkerAdd = async (position: [number, number], type: TrashBinType) => {
+    const newMarker: MapMarker = {
+      id: `temp-${Date.now()}-${Math.random()}`,
+      position,
+      type,
+      label: BIN_CONFIGS[type].label,
+    }
+    setMapMarkers([...mapMarkers, newMarker])
+    
+    // Automatically add bin to area with coordinates
+    if (selectedAreaId) {
+      try {
+        await addBins({
+          variables: {
+            input: {
+              areaId: selectedAreaId,
+              binsWithCoordinates: [
+                {
+                  type,
+                  coordinates: {
+                    latitude: position[0],
+                    longitude: position[1],
+                  },
+                },
+              ],
+            },
+          },
+        })
+        toast.success(`Container ${BIN_CONFIGS[type].label} added at location`)
+        // Remove temp marker after successful addition
+        setMapMarkers(mapMarkers.filter((m) => m.id !== newMarker.id))
+      } catch (error: any) {
+        // Remove marker if adding failed
+        setMapMarkers(mapMarkers.filter((m) => m.id !== newMarker.id))
+        toast.error(error.message || 'Error adding container')
+        logger.error('Error adding bin', error instanceof Error ? error : new Error(String(error)), 'BinsManagementPage')
+      }
+    }
+  }
+
+  // Handle marker removal
+  const handleMarkerRemove = (id: string) => {
+    setMapMarkers(mapMarkers.filter((m) => m.id !== id))
+    
+    // If it's a real bin (not temp), delete it
+    const bin = bins.find((b: any) => b.id === id)
+    if (bin) {
+      deleteBin({
+        variables: { id },
+      })
+    }
+  }
+
   return (
     <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
       <div className="max-w-7xl mx-auto">
@@ -166,6 +249,66 @@ export default function BinsManagementPage() {
             </div>
           )}
         </Card>
+
+        {/* Map Toggle */}
+        {selectedAreaId && (
+          <Card className="p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-gray-800 mb-1">Container Map</h3>
+                <p className="text-sm text-gray-600">
+                  Place containers on the map by selecting a type and clicking on the map
+                </p>
+              </div>
+              <Button
+                onClick={() => setShowMap(!showMap)}
+                variant={showMap ? "outline" : "primary"}
+                size="lg"
+              >
+                <Map className="w-4 h-4 mr-2" />
+                {showMap ? 'Hide Map' : 'Show Map'}
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Map */}
+        {selectedAreaId && showMap && (
+          <Card className="p-6 mb-6">
+            <div className="mb-4">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Select Container Type for Map</h3>
+              <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                {Object.values(TrashBinType).map((type) => {
+                  const config = BIN_CONFIGS[type]
+                  const isSelected = selectedBinTypeForMap === type
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setSelectedBinTypeForMap(isSelected ? null : type)}
+                      className={`p-3 rounded-xl border-2 transition-all text-center ${
+                        isSelected
+                          ? 'border-green-500 bg-green-50 shadow-md scale-105'
+                          : 'border-gray-200 bg-white hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="text-2xl">{config.icon}</div>
+                      <div className="text-xs font-semibold text-gray-800 mt-1">{config.label}</div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <MapWithMarkers
+              markers={[...binMarkers, ...mapMarkers]}
+              onMarkerAdd={handleMarkerAdd}
+              onMarkerRemove={handleMarkerRemove}
+              selectedBinType={selectedBinTypeForMap}
+              editable={true}
+              height="600px"
+            />
+          </Card>
+        )}
 
         {/* Bins list and add form */}
         {selectedAreaId && (

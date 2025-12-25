@@ -7,6 +7,9 @@ import ProtectedRoute from './components/ProtectedRoute'
 import PageTransition from './components/ui/PageTransition'
 import LoadingSpinner from './components/ui/LoadingSpinner'
 import { ThemeProvider } from './components/ThemeProvider'
+import ErrorBoundary from './components/ErrorBoundary'
+import { pushNotificationService } from './lib/pushNotifications'
+import { useEffect } from 'react'
 
 // Lazy loading для всех страниц
 const LandingPage = lazy(() => import('./pages/LandingPage'))
@@ -42,13 +45,30 @@ const ChangelogPage = lazy(() => import('./pages/admin/ChangelogPage'))
 const GuidePage = lazy(() => import('./pages/admin/GuidePage'))
 
 function App() {
+  // Initialize push notifications on app load
+  useEffect(() => {
+    pushNotificationService.initialize().catch((error) => {
+      console.warn('Failed to initialize push notifications:', error)
+    })
+  }, [])
+
   return (
-    <ThemeProvider>
-      <ApolloProvider client={apolloClient}>
-        <BrowserRouter>
-          <PageTransition>
-            <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-              <Routes>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <ApolloProvider client={apolloClient}>
+          {/* Skip to main content link for accessibility */}
+          <a href="#main-content" className="skip-to-main">
+            Skip to main content
+          </a>
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
+            <PageTransition>
+              <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
+                <Routes>
             {/* Публичные роуты */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -68,7 +88,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <HomePage />
+                  <HomePage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -78,7 +98,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <ResultPage />
+                  <ResultPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -88,7 +108,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <LeaderboardPage />
+                  <LeaderboardPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -98,7 +118,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <AdminDashboard />
+                  <AdminDashboard />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -108,7 +128,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="EMPLOYEE">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <EmployeeDashboard />
+                  <EmployeeDashboard />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -118,7 +138,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <ProfilePage />
+                  <ProfilePage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -128,7 +148,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <WasteHistoryPage />
+                  <WasteHistoryPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -138,7 +158,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <CollectionAreasPage />
+                  <CollectionAreasPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -148,7 +168,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <EmployeesPage />
+                  <EmployeesPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -158,7 +178,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <CompanySettingsPage />
+                  <CompanySettingsPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -168,7 +188,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <BinsManagementPage />
+                  <BinsManagementPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -178,7 +198,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <AnalyticsPage />
+                  <AnalyticsPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -188,7 +208,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <AchievementsPage />
+                  <AchievementsPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -198,7 +218,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="ADMIN_COMPANY">
                   <Suspense fallback={<LoadingSpinner fullScreen text="Загрузка..." />}>
-                    <AdminPage />
+                  <AdminPage />
                   </Suspense>
                 </ProtectedRoute>
               }
@@ -263,36 +283,37 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            </Routes>
+          </Routes>
           </Suspense>
-        </PageTransition>
-        <Toaster
-            position="top-center"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#363636',
-                color: '#fff',
-              },
-              success: {
-                duration: 3000,
-                iconTheme: {
-                  primary: '#22c55e',
-                  secondary: '#fff',
-                },
-              },
-              error: {
-                duration: 4000,
-                iconTheme: {
-                  primary: '#ef4444',
-                  secondary: '#fff',
-                },
-              },
-            }}
-          />
-      </BrowserRouter>
-    </ApolloProvider>
-    </ThemeProvider>
+              </PageTransition>
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    background: '#363636',
+                    color: '#fff',
+                  },
+                  success: {
+                    duration: 3000,
+                    iconTheme: {
+                      primary: '#22c55e',
+                      secondary: '#fff',
+                    },
+                  },
+                  error: {
+                    duration: 4000,
+                    iconTheme: {
+                      primary: '#ef4444',
+                      secondary: '#fff',
+                    },
+                  },
+                }}
+              />
+            </BrowserRouter>
+          </ApolloProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
   )
 }
 

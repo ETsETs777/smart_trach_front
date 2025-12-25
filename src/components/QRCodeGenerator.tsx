@@ -211,3 +211,4 @@ export default function QRCodeGenerator({ data, title, size = 256, onDownload }:
   )
 }
 
+

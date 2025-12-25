@@ -3,6 +3,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 import { GET_COMPANY_ACHIEVEMENTS } from '@/lib/graphql/queries'
 import { CREATE_ACHIEVEMENT } from '@/lib/graphql/mutations'
 import { UPDATE_ACHIEVEMENT, DELETE_ACHIEVEMENT } from '@/lib/graphql/mutations'
@@ -43,6 +44,7 @@ const criterionTypes = [
 
 export default function AchievementsPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { companyId } = useWasteStore()
   const [isCreating, setIsCreating] = useState(false)
 

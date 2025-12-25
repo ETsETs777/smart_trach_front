@@ -154,3 +154,4 @@ export function SimpleAreaChart({ data, dataKey, nameKey = 'name', color = '#22c
   )
 }
 
+

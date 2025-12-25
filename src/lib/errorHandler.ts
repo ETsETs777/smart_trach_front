@@ -105,12 +105,29 @@ export function logError(error: Error | ApolloError, context?: string) {
     ? handleApolloError(error)
     : extractErrorMessage(error)
 
-  console.error(`[Error${context ? ` in ${context}` : ''}]:`, {
-    message: errorInfo.message,
-    code: errorInfo.code,
-    field: errorInfo.field,
-    originalError: error,
+  // Use logger instead of console.error
+  import('./logger').then(({ logger }) => {
+    logger.error(
+      errorInfo.message,
+      error instanceof Error ? error : new Error(JSON.stringify(error)),
+      context,
+      {
+        code: errorInfo.code,
+        field: errorInfo.field,
+        originalError: error,
+      }
+    )
   })
+  
+  // Keep console.error for immediate debugging in development
+  if (import.meta.env.DEV) {
+    console.error(`[Error${context ? ` in ${context}` : ''}]:`, {
+      message: errorInfo.message,
+      code: errorInfo.code,
+      field: errorInfo.field,
+      originalError: error,
+    })
+  }
 
   // TODO: Send to error tracking service (Sentry, etc.)
   // if (import.meta.env.PROD) {

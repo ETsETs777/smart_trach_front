@@ -28,11 +28,13 @@ export default function AboutSystemPage() {
       description: 'We use cutting-edge technologies: artificial intelligence for waste recognition, cloud computing, and mobile applications for ease of use. Built with modern frameworks for scalability and performance.',
       details: [
         'AI-powered waste classification (GigaChat)',
-        'GraphQL API for flexible data access',
+        'GraphQL API with subscriptions for real-time updates',
         'Real-time analytics and reporting',
         'Mobile-responsive web interface',
         'Cloud-based infrastructure',
-        'RESTful and GraphQL endpoints'
+        'Structured logging with Pino',
+        'Performance monitoring and optimization',
+        'Pagination for large datasets'
       ]
     },
     {
@@ -43,8 +45,10 @@ export default function AboutSystemPage() {
         'End-to-end encryption',
         'GDPR compliant',
         'Regular security audits',
-        'JWT-based authentication',
+        'JWT-based authentication with refresh tokens',
         'Role-based access control',
+        'Rate limiting and DDoS protection',
+        'Audit logging for all user actions',
         'Data backup and recovery'
       ]
     },
@@ -70,8 +74,10 @@ export default function AboutSystemPage() {
         'MinIO S3-compatible storage',
         'Redis caching layer',
         'Automated backups',
-        'Data export capabilities',
-        'Audit logs and history'
+        'Data export capabilities (CSV, Excel, PDF)',
+        'Structured audit logs with Pino',
+        'DataLoader for GraphQL optimization',
+        'Pagination support for large datasets'
       ]
     },
     {
@@ -84,14 +90,16 @@ export default function AboutSystemPage() {
         'Learning and improvement',
         'High accuracy rates',
         'Fast processing times',
-        'Continuous model updates'
+        'Continuous model updates',
+        'WebSocket notifications for status updates',
+        'Real-time achievement and leaderboard updates'
       ]
     }
   ]
 
   const stats = [
-    { label: 'System Version', value: '1.0.0', icon: Info },
-    { label: 'Release Date', value: 'December 2024', icon: Info },
+    { label: 'System Version', value: '1.2.0', icon: Info },
+    { label: 'Release Date', value: 'January 2025', icon: Info },
     { label: 'License', value: 'Proprietary', icon: Lock },
     { label: 'Platform', value: 'Web & Mobile', icon: Globe }
   ]
@@ -99,8 +107,10 @@ export default function AboutSystemPage() {
   const capabilities = [
     { icon: Users, text: 'Unlimited employees per company' },
     { icon: BarChart3, text: 'Real-time analytics and reporting' },
-    { icon: Award, text: 'Gamification and achievement system' },
-    { icon: Database, text: 'Comprehensive data management' }
+    { icon: Award, text: 'Gamification with real-time achievement notifications' },
+    { icon: Database, text: 'Comprehensive data management with pagination' },
+    { icon: Zap, text: 'Performance monitoring and optimization' },
+    { icon: Shield, text: 'Advanced security with audit logging' }
   ]
 
   return (

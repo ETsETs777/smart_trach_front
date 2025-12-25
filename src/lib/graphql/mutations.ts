@@ -127,6 +127,8 @@ export const ADD_BINS_TO_COLLECTION_AREA = gql`
     addBinsToCollectionArea(input: $input) {
       id
       type
+      latitude
+      longitude
       area {
         id
         name
@@ -140,6 +142,8 @@ export const UPDATE_COLLECTION_AREA_BIN = gql`
     updateCollectionAreaBin(input: $input) {
       id
       type
+      latitude
+      longitude
     }
   }
 `

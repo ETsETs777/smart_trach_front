@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:analyze": "ANALYZE=true npm run build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "codegen": "graphql-codegen --config codegen.ts",
@@ -15,18 +16,23 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.10",
+    "@apollo/client": "^3.14.0",
     "@tanstack/react-query": "^5.17.19",
+    "@types/leaflet": "^1.9.21",
     "@types/qrcode": "^1.5.6",
+    "@types/react-window": "^1.8.8",
     "clsx": "^2.1.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^10.16.16",
     "graphql": "^16.8.1",
+    "graphql-ws": "^6.0.6",
     "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^7.2.2",
     "jspdf": "^3.0.4",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
     "lucide-react": "^0.303.0",
     "qrcode": "^1.5.4",
     "react": "^18.2.0",
@@ -34,7 +40,10 @@
     "react-hook-form": "^7.49.3",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^13.5.0",
+    "react-leaflet": "^5.0.0",
+    "react-leaflet-markercluster": "^5.0.0-rc.0",
     "react-router-dom": "^6.21.1",
+    "react-window": "^2.2.3",
     "recharts": "^3.6.0",
     "tailwind-merge": "^2.2.0",
     "workbox-window": "^7.4.0",
@@ -59,6 +68,7 @@
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11"
+    "vite": "^5.0.11",
+    "vite-bundle-visualizer": "^1.2.1"
   }
 }

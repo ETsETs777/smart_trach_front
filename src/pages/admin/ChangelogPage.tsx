@@ -12,6 +12,53 @@ export default function ChangelogPage() {
 
   const changelog = [
     {
+      version: '1.2.0',
+      date: '2025-01-25',
+      type: 'release',
+      changes: [
+        { type: 'feature', text: 'Structured logging with Pino on backend' },
+        { type: 'feature', text: 'Audit logging for user actions and admin operations' },
+        { type: 'feature', text: 'Enhanced form validation with real-time feedback' },
+        { type: 'feature', text: 'Touch gestures support for mobile devices' },
+        { type: 'feature', text: 'Success animations for user feedback' },
+        { type: 'improvement', text: 'Improved mobile responsiveness and touch targets' },
+        { type: 'improvement', text: 'Enhanced form components with visual validation states' },
+        { type: 'improvement', text: 'Better accessibility with ARIA attributes' },
+        { type: 'improvement', text: 'Performance monitoring dashboard' }
+      ]
+    },
+    {
+      version: '1.1.0',
+      date: '2025-01-20',
+      type: 'release',
+      changes: [
+        { type: 'feature', text: 'Map improvements: clustering, search, filtering, routing' },
+        { type: 'feature', text: 'WebSocket notifications for real-time updates' },
+        { type: 'feature', text: 'Performance monitoring system' },
+        { type: 'feature', text: 'Lazy loading for images' },
+        { type: 'feature', text: 'Virtualized lists for better performance' },
+        { type: 'feature', text: 'Enhanced GraphQL caching in Apollo Client' },
+        { type: 'improvement', text: 'Accessibility improvements (ARIA, keyboard navigation)' },
+        { type: 'improvement', text: 'Code splitting and optimization' },
+        { type: 'improvement', text: 'Companies carousel on landing page' }
+      ]
+    },
+    {
+      version: '1.0.1',
+      date: '2025-01-15',
+      type: 'release',
+      changes: [
+        { type: 'feature', text: 'Rate limiting for API protection' },
+        { type: 'feature', text: 'Refresh token mechanism for enhanced security' },
+        { type: 'feature', text: 'DataLoader implementation for GraphQL N+1 optimization' },
+        { type: 'improvement', text: 'Input validation with class-validator' },
+        { type: 'improvement', text: 'Centralized error handling and logging' },
+        { type: 'improvement', text: 'Error boundaries for React components' },
+        { type: 'bug', text: 'Fixed white screen flash on page transitions' },
+        { type: 'bug', text: 'Fixed React Router warnings' }
+      ]
+    },
+    {
       version: '1.0.0',
       date: '2024-12-24',
       type: 'release',
@@ -167,18 +214,30 @@ export default function ChangelogPage() {
           </div>
 
           <Card className="p-6 bg-white/95 backdrop-blur-md border-2 border-white/30 mt-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Upcoming Features</h2>
-            <div className="space-y-2 text-gray-700">
-              <p className="font-semibold mb-2">Planned for future releases:</p>
-              <ul className="list-disc list-inside space-y-1 text-sm">
-                <li>Mobile applications (iOS and Android)</li>
-                <li>Barcode scanning functionality</li>
-                <li>Advanced reporting and custom dashboards</li>
-                <li>Integration with external waste management systems</li>
-                <li>Multi-language support expansion</li>
-                <li>Advanced AI model training</li>
-                <li>API webhooks and integrations</li>
-              </ul>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Development Roadmap</h2>
+            <div className="space-y-4 text-gray-700">
+              <div>
+                <h3 className="font-semibold mb-2 text-green-700">✅ Completed Sprints</h3>
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li><strong>Sprint 1:</strong> Input validation, error handling, error boundaries</li>
+                  <li><strong>Sprint 2:</strong> Rate limiting, refresh tokens, DataLoader optimization</li>
+                  <li><strong>Sprint 3:</strong> WebSocket notifications, map improvements, accessibility, performance monitoring</li>
+                  <li><strong>Additional:</strong> Frontend optimization, UX improvements, structured logging</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2 text-blue-700">🚀 Planned Features</h3>
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li>Mobile applications (iOS and Android)</li>
+                  <li>Advanced reporting and custom dashboards</li>
+                  <li>Integration with external waste management systems</li>
+                  <li>Multi-language support expansion</li>
+                  <li>Advanced AI model training</li>
+                  <li>API webhooks and integrations</li>
+                  <li>Unit and integration tests</li>
+                  <li>Redis caching for analytics</li>
+                </ul>
+              </div>
             </div>
           </Card>
         </div>

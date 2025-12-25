@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
+import { useQuery, useSubscription } from '@apollo/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { GET_WASTE_PHOTO } from '@/lib/graphql/queries'
+import { WASTE_PHOTO_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions'
 import { TrashBinType, WastePhotoStatus, BIN_CONFIGS } from '@/types'
 import BinIcon from '@/components/ui/BinIcon'
 import BinLayout from '@/components/BinLayout'
@@ -12,40 +13,80 @@ import Button from '@/components/ui/Button'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { CheckCircle, Loader, XCircle, ArrowLeft, Trophy, Info, RefreshCw, AlertTriangle } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { usePushNotifications } from '@/hooks/usePushNotifications'
 
 export default function ResultPage() {
   const { t } = useTranslation()
   const { wastePhotoId } = useParams<{ wastePhotoId: string }>()
   const navigate = useNavigate()
-  const [pollingInterval, setPollingInterval] = useState(2000)
   const [progress, setProgress] = useState(15)
+  const { showNotification, hasPermission } = usePushNotifications()
 
-  const { data, loading, error, startPolling, stopPolling } = useQuery(GET_WASTE_PHOTO, {
+  // Handle manual selection
+  const isManual = wastePhotoId?.startsWith('manual-')
+  const manualBinType = isManual
+    ? (wastePhotoId.replace('manual-', '') as TrashBinType)
+    : null
+
+  // Initial query to get waste photo
+  const { data, loading, error } = useQuery(GET_WASTE_PHOTO, {
     variables: { id: wastePhotoId },
-    skip: !wastePhotoId || wastePhotoId.startsWith('manual'),
+    skip: !wastePhotoId || isManual,
     fetchPolicy: 'network-only',
   })
 
-  const wastePhoto = data?.wastePhoto
+  // Real-time subscription for status updates
+  const { data: subscriptionData } = useSubscription(WASTE_PHOTO_STATUS_SUBSCRIPTION, {
+    variables: { wastePhotoId },
+    skip: !wastePhotoId || isManual,
+    onData: ({ data: subData }) => {
+      if (subData?.data?.wastePhotoStatusUpdated) {
+        const updatedStatus = subData.data.wastePhotoStatusUpdated.status
+        const updatedPhoto = subData.data.wastePhotoStatusUpdated
+        
+        if (updatedStatus === WastePhotoStatus.CLASSIFIED) {
+          setProgress(100)
+          toast.success(t('result.classificationComplete'))
+          
+          // Show push notification if permission granted
+          if (hasPermission) {
+            const binType = updatedPhoto.recommendedBinType
+            const binConfig = binType ? BIN_CONFIGS[binType] : null
+            showNotification({
+              title: t('result.classificationComplete'),
+              body: binConfig 
+                ? t('result.recommendedBin', { bin: binConfig.label })
+                : t('result.wasteClassified'),
+              icon: '/icon-192x192.png',
+              tag: `waste-photo-${wastePhotoId}`,
+              data: { url: `/result/${wastePhotoId}` },
+              requireInteraction: false,
+            })
+          }
+        } else if (updatedStatus === WastePhotoStatus.FAILED) {
+          setProgress(0)
+          toast.error(t('result.failedToDetermine'))
+          
+          // Show push notification for failure
+          if (hasPermission) {
+            showNotification({
+              title: t('result.classificationFailed'),
+              body: t('result.failedToDetermine'),
+              icon: '/icon-192x192.png',
+              tag: `waste-photo-${wastePhotoId}`,
+              data: { url: `/result/${wastePhotoId}` },
+            })
+          }
+        }
+      }
+    },
+  })
+
+  // Use subscription data if available, otherwise use query data
+  const wastePhoto = subscriptionData?.wastePhotoStatusUpdated || data?.wastePhoto
   const status = wastePhoto?.status
   const recommendedBinType = wastePhoto?.recommendedBinType
   const aiExplanation = wastePhoto?.aiExplanation
-
-  // Handle manual selection
-  const isManual = wastePhotoId?.startsWith('manual')
-  const manualBinType = isManual
-    ? (wastePhotoId.split('/')[1] as TrashBinType)
-    : null
-
-  useEffect(() => {
-    if (wastePhotoId && !isManual && status === WastePhotoStatus.PENDING) {
-      startPolling(pollingInterval)
-      return () => stopPolling()
-    } else if (status === WastePhotoStatus.CLASSIFIED || status === 'COMPLETED' || status === WastePhotoStatus.FAILED) {
-      stopPolling()
-      setPollingInterval(0)
-    }
-  }, [wastePhotoId, status, startPolling, stopPolling, isManual, pollingInterval])
 
   useEffect(() => {
     if (status === WastePhotoStatus.PENDING) {

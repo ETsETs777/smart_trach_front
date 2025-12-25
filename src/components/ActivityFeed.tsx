@@ -98,3 +98,4 @@ export default function ActivityFeed({ activities, maxItems = 10 }: ActivityFeed
   )
 }
 
+

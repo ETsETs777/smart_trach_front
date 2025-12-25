@@ -1,14 +1,33 @@
-import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client'
+import { ApolloClient, InMemoryCache, createHttpLink, from, split } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
+import { getMainDefinition } from '@apollo/client/utilities'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
+import { ApolloLink } from '@apollo/client'
 import toast from 'react-hot-toast'
 import { handleApolloError, logError } from './errorHandler'
 import i18n from '@/i18n/config'
+import { performanceMonitor } from './performanceMonitor'
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URL || 'http://localhost:5000/graphql',
   credentials: 'include',
 })
+
+// WebSocket link for subscriptions
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: (import.meta.env.VITE_GRAPHQL_WS_URL || 'ws://localhost:5000/graphql').replace('http://', 'ws://').replace('https://', 'wss://'),
+    connectionParams: () => {
+      const token = localStorage.getItem('auth_token')
+      return {
+        authorization: token ? `Bearer ${token}` : '',
+      }
+    },
+    shouldRetry: () => true,
+  })
+)
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('auth_token')
@@ -20,7 +39,39 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
+// Split link: use WebSocket for subscriptions, HTTP for queries/mutations
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    )
+  },
+  wsLink,
+  authLink.concat(httpLink)
+)
+
+// Performance monitoring link
+const performanceLink = new ApolloLink((operation, forward) => {
+  const startTime = Date.now()
+  operation.setContext({ startTime })
+
+  return forward(operation).map((response) => {
+    const operationName = operation.operationName || 'unknown'
+    performanceMonitor.measureApiCall(operationName, startTime)
+    return response
+  })
+})
+
 const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+  // Measure API call even on error
+  const startTime = operation?.getContext()?.startTime
+  if (startTime) {
+    const operationName = operation?.operationName || 'unknown'
+    performanceMonitor.measureApiCall(operationName, startTime)
+  }
+
   if (graphQLErrors) {
     graphQLErrors.forEach((error) => {
       logError(error, operation?.operationName)
@@ -50,13 +101,56 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
 })
 
 export const apolloClient = new ApolloClient({
-  link: from([errorLink, authLink, httpLink]),
+  link: from([performanceLink, errorLink, splitLink]),
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
           wastePhoto: {
             merge: true,
+          },
+          companyAnalytics: {
+            // Cache analytics for 5 minutes
+            merge: true,
+          },
+          company: {
+            merge: true,
+          },
+          companies: {
+            merge(existing = [], incoming) {
+              return incoming
+            },
+          },
+          publicCompanies: {
+            merge(existing = [], incoming) {
+              return incoming
+            },
+          },
+          collectionAreas: {
+            merge(existing = [], incoming) {
+              return incoming
+            },
+          },
+          collectionAreaBins: {
+            merge(existing = [], incoming) {
+              return incoming
+            },
+          },
+        },
+      },
+      WastePhoto: {
+        fields: {
+          image: {
+            merge: true,
+          },
+        },
+      },
+      Company: {
+        fields: {
+          employees: {
+            merge(existing = [], incoming) {
+              return incoming
+            },
           },
         },
       },
@@ -65,9 +159,14 @@ export const apolloClient = new ApolloClient({
   defaultOptions: {
     watchQuery: {
       fetchPolicy: 'cache-and-network',
+      errorPolicy: 'all',
     },
     query: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-first', // Use cache first for better performance
+      errorPolicy: 'all',
+    },
+    mutate: {
+      errorPolicy: 'all',
     },
   },
 })

@@ -60,7 +60,11 @@
     "excellentContinue": "Excellent! Continue",
     "viewLeaderboard": "View leaderboard",
     "failedToDetermineType": "Failed to determine type",
-    "tryClearerPhoto": "Try taking a clearer photo or select the type manually"
+    "tryClearerPhoto": "Try taking a clearer photo or select the type manually",
+    "classificationComplete": "Classification complete!",
+    "recommendedBin": "Recommended container: {{bin}}",
+    "wasteClassified": "Your waste has been classified",
+    "classificationFailed": "Classification failed"
   },
   "analytics": {
     "title": "Company Analytics",

@@ -172,3 +172,4 @@ npm install
 
 Убедитесь, что используете `MockedProvider` из `@apollo/client/testing` и правильно настроили моки запросов.
 
+

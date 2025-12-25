@@ -59,7 +59,11 @@
     "excellentContinue": "Отлично! Продолжить",
     "viewLeaderboard": "Посмотреть рейтинг",
     "failedToDetermineType": "Не удалось определить тип",
-    "tryClearerPhoto": "Попробуйте сделать более чёткое фото или выберите тип вручную"
+    "tryClearerPhoto": "Попробуйте сделать более чёткое фото или выберите тип вручную",
+    "classificationComplete": "Классификация завершена!",
+    "recommendedBin": "Рекомендуемый контейнер: {{bin}}",
+    "wasteClassified": "Ваш мусор был классифицирован",
+    "classificationFailed": "Ошибка классификации"
   },
   "analytics": {
     "title": "Аналитика компании",

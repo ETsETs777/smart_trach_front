@@ -83,3 +83,4 @@ export default function PointsAnimation({ points, show, onComplete }: PointsAnim
   )
 }
 
+

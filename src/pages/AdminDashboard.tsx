@@ -11,6 +11,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher'
 import ThemeToggle from '@/components/ThemeToggle'
 import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import ActivityFeed from '@/components/ActivityFeed'
+import PerformanceMonitor from '@/components/PerformanceMonitor'
 import { 
   BarChart3, 
   Users, 
@@ -82,7 +83,7 @@ function AdminDashboard() {
                   alt={companyData.company.name || t('company.logo')} 
                   className="w-full h-full object-cover"
                 />
-              </div>
+          </div>
             )}
             <LanguageSwitcher />
             <ThemeToggle />
@@ -92,9 +93,9 @@ function AdminDashboard() {
               size="lg"
               className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 backdrop-blur-md"
             >
-              <LogOut className="w-5 h-5 mr-2" />
+            <LogOut className="w-5 h-5 mr-2" />
               {t('common.logout')}
-            </Button>
+          </Button>
           </motion.div>
         </div>
 
@@ -109,12 +110,12 @@ function AdminDashboard() {
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
                 <Recycle className="w-6 h-6 text-white" />
-              </div>
+            </div>
               <TrendingUp className="w-5 h-5 text-emerald-600 opacity-70" />
             </div>
             <div className="text-4xl font-bold text-gray-800 mb-2">
               {analytics?.areas?.reduce((sum: number, area: any) => sum + (area.totalPhotos || 0), 0) || 0}
-            </div>
+          </div>
             <div className="text-sm font-medium text-gray-600">{t('admin.dashboard.totalSorts')}</div>
           </motion.div>
 
@@ -127,11 +128,11 @@ function AdminDashboard() {
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg">
                 <BarChart3 className="w-6 h-6 text-white" />
-              </div>
+            </div>
             </div>
             <div className="text-4xl font-bold text-gray-800 mb-2">
               {analytics?.binUsage?.length || 0}
-            </div>
+          </div>
             <div className="text-sm font-medium text-gray-600">{t('admin.dashboard.containerTypes')}</div>
           </motion.div>
 
@@ -161,11 +162,11 @@ function AdminDashboard() {
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center shadow-lg">
                 <Trophy className="w-6 h-6 text-white" />
-              </div>
+            </div>
             </div>
             <div className="text-4xl font-bold text-gray-800 mb-2">
               {analytics?.leaderboard?.[0]?.totalClassifiedPhotos || 0}
-            </div>
+          </div>
             <div className="text-sm font-medium text-gray-600">{t('admin.dashboard.sortLeader')}</div>
           </motion.div>
         </div>
@@ -178,16 +179,16 @@ function AdminDashboard() {
             transition={{ delay: 0.5 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/areas')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg">
                   <Plus className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.collectionAreas')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.collectionAreasDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
 
           <motion.div
@@ -196,16 +197,16 @@ function AdminDashboard() {
             transition={{ delay: 0.6 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/employees')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg">
                   <Users className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.employees')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.employeesDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
 
           <motion.div
@@ -214,16 +215,16 @@ function AdminDashboard() {
             transition={{ delay: 0.7 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/settings')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-gray-500 to-gray-700 flex items-center justify-center shadow-lg">
                   <Settings className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.settings')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.settingsDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
 
           <motion.div
@@ -232,16 +233,16 @@ function AdminDashboard() {
             transition={{ delay: 0.8 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/achievements')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center shadow-lg">
                   <Trophy className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.achievements')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.achievementsDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
 
           <motion.div
@@ -250,16 +251,16 @@ function AdminDashboard() {
             transition={{ delay: 0.9 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/bins')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-teal-500 to-green-600 flex items-center justify-center shadow-lg">
                   <Recycle className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.containers')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.containersDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
 
           <motion.div
@@ -268,23 +269,23 @@ function AdminDashboard() {
             transition={{ delay: 1.0 }}
           >
             <Card hover className="p-6 cursor-pointer bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-lg hover:shadow-2xl transition-all duration-300" onClick={() => navigate('/admin/analytics')}>
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
                   <BarChart3 className="w-7 h-7 text-white" />
-                </div>
+              </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-1">{t('admin.dashboard.analytics')}</h3>
                   <p className="text-sm text-gray-600">{t('admin.dashboard.analyticsDesc')}</p>
-                </div>
               </div>
-            </Card>
+            </div>
+          </Card>
           </motion.div>
         </div>
 
         {/* Activity Feed and Leaderboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Leaderboard Preview */}
-          {analytics?.leaderboard && analytics.leaderboard.length > 0 && (
+        {/* Leaderboard Preview */}
+        {analytics?.leaderboard && analytics.leaderboard.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -292,54 +293,65 @@ function AdminDashboard() {
             >
               <Card className="p-6 bg-white/95 backdrop-blur-md border-2 border-white/30 shadow-xl dark:bg-gray-800/95 dark:border-gray-700">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6">{t('admin.dashboard.topEmployees')}</h2>
-                <div className="space-y-3">
-                {analytics.leaderboard.slice(0, 5).map((entry: any, index: number) => (
-                  <motion.div
+            <div className="space-y-3">
+              {analytics.leaderboard.slice(0, 5).map((entry: any, index: number) => (
+                <motion.div
                     key={entry.employee?.id || index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 1.2 + index * 0.1 }}
                     className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <div className="flex items-center gap-4">
+                >
+                  <div className="flex items-center gap-4">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-md ${
                           index === 0 ? 'bg-gradient-to-br from-yellow-400 to-orange-500' :
                           index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400' :
                           index === 2 ? 'bg-gradient-to-br from-orange-300 to-orange-400' :
                           'bg-gradient-to-br from-blue-400 to-blue-500'
                         }`}>
-                          {index + 1}
-                        </div>
-                        <div>
+                      {index + 1}
+                    </div>
+                    <div>
                           <div className="font-semibold text-gray-800 dark:text-gray-200">
                             {entry.employee?.fullName || t('analytics.user', { number: index + 1 })}
-                          </div>
+                      </div>
                           <div className="text-sm text-gray-600 dark:text-gray-400">
                             {entry.totalClassifiedPhotos || 0} {t('admin.dashboard.sorts')}
-                          </div>
-                        </div>
                       </div>
-                      <Button
+                    </div>
+                  </div>
+                  <Button
                         variant="outline"
-                        size="sm"
-                        onClick={() => navigate('/leaderboard')}
+                    size="sm"
+                    onClick={() => navigate('/leaderboard')}
                         className="border-green-500 text-green-600 hover:bg-green-50 dark:border-green-400 dark:text-green-400 dark:hover:bg-green-900/20"
-                      >
+                  >
                         {t('admin.dashboard.moreDetails')}
-                      </Button>
-                    </motion.div>
-                  ))}
-                </div>
-              </Card>
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
+          </Card>
             </motion.div>
-          )}
+        )}
 
-          {/* Activity Feed */}
+          {/* Performance Monitor */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
           >
+            <PerformanceMonitor />
+          </motion.div>
+        </div>
+
+        {/* Activity Feed */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="mb-8"
+        >
             <ActivityFeed
               activities={useMemo(() => {
                 const activities: any[] = []
@@ -385,7 +397,6 @@ function AdminDashboard() {
               maxItems={5}
             />
           </motion.div>
-        </div>
 
         {/* Bin Usage Stats */}
         {analytics?.binUsageStats && analytics.binUsageStats.length > 0 && (
@@ -406,15 +417,15 @@ function AdminDashboard() {
                     transition={{ delay: 1.4 + index * 0.1 }}
                     className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 shadow-sm"></div>
                       <span className="font-medium text-gray-800">{stat.binType}</span>
-                    </div>
+                  </div>
                     <span className="text-xl font-bold text-gray-800">{stat.count || 0}</span>
                   </motion.div>
-                ))}
-              </div>
-            </Card>
+              ))}
+            </div>
+          </Card>
           </motion.div>
         )}
         </div>

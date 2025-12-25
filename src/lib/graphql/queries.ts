@@ -134,6 +134,22 @@ export const GET_COMPANIES = gql`
   }
 `
 
+export const GET_PUBLIC_COMPANIES = gql`
+  query GetPublicCompanies {
+    publicCompanies {
+      id
+      name
+      description
+      isActive
+      logo {
+        id
+        url
+      }
+      createdAt
+    }
+  }
+`
+
 export const GET_COMPANY = gql`
   query GetCompany($id: ID!) {
     company(id: $id) {
@@ -243,11 +259,57 @@ export const GET_WASTE_PHOTOS = gql`
   }
 `
 
+export const GET_WASTE_PHOTOS_PAGINATED = gql`
+  query GetWastePhotosPaginated(
+    $companyId: ID!
+    $userId: ID
+    $page: Int
+    $pageSize: Int
+    $dateFrom: DateTime
+    $dateTo: DateTime
+  ) {
+    wastePhotosPaginated(
+      companyId: $companyId
+      userId: $userId
+      page: $page
+      pageSize: $pageSize
+      dateFrom: $dateFrom
+      dateTo: $dateTo
+    ) {
+      items {
+        id
+        status
+        recommendedBinType
+        aiExplanation
+        createdAt
+        image {
+          id
+          url
+        }
+        collectionArea {
+          id
+          name
+        }
+      }
+      meta {
+        total
+        page
+        pageSize
+        totalPages
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+  }
+`
+
 export const GET_COLLECTION_AREA_BINS = gql`
   query GetCollectionAreaBins($areaId: ID!) {
     collectionAreaBins(areaId: $areaId) {
       id
       type
+      latitude
+      longitude
       area {
         id
         name

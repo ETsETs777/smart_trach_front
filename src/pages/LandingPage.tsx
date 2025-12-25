@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Recycle, Camera, List, QrCode, Trophy, BarChart3, Users, Sparkles, ArrowRight, CheckCircle, Mail, AlertTriangle, XCircle, TrendingDown, HelpCircle, ArrowDown } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import CompaniesCarousel from '@/components/CompaniesCarousel'
+import CompaniesCarouselBackground from '@/components/CompaniesCarouselBackground'
 
 export default function LandingPage() {
   const features = [
@@ -89,10 +91,13 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-white">
-        {/* Subtle natural gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 via-blue-50/30 to-white"></div>
-        <div className="absolute inset-0 opacity-40">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-white min-h-[600px]">
+        {/* Companies Carousel Background */}
+        <CompaniesCarouselBackground className="opacity-40" />
+        
+        {/* Subtle natural gradient background overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50/70 via-blue-50/50 to-white/95 z-10"></div>
+        <div className="absolute inset-0 opacity-25 z-10">
           <motion.div
             animate={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
@@ -102,10 +107,12 @@ export default function LandingPage() {
               repeat: Infinity,
               ease: 'linear',
             }}
-            className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.12),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.12),transparent_50%)] bg-[length:200%_200%]"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,197,94,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)] bg-[length:200%_200%]"
           ></motion.div>
         </div>
-        <div className="relative max-w-7xl mx-auto text-center z-10">
+        
+        {/* Content */}
+        <div className="relative max-w-7xl mx-auto text-center z-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -752,6 +759,12 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Divider */}
+      <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+
+      {/* Companies Carousel Section */}
+      <CompaniesCarousel />
 
       {/* Divider */}
       <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
