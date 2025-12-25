@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { toastSuccess, toastError, toastWarning, toastInfo } from '@/lib/utils/toast'
+import { toastSuccess } from '@/lib/utils/toast'
 import { useTranslation } from 'react-i18next'
 import WasteMethodSelector from '@/components/WasteMethodSelector'
 import PhotoUploader from '@/components/PhotoUploader'
@@ -14,8 +14,6 @@ import { Recycle, Sparkles, QrCode } from 'lucide-react'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import Button from '@/components/ui/Button'
 import logger from '@/lib/logger'
-import ThemeToggle from '@/components/ThemeToggle'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 

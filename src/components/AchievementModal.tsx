@@ -48,7 +48,7 @@ export default function AchievementModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-50 flex items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="achievement-title"
@@ -65,7 +65,7 @@ export default function AchievementModal({
                 {/* Close button */}
                 <button
                   onClick={onClose}
-                  className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                   aria-label={t('common.cancel')}
                 >
                   <X className="w-5 h-5" />
@@ -87,7 +87,7 @@ export default function AchievementModal({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                   id="achievement-title"
-                  className="text-3xl font-bold text-center text-gray-800 mb-2"
+                  className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-2"
                 >
                   {achievement.title}
                 </motion.h2>
@@ -97,7 +97,7 @@ export default function AchievementModal({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-center text-gray-600 mb-6"
+                  className="text-center text-gray-600 dark:text-gray-300 mb-6"
                 >
                   {achievement.description}
                 </motion.p>
@@ -111,14 +111,14 @@ export default function AchievementModal({
                     className="mb-6"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {t('achievements.progress')}
                       </span>
-                      <span className="text-sm font-semibold text-gray-800">
+                      <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                         {current} / {achievement.threshold}
                       </span>
                     </div>
-                    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progressPercent}%` }}
@@ -135,9 +135,9 @@ export default function AchievementModal({
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-center"
+                    className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl text-center"
                   >
-                    <p className="text-green-800 font-semibold">
+                    <p className="text-green-800 dark:text-green-300 font-semibold">
                       {t('achievements.achieved')} 🎉
                     </p>
                   </motion.div>

@@ -4,7 +4,6 @@
  */
 
 import toast, { ToastOptions } from 'react-hot-toast'
-import { useTheme } from '@/components/ThemeProvider'
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
