@@ -45,12 +45,19 @@ const ChangelogPage = lazy(() => import('./pages/admin/ChangelogPage'))
 const GuidePage = lazy(() => import('./pages/admin/GuidePage'))
 
 function App() {
-  // Initialize push notifications on app load
-  useEffect(() => {
-    pushNotificationService.initialize().catch((error) => {
-      console.warn('Failed to initialize push notifications:', error)
-    })
-  }, [])
+      // Initialize push notifications on app load
+      useEffect(() => {
+        pushNotificationService.initialize().catch((error) => {
+          console.warn('Failed to initialize push notifications:', error)
+        })
+      }, [])
+
+      // Initialize CSRF token on app load
+      useEffect(() => {
+        initializeCsrfToken().catch((error) => {
+          console.warn('Failed to initialize CSRF token:', error)
+        })
+      }, [])
 
   return (
     <ErrorBoundary>

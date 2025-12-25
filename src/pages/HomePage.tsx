@@ -15,6 +15,7 @@ import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import Button from '@/components/ui/Button'
 import logger from '@/lib/logger'
 import { tokenStorage } from '@/lib/auth/tokenStorage'
+import { getCsrfToken } from '@/lib/auth/csrf'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -39,9 +40,14 @@ export default function HomePage() {
 
       // Upload image first
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const csrfToken = await getCsrfToken()
       const uploadResponse = await fetch(`${apiUrl}/images/upload`, {
         method: 'POST',
         body: formData,
+        credentials: 'include', // Include cookies
+        headers: {
+          ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+        },
       })
 
       if (!uploadResponse.ok) {

@@ -10,6 +10,7 @@ import { handleApolloError, logError } from './errorHandler'
 import i18n from '@/i18n/config'
 import { performanceMonitor } from './performanceMonitor'
 import { tokenStorage } from './auth/tokenStorage'
+import { getCsrfToken } from './auth/csrf'
 
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URL || 'http://localhost:5000/graphql',
@@ -30,12 +31,15 @@ const wsLink = new GraphQLWsLink(
   })
 )
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext(async (_, { headers }) => {
   const token = tokenStorage.getAccessToken()
+  const csrfToken = await getCsrfToken()
+  
   return {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
+      ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
     },
   }
 })

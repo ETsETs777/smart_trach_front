@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { toastError, toastSuccess } from '@/lib/utils/toast'
 import { validateFile, sanitizeFilename, FileValidationOptions } from '@/lib/utils/fileValidation'
+import { getCsrfToken } from '@/lib/auth/csrf'
 import { REGISTER_ADMIN } from '@/lib/graphql/mutations'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
@@ -41,9 +42,14 @@ export default function RegisterPage() {
       formData.append('file', file)
 
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+      const csrfToken = await getCsrfToken()
       const response = await fetch(`${apiUrl}/images/upload`, {
         method: 'POST',
         body: formData,
+        credentials: 'include', // Include cookies
+        headers: {
+          ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+        },
       })
 
       if (!response.ok) {
