@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import toast from 'react-hot-toast'
+import { toastSuccess, toastError, toastWarning, toastInfo } from '@/lib/utils/toast'
 import { useTranslation } from 'react-i18next'
 import WasteMethodSelector from '@/components/WasteMethodSelector'
 import PhotoUploader from '@/components/PhotoUploader'
@@ -68,7 +68,7 @@ export default function HomePage() {
         // Сохраняем ID для использования
         const wastePhotoId = data.createWastePhoto.id
         navigate(`/result/${wastePhotoId}`)
-        toast.success(t('home.photoSent'))
+        toastSuccess(t('home.photoSent'))
       }
     } catch (error) {
       logger.error('Error uploading photo', error instanceof Error ? error : new Error(String(error)), 'HomePage')

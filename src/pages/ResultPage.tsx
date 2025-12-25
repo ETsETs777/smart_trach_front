@@ -13,7 +13,7 @@ import Button from '@/components/ui/Button'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import ProgressBar from '@/components/ui/ProgressBar'
 import { CheckCircle, Loader, XCircle, ArrowLeft, Trophy, Info, RefreshCw, AlertTriangle } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { toastSuccess, toastError } from '@/lib/utils/toast'
 import { usePushNotifications } from '@/hooks/usePushNotifications'
 import LazyImage from '@/components/ui/LazyImage'
 
@@ -55,7 +55,7 @@ export default function ResultPage() {
         
         if (updatedStatus === WastePhotoStatus.CLASSIFIED) {
           setProgress(100)
-          toast.success(t('result.classificationComplete'))
+          toastSuccess(t('result.classificationComplete'))
           
           // Show push notification if permission granted
           if (hasPermission) {
@@ -74,7 +74,7 @@ export default function ResultPage() {
           }
         } else if (updatedStatus === WastePhotoStatus.FAILED) {
           setProgress(0)
-          toast.error(t('result.failedToDetermine'))
+          toastError(t('result.failedToDetermine'))
           
           // Show push notification for failure
           if (hasPermission) {
@@ -111,7 +111,7 @@ export default function ResultPage() {
 
     if (status === WastePhotoStatus.FAILED) {
       setProgress(0)
-      toast.error(t('result.failedToDetermine'))
+      toastError(t('result.failedToDetermine'))
     }
   }, [status, t])
 
