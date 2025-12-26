@@ -97,27 +97,27 @@ function WasteHistoryPage() {
   }, [])
 
   return (
-    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50">
+    <div className="min-h-screen p-8 landscape:px-16 bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <Button onClick={() => navigate(-1)} variant="ghost" size="lg">
             <ArrowLeft className="w-5 h-5 mr-2" />
             {t('common.back')}
           </Button>
-          <div className="flex items-center gap-3 text-sm text-gray-600">
+          <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <Filter className="w-4 h-4" />
             Фильтры будут добавлены позже
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-gray-800 mb-6">История сортировок</h1>
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">История сортировок</h1>
 
         <Card className="p-6">
           <div className="flex flex-wrap gap-3 mb-4">
             <select
               value={typeFilter}
               onChange={(e) => handleFilterChange('type', e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             >
               <option value="ALL">Все типы</option>
               {Object.values(TrashBinType).map((type) => (
@@ -130,13 +130,13 @@ function WasteHistoryPage() {
               type="date"
               value={dateFrom}
               onChange={(e) => handleFilterChange('dateFrom', e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             />
             <input
               type="date"
               value={dateTo}
               onChange={(e) => handleFilterChange('dateTo', e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm"
+              className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             />
           </div>
 
@@ -145,7 +145,7 @@ function WasteHistoryPage() {
           ) : error ? (
             <div className="text-center text-red-600">Ошибка загрузки истории: {error.message}</div>
           ) : wastePhotos.length === 0 ? (
-            <div className="text-center text-gray-600">
+            <div className="text-center text-gray-600 dark:text-gray-400">
               История пока пустая. Начните сортировать отходы.
             </div>
           ) : (

@@ -460,10 +460,6 @@
     "downloadSuccess": "QR code downloaded ({{format}})",
     "print": "Print QR Code"
   },
-  "theme": {
-    "switchToDark": "Switch to dark theme",
-    "switchToLight": "Switch to light theme"
-  },
   "activity": {
     "recentActivity": "Recent Activity",
     "noActivities": "No recent activity",

@@ -239,8 +239,8 @@ export default function BinsManagementPage() {
                   onClick={() => setSelectedAreaId(area.id)}
                   className={`px-4 py-2 rounded-xl border-2 transition-all ${
                     selectedAreaId === area.id
-                      ? 'border-green-500 bg-green-50'
-                      : 'border-gray-200 bg-white hover:border-gray-300'
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/30 dark:border-green-400'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 text-gray-800 dark:text-gray-100'
                   }`}
                 >
                   {area.name}
@@ -255,8 +255,8 @@ export default function BinsManagementPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold text-gray-800 mb-1">Container Map</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-1">Container Map</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Place containers on the map by selecting a type and clicking on the map
                 </p>
               </div>
@@ -276,7 +276,7 @@ export default function BinsManagementPage() {
         {selectedAreaId && showMap && (
           <Card className="p-6 mb-6">
             <div className="mb-4">
-              <h3 className="text-xl font-bold text-gray-800 mb-2">Select Container Type for Map</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Select Container Type for Map</h3>
               <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
                 {Object.values(TrashBinType).map((type) => {
                   const config = BIN_CONFIGS[type]
@@ -288,12 +288,12 @@ export default function BinsManagementPage() {
                       onClick={() => setSelectedBinTypeForMap(isSelected ? null : type)}
                       className={`p-3 rounded-xl border-2 transition-all text-center ${
                         isSelected
-                          ? 'border-green-500 bg-green-50 shadow-md scale-105'
-                          : 'border-gray-200 bg-white hover:border-gray-300'
+                          ? 'border-green-500 dark:border-green-400 bg-green-50 dark:bg-green-900/30 shadow-md scale-105'
+                          : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
                       }`}
                     >
                       <div className="text-2xl">{config.icon}</div>
-                      <div className="text-xs font-semibold text-gray-800 mt-1">{config.label}</div>
+                      <div className="text-xs font-semibold text-gray-800 dark:text-gray-100 mt-1">{config.label}</div>
                     </button>
                   )
                 })}
@@ -327,12 +327,12 @@ export default function BinsManagementPage() {
                         onClick={() => toggleType(type)}
                         className={`p-3 rounded-xl border-2 transition-all text-center ${
                           selected
-                            ? 'border-green-500 bg-green-50'
-                            : 'border-gray-200 bg-white hover:border-gray-300'
+                            ? 'border-green-500 dark:border-green-400 bg-green-50 dark:bg-green-900/30'
+                            : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
                         }`}
                       >
                         <div className="text-2xl">{config.icon}</div>
-                        <div className="text-sm font-semibold text-gray-800 mt-1">{config.label}</div>
+                        <div className="text-sm font-semibold text-gray-800 dark:text-gray-100 mt-1">{config.label}</div>
                       </button>
                     )
                   })}
@@ -350,8 +350,8 @@ export default function BinsManagementPage() {
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800">Контейнеры области</h3>
-                  <p className="text-sm text-gray-600">Изменяйте тип или удаляйте контейнер</p>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Контейнеры области</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Изменяйте тип или удаляйте контейнер</p>
                 </div>
               </div>
 
@@ -369,13 +369,13 @@ export default function BinsManagementPage() {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-xl"
+                        className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-xl"
                       >
                         <div className="flex items-center gap-3">
                           <div className="text-2xl">{config.icon}</div>
                           <div>
-                            <div className="font-semibold text-gray-800">{config.label}</div>
-                            <div className="text-sm text-gray-500">{bin.type}</div>
+                            <div className="font-semibold text-gray-800 dark:text-gray-100">{config.label}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">{bin.type}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -391,7 +391,7 @@ export default function BinsManagementPage() {
                                 },
                               })
                             }
-                            className="border border-gray-300 rounded-lg px-2 py-1 text-sm"
+                            className="border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
                             disabled={updatingBin}
                           >
                             {Object.values(TrashBinType).map((type) => (
@@ -406,7 +406,7 @@ export default function BinsManagementPage() {
                                 variables: { id: bin.id },
                               })
                             }
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                           >
                             <Trash2 className="w-4 h-4 text-red-600" />
                           </button>

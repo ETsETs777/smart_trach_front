@@ -171,7 +171,7 @@ export default function LandingPage() {
       <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 
       {/* Problem Section */}
-      <section className="relative py-24 px-6 overflow-hidden bg-white">
+      <section className="relative py-24 px-6 overflow-hidden bg-white dark:bg-gray-900">
         {/* Subtle natural gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50/30 via-blue-50/20 to-white"></div>
         <div className="absolute inset-0 opacity-40">
@@ -205,10 +205,10 @@ export default function LandingPage() {
             >
               Вызов
             </motion.span>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
               Проблема
             </h2>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed mb-8">
+            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
               В офисах есть эко-активность, но сотрудники часто не знают:
             </p>
           </motion.div>
@@ -234,13 +234,13 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.5 + index * 0.1 }}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 shadow-md text-center"
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-md text-center"
                 >
                   <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${stat.color} mb-4`}>
                     <Icon className="w-6 h-6 text-white" strokeWidth={2} />
                   </div>
-                  <div className="text-3xl font-bold text-gray-800 mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">{stat.value}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                 </motion.div>
               )
             })}
@@ -262,7 +262,7 @@ export default function LandingPage() {
                 whileHover={{ y: -10, scale: 1.03 }}
                 className="relative group"
               >
-                <div className="relative bg-white rounded-2xl p-8 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="text-center space-y-4">
                     <motion.div
                       whileHover={{ scale: 1.1 }}
@@ -271,7 +271,7 @@ export default function LandingPage() {
                     >
                       <HelpCircle className="w-8 h-8 text-white" strokeWidth={2} />
                     </motion.div>
-                    <p className="text-lg font-semibold text-gray-800 leading-relaxed">
+                    <p className="text-lg font-semibold text-gray-800 dark:text-gray-100 leading-relaxed">
                       {problem}
                     </p>
                   </div>
@@ -288,7 +288,7 @@ export default function LandingPage() {
             transition={{ delay: 0.8, duration: 0.7 }}
             className="mt-16 max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-2xl p-8 md:p-10 border border-gray-200 shadow-md">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 md:p-10 border border-gray-200 dark:border-gray-700 shadow-md">
               <div className="flex flex-col md:flex-row items-start gap-6">
                 <div className="flex-shrink-0">
                   <div className="w-14 h-14 rounded-xl bg-blue-500 flex items-center justify-center">
@@ -296,10 +296,10 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
                     Последствия неправильной сортировки
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 dark:text-gray-300">
                     <div className="flex items-start gap-3">
                       <XCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
                       <span className="text-sm md:text-base">Ценные ресурсы попадают на полигоны вместо переработки</span>
@@ -328,7 +328,7 @@ export default function LandingPage() {
       <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 
       {/* Solution Section */}
-      <section className="relative py-24 px-6 overflow-hidden bg-white">
+      <section className="relative py-24 px-6 overflow-hidden bg-white dark:bg-gray-900">
         {/* Subtle natural gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50/40 via-blue-50/30 to-white"></div>
         <div className="absolute inset-0 opacity-30">
@@ -363,10 +363,10 @@ export default function LandingPage() {
             >
               <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto"></div>
             </motion.span>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
               Решение
             </h2>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Установите над урной планшет с Smart Trash
             </p>
           </motion.div>
@@ -436,7 +436,7 @@ export default function LandingPage() {
                     )}
 
                     {/* Card */}
-                    <div className="relative bg-white rounded-2xl p-8 pt-12 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 h-full">
+                    <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 pt-12 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 h-full">
                       {/* Background illustration */}
                       <div className="absolute inset-0 opacity-5 rounded-2xl overflow-hidden pointer-events-none">
                         <div className={`absolute top-0 right-0 w-32 h-32 rounded-full ${feature.color === 'bg-blue-500' ? 'bg-blue-500' : feature.color === 'bg-green-500' ? 'bg-green-500' : 'bg-blue-600'} blur-2xl`}></div>
@@ -458,12 +458,12 @@ export default function LandingPage() {
                         </motion.div>
 
                         {/* Title */}
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                           {feature.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-gray-600 leading-relaxed text-base">
+                        <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-base">
                           {feature.description}
                         </p>
                       </div>
@@ -477,9 +477,9 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="relative py-24 px-6 overflow-hidden bg-white">
+      <section className="relative py-24 px-6 overflow-hidden bg-white dark:bg-gray-900">
         {/* Decorative divider */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent z-20"></div>
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent z-20"></div>
         
         {/* Subtle natural gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-green-50/20 to-white"></div>
@@ -515,10 +515,10 @@ export default function LandingPage() {
             >
               <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto"></div>
             </motion.span>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
               Как это работает
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Простой процесс из 4 шагов для эффективной сортировки отходов
             </p>
           </motion.div>
@@ -539,7 +539,7 @@ export default function LandingPage() {
                 className="relative group"
               >
                 {/* Card */}
-                <div className="relative bg-white rounded-2xl p-8 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 h-full">
+                <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 h-full">
                   <div className="text-center space-y-4">
                     {/* Step number */}
                     <motion.div
@@ -553,12 +553,12 @@ export default function LandingPage() {
                     </motion.div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                       {step.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm md:text-base">
                       {step.description}
                     </p>
                   </div>
@@ -583,7 +583,7 @@ export default function LandingPage() {
       <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 
       {/* Benefits */}
-      <section className="relative py-24 px-6 overflow-hidden bg-white">
+      <section className="relative py-24 px-6 overflow-hidden bg-white dark:bg-gray-900">
         {/* Subtle natural gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50/30 via-blue-50/20 to-white"></div>
         <div className="absolute inset-0 opacity-30">
@@ -618,10 +618,10 @@ export default function LandingPage() {
             >
               Почему Smart Trash?
             </motion.span>
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
               Преимущества
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Решения, которые делают раздельный сбор отходов простым и эффективным
             </p>
           </motion.div>
@@ -639,7 +639,7 @@ export default function LandingPage() {
                 className="group relative"
               >
                 {/* Card */}
-                <div className="relative bg-white rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300">
+                <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="flex items-start gap-4">
                     {/* Icon */}
                     <motion.div
@@ -652,7 +652,7 @@ export default function LandingPage() {
 
                     {/* Text */}
                     <div className="flex-1 pt-1">
-                      <p className="text-base md:text-lg font-semibold text-gray-800 leading-relaxed">
+                      <p className="text-base md:text-lg font-semibold text-gray-800 dark:text-gray-100 leading-relaxed">
                         {benefit}
                       </p>
                     </div>
@@ -777,7 +777,7 @@ export default function LandingPage() {
       <div className="relative h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 
       {/* CTA Section */}
-      <section className="relative py-24 px-6 overflow-hidden bg-white">
+      <section className="relative py-24 px-6 overflow-hidden bg-white dark:bg-gray-900">
         {/* Subtle natural gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50/40 via-blue-50/30 to-white"></div>
         <div className="absolute inset-0 opacity-30">
@@ -803,7 +803,7 @@ export default function LandingPage() {
             className="relative"
           >
             {/* Main card */}
-            <div className="relative bg-white rounded-2xl p-10 md:p-12 shadow-lg border border-gray-200">
+            <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-10 md:p-12 shadow-lg border border-gray-200 dark:border-gray-700">
               <div className="text-center space-y-6">
                 {/* Icon */}
                 <motion.div
@@ -822,7 +822,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
-                  className="text-4xl md:text-5xl font-bold text-gray-800"
+                  className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100"
                 >
                   Готовы начать?
                 </motion.h2>
@@ -833,7 +833,7 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
-                  className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed"
+                  className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
                 >
                   Зарегистрируйте свою компанию и начните использовать Smart Trash уже сегодня
                 </motion.p>
