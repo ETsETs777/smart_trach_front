@@ -10,6 +10,7 @@ import { ThemeProvider } from './components/ThemeProvider'
 import ErrorBoundary from './components/ErrorBoundary'
 import { pushNotificationService } from './lib/pushNotifications'
 import { useEffect } from 'react'
+import { initializeCsrfToken } from './lib/auth/csrf'
 
 // Lazy loading для всех страниц
 const LandingPage = lazy(() => import('./pages/LandingPage'))

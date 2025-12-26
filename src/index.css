@@ -1,13 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Import custom styles - @import must be at the top */
+/* Import custom styles - @import must be at the very top */
 @import './styles/typography.css';
 @import './styles/colors.css';
 @import './styles/animations.css';
 @import './styles/mobile.css';
 @import './styles/sections.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Leaflet map styles */
 .leaflet-container {
