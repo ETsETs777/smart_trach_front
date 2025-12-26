@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import custom styles */
+/* Import custom styles - @import must be at the top */
 @import './styles/typography.css';
 @import './styles/colors.css';
 @import './styles/animations.css';

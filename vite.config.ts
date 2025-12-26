@@ -78,7 +78,7 @@ export default defineConfig({
     cssCodeSplit: true,
   },
   server: {
-    port: 5173,
+    port: 3000,
     proxy: {
       '/graphql': {
         target: 'http://localhost:5000',
@@ -88,7 +88,7 @@ export default defineConfig({
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      clientPort: 5173,
+      clientPort: 3000,
     },
   },
   // Optimize dependencies
