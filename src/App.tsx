@@ -329,10 +329,17 @@ function App() {
                       border: '1px solid var(--color-error)',
                     },
                   },
-                  // Warning style
-                  style: {
-                    background: 'var(--color-bg-primary)',
-                    color: 'var(--color-text-primary)',
+                  warning: {
+                    duration: 4000,
+                    iconTheme: {
+                      primary: '#f59e0b',
+                      secondary: '#fff',
+                    },
+                    style: {
+                      background: 'var(--color-bg-primary)',
+                      color: 'var(--color-text-primary)',
+                      border: '1px solid var(--color-warning)',
+                    },
                   },
                 }}
               />
