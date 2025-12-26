@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { toastError, toastSuccess } from '@/lib/utils/toast'
-import { validateFile, sanitizeFilename, FileValidationOptions } from '@/lib/utils/fileValidation'
+import { validateFile } from '@/lib/utils/fileValidation'
+import { checkPasswordStrength, getPasswordStrengthColor, getPasswordStrengthProgress } from '@/lib/utils/passwordStrength'
 import { getCsrfToken } from '@/lib/auth/csrf'
 import { withRateLimit, RATE_LIMITS } from '@/lib/utils/rateLimiter'
 import { REGISTER_ADMIN } from '@/lib/graphql/mutations'
@@ -27,18 +28,38 @@ export default function RegisterPage() {
   const navigate = useNavigate()
   const [registerAdmin, { loading }] = useMutation(REGISTER_ADMIN)
   const [logoPreview, setLogoPreview] = useState<string | null>(null)
-  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [passwordStrength, setPasswordStrength] = useState<ReturnType<typeof checkPasswordStrength> | null>(null)
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<RegisterFormData>()
 
   const password = watch('password')
 
+  // Check password strength on change
+  useEffect(() => {
+    if (password && password.length > 0) {
+      const strength = checkPasswordStrength(password)
+      setPasswordStrength(strength)
+    } else {
+      setPasswordStrength(null)
+    }
+  }, [password])
+
   const handleLogoUpload = async (file: File) => {
     try {
+      const validationResult = await validateFile(file, {
+        maxSizeMB: 5,
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+      })
+      if (!validationResult.valid) {
+        toastError(validationResult.error || 'Неверный формат файла')
+        return null
+      }
+
       const formData = new FormData()
       formData.append('file', file)
 
@@ -59,38 +80,42 @@ export default function RegisterPage() {
 
       const data = await response.json()
       setLogoPreview(URL.createObjectURL(file))
-      setLogoFile(file)
-      
-      // Сохраняем logoId для отправки в форме
       return data.id
     } catch (error) {
-      toast.error('Не удалось загрузить логотип')
+      toastError('Не удалось загрузить логотип')
       return null
     }
   }
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const { data: result } = await registerAdmin({
-        variables: {
-          input: {
-            fullName: data.fullName.trim(),
-            email: data.email.trim().toLowerCase(),
-            password: data.password,
-            companyName: data.companyName.trim(),
-            companyDescription: data.companyDescription?.trim() || null,
-          },
-        },
-      })
+      const { data: result } = await withRateLimit(
+        'REGISTER',
+        () =>
+          registerAdmin({
+            variables: {
+              input: {
+                fullName: data.fullName.trim(),
+                email: data.email.trim().toLowerCase(),
+                password: data.password,
+                companyName: data.companyName.trim(),
+                companyDescription: data.companyDescription?.trim() || null,
+                logoId: data.logoId || null,
+              },
+            },
+          }),
+        RATE_LIMITS.REGISTER.maxRequests,
+        RATE_LIMITS.REGISTER.windowMs,
+      )
 
       if (result?.registerAdmin) {
-        toast.success('Регистрация успешна! Проверьте email для подтверждения.')
+        toastSuccess('Регистрация успешна! Проверьте email для подтверждения.')
         navigate('/confirm-email', { state: { email: data.email } })
       }
     } catch (error: any) {
       console.error('Register error:', error)
       const errorMessage = error?.graphQLErrors?.[0]?.message || error?.message || 'Ошибка регистрации'
-      toast.error(errorMessage)
+      toastError(errorMessage)
     }
   }
 
@@ -183,14 +208,63 @@ export default function RegisterPage() {
                       {...register('password', {
                         required: 'Пароль обязателен',
                         minLength: {
-                          value: 6,
-                          message: 'Минимум 6 символов',
+                          value: 8,
+                          message: 'Пароль должен быть не менее 8 символов',
+                        },
+                        validate: (value) => {
+                          const strength = checkPasswordStrength(value)
+                          if (!strength.meetsRequirements) {
+                            return strength.feedback[0] || 'Пароль не соответствует требованиям'
+                          }
+                          return true
                         },
                       })}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                       placeholder="••••••••"
                     />
                   </div>
+                  {passwordStrength && password && (
+                    <div className="mt-2">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className={`text-xs font-medium ${getPasswordStrengthColor(passwordStrength.label)} px-2 py-1 rounded`}>
+                          {passwordStrength.label === 'very-strong' && 'Очень сильный'}
+                          {passwordStrength.label === 'strong' && 'Сильный'}
+                          {passwordStrength.label === 'good' && 'Хороший'}
+                          {passwordStrength.label === 'fair' && 'Средний'}
+                          {passwordStrength.label === 'weak' && 'Слабый'}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {Math.round(getPasswordStrengthProgress(passwordStrength))}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full transition-all ${
+                            passwordStrength.label === 'very-strong' || passwordStrength.label === 'strong'
+                              ? 'bg-green-500'
+                              : passwordStrength.label === 'good'
+                              ? 'bg-blue-500'
+                              : passwordStrength.label === 'fair'
+                              ? 'bg-yellow-500'
+                              : 'bg-red-500'
+                          }`}
+                          style={{ width: `${getPasswordStrengthProgress(passwordStrength)}%` }}
+                        />
+                      </div>
+                      {passwordStrength.feedback.length > 0 && (
+                        <ul className="mt-2 text-xs text-gray-600 space-y-1">
+                          {passwordStrength.feedback.map((msg, idx) => (
+                            <li key={idx} className="flex items-start gap-1">
+                              <span className={passwordStrength.meetsRequirements ? 'text-green-500' : 'text-red-500'}>
+                                {passwordStrength.meetsRequirements ? '✓' : '✗'}
+                              </span>
+                              <span>{msg}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
                   {errors.password && (
                     <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
                   )}
@@ -281,7 +355,7 @@ export default function RegisterPage() {
                         type="button"
                         onClick={() => {
                           setLogoPreview(null)
-                          setLogoFile(null)
+                          setValue('logoId', undefined)
                         }}
                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                       >
@@ -298,11 +372,13 @@ export default function RegisterPage() {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        onChange={(e) => {
+                        onChange={async (e) => {
                           const file = e.target.files?.[0]
                           if (file) {
-                            setLogoFile(file)
-                            setLogoPreview(URL.createObjectURL(file))
+                            const logoId = await handleLogoUpload(file)
+                            if (logoId) {
+                              setValue('logoId', logoId)
+                            }
                           }
                         }}
                       />

@@ -83,32 +83,6 @@ export default function HomePage() {
         RATE_LIMITS.UPLOAD.maxRequests,
         RATE_LIMITS.UPLOAD.windowMs,
       )
-
-      if (!uploadResponse.ok) {
-        const errorText = await uploadResponse.text()
-        throw new Error(`Failed to upload image: ${errorText}`)
-      }
-
-      const imageData = await uploadResponse.json()
-      const imageId = imageData.id
-
-      // Then create waste photo
-      const { data } = await createWastePhoto({
-        variables: {
-          input: {
-            companyId: effectiveCompanyId || 'default-company-id',
-            imageId,
-            collectionAreaId: collectionAreaId || import.meta.env.VITE_DEFAULT_COLLECTION_AREA_ID || null,
-          },
-        },
-      })
-
-      if (data?.createWastePhoto?.id) {
-        // Сохраняем ID для использования
-        const wastePhotoId = data.createWastePhoto.id
-        navigate(`/result/${wastePhotoId}`)
-        toastSuccess(t('home.photoSent'))
-      }
     } catch (error) {
       logger.error('Error uploading photo', error instanceof Error ? error : new Error(String(error)), 'HomePage')
       toastError(t('home.photoUploadError', { error: error instanceof Error ? error.message : String(error) }))

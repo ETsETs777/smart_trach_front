@@ -70,7 +70,7 @@ export function useSessionTimeout(options: UseSessionTimeoutOptions = {}) {
     // Set logout timeout
     timeoutRef.current = setTimeout(() => {
       if (tokenStorage.isAuthenticated()) {
-        tokenStorage.clearAll()
+        tokenStorage.clearTokens()
         toastInfo(
           t('session.expired') || 'Your session has expired due to inactivity. Please log in again.',
         )
