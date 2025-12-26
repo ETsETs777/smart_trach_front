@@ -403,7 +403,7 @@ export default function LandingPage() {
                         whileInView={{ scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: index * 0.2 + 0.1, type: 'spring', stiffness: 200 }}
-                        className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-xl font-bold shadow-lg border-4 border-white"
+                        className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white text-xl font-bold shadow-lg border-4 border-white dark:border-gray-800"
                       >
                         {stepNumber}
                       </motion.div>
@@ -521,7 +521,7 @@ export default function LandingPage() {
               {t('landing.howItWorks')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Простой процесс из 4 шагов для эффективной сортировки отходов
+              {t('landing.howItWorksDesc')}
             </p>
           </motion.div>
 
@@ -717,10 +717,10 @@ export default function LandingPage() {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
-              { icon: Trophy, value: '95%', label: 'Точность классификации', color: 'bg-blue-500' },
-              { icon: Users, value: '1000+', label: 'Активных пользователей', color: 'bg-green-500' },
-              { icon: Recycle, value: '50K+', label: 'Сортировок отходов', color: 'bg-blue-600' },
-              { icon: BarChart3, value: '80%', label: 'Снижение ошибок', color: 'bg-green-600' },
+              { icon: Trophy, value: '95%', label: t('landing.stats.accuracy'), color: 'bg-blue-500' },
+              { icon: Users, value: '1000+', label: t('landing.stats.activeUsers'), color: 'bg-green-500' },
+              { icon: Recycle, value: '50K+', label: t('landing.stats.totalSorts'), color: 'bg-blue-600' },
+              { icon: BarChart3, value: '80%', label: t('landing.stats.errorReduction'), color: 'bg-green-600' },
             ].map((stat, index) => {
               const Icon = stat.icon
               return (

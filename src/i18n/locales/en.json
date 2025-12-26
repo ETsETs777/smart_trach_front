@@ -117,16 +117,29 @@
     "editBin": "Edit Bin",
     "deleteBin": "Delete Bin",
     "bins": {
-      "title": "Container Management",
+      "title": "Containers",
+      "subtitle": "Manage containers at collection points",
+      "selectArea": "Select collection area",
+      "createAreaFirst": "First create a collection area",
       "addContainers": "Add Containers",
-      "selectAtLeastOne": "Select at least one container type",
+      "selectAtLeastOne": "Select at least one type",
       "add": "Add",
-      "update": "Update",
-      "delete": "Delete",
-      "type": "Type",
-      "location": "Location",
-      "status": "Status",
-      "actions": "Actions"
+      "areaContainers": "Area Containers",
+      "changeTypeOrDelete": "Change type or delete container",
+      "noContainers": "No containers yet",
+      "containersAdded": "Containers added",
+      "containerDeleted": "Container deleted",
+      "containerUpdated": "Container updated",
+      "errorAdding": "Error adding containers",
+      "errorDeleting": "Error deleting container",
+      "errorUpdating": "Error updating container",
+      "selectAreaError": "Select collection area",
+      "selectBinTypeError": "Select at least one container type",
+      "containerMap": "Container Map",
+      "containerMapDesc": "Place containers on the map by selecting a type and clicking on the map",
+      "showMap": "Show Map",
+      "hideMap": "Hide Map",
+      "selectContainerTypeForMap": "Select Container Type for Map"
     },
     "employees": {
       "title": "Employee Management",
@@ -283,6 +296,13 @@
     "noResults": "No results found",
     "results": "{{count}} results"
   },
+  "wasteHistory": {
+    "title": "Sorting History",
+    "filtersComingSoon": "Filters will be added later",
+    "allTypes": "All types",
+    "empty": "History is empty. Start sorting waste.",
+    "loadError": "Error loading history"
+  },
   "landing": {
     "login": "Login",
     "registerCompany": "Register Company",
@@ -301,6 +321,13 @@
     "benefitsDesc": "Solutions that make waste sorting simple and efficient",
     "results": "Results",
     "resultsDesc": "Smart Trash usage statistics",
+    "howItWorksDesc": "Simple 4-step process for efficient waste sorting",
+    "stats": {
+      "accuracy": "Classification accuracy",
+      "activeUsers": "Active users",
+      "totalSorts": "Waste sortings",
+      "errorReduction": "Error reduction"
+    },
     "features": {
       "photoDetection": "Photo Detection",
       "photoDetectionDesc": "Take a photo of waste, and AI will automatically determine its type",

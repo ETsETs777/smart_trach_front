@@ -58,27 +58,27 @@ export default function BinsManagementPage() {
 
   const [addBins, { loading: adding }] = useMutation(ADD_BINS_TO_COLLECTION_AREA, {
     onCompleted: () => {
-      toast.success('Контейнеры добавлены')
+      toast.success(t('admin.bins.containersAdded'))
       refetchBins()
       reset()
     },
-    onError: (error) => toast.error(error.message || 'Ошибка добавления контейнеров'),
+    onError: (error) => toast.error(error.message || t('admin.bins.errorAdding')),
   })
 
   const [deleteBin] = useMutation(DELETE_COLLECTION_AREA_BIN, {
     onCompleted: () => {
-      toast.success('Контейнер удалён')
+      toast.success(t('admin.bins.containerDeleted'))
       refetchBins()
     },
-    onError: (error) => toast.error(error.message || 'Ошибка удаления контейнера'),
+    onError: (error) => toast.error(error.message || t('admin.bins.errorDeleting')),
   })
 
   const [updateBin, { loading: updatingBin }] = useMutation(UPDATE_COLLECTION_AREA_BIN, {
     onCompleted: () => {
-      toast.success('Контейнер обновлён')
+      toast.success(t('admin.bins.containerUpdated'))
       refetchBins()
     },
-    onError: (error) => toast.error(error.message || 'Ошибка обновления контейнера'),
+    onError: (error) => toast.error(error.message || t('admin.bins.errorUpdating')),
   })
 
   const {
@@ -219,17 +219,17 @@ export default function BinsManagementPage() {
 
         {/* Select area */}
         <Card className="p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Выберите область сбора</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">{t('admin.bins.selectArea')}</h2>
           {areasLoading ? (
             <div className="space-y-2">
               {[1, 2, 3].map((i) => (
-                <SkeletonLoader key={i} variant="rectangular" height="60px" className="bg-gray-100 rounded-lg" />
+                <SkeletonLoader key={i} variant="rectangular" height="60px" className="bg-gray-100 dark:bg-gray-800 rounded-lg" />
               ))}
             </div>
           ) : areas.length === 0 ? (
-            <div className="flex items-center gap-3 text-gray-600">
+            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
               <MapPin className="w-5 h-5" />
-              Сначала создайте область сбора
+              {t('admin.bins.createAreaFirst')}
             </div>
           ) : (
             <div className="flex flex-wrap gap-3">
@@ -255,9 +255,9 @@ export default function BinsManagementPage() {
           <Card className="p-4 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-1">Container Map</h3>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-1">{t('admin.bins.containerMap')}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Place containers on the map by selecting a type and clicking on the map
+                  {t('admin.bins.containerMapDesc')}
                 </p>
               </div>
               <Button
@@ -266,7 +266,7 @@ export default function BinsManagementPage() {
                 size="lg"
               >
                 <Map className="w-4 h-4 mr-2" />
-                {showMap ? 'Hide Map' : 'Show Map'}
+                {showMap ? t('admin.bins.hideMap') : t('admin.bins.showMap')}
               </Button>
             </div>
           </Card>
@@ -276,7 +276,7 @@ export default function BinsManagementPage() {
         {selectedAreaId && showMap && (
           <Card className="p-6 mb-6">
             <div className="mb-4">
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Select Container Type for Map</h3>
+              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{t('admin.bins.selectContainerTypeForMap')}</h3>
               <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
                 {Object.values(TrashBinType).map((type) => {
                   const config = BIN_CONFIGS[type]
@@ -350,15 +350,15 @@ export default function BinsManagementPage() {
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">Контейнеры области</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Изменяйте тип или удаляйте контейнер</p>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{t('admin.bins.areaContainers')}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.bins.changeTypeOrDelete')}</p>
                 </div>
               </div>
 
               {binsLoading ? (
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500 mx-auto"></div>
               ) : bins.length === 0 ? (
-                <div className="text-center text-gray-600 py-6">Контейнеров пока нет</div>
+                <div className="text-center text-gray-600 dark:text-gray-400 py-6">{t('admin.bins.noContainers')}</div>
               ) : (
                 <div className="space-y-3">
                   {bins.map((bin: any, index: number) => {

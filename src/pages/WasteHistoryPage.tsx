@@ -106,11 +106,11 @@ function WasteHistoryPage() {
           </Button>
           <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
             <Filter className="w-4 h-4" />
-            Фильтры будут добавлены позже
+            {t('wasteHistory.filtersComingSoon')}
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">История сортировок</h1>
+        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6">{t('wasteHistory.title')}</h1>
 
         <Card className="p-6">
           <div className="flex flex-wrap gap-3 mb-4">
@@ -119,7 +119,7 @@ function WasteHistoryPage() {
               onChange={(e) => handleFilterChange('type', e.target.value)}
               className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
             >
-              <option value="ALL">Все типы</option>
+              <option value="ALL">{t('wasteHistory.allTypes')}</option>
               {Object.values(TrashBinType).map((type) => (
                 <option key={type} value={type}>
                   {BIN_CONFIGS[type].label}
@@ -143,10 +143,10 @@ function WasteHistoryPage() {
           {loading ? (
             <SkeletonLoader variant="list" count={5} className="bg-white" />
           ) : error ? (
-            <div className="text-center text-red-600">Ошибка загрузки истории: {error.message}</div>
+            <div className="text-center text-red-600">{t('wasteHistory.loadError')}: {error.message}</div>
           ) : wastePhotos.length === 0 ? (
             <div className="text-center text-gray-600 dark:text-gray-400">
-              История пока пустая. Начните сортировать отходы.
+              {t('wasteHistory.empty')}
             </div>
           ) : (
             <>
