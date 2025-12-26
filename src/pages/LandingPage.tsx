@@ -65,7 +65,7 @@ export default function LandingPage() {
     <div className="min-h-screen">
       {/* Navigation */}
       <header>
-        <nav className="glass fixed top-0 left-0 right-0 z-50 border-b border-white/20" aria-label="Main navigation">
+        <nav className="glass fixed top-0 left-0 right-0 z-50 border-b border-gray-200/50 dark:border-white/20" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

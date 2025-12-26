@@ -33,7 +33,7 @@ export default function LanguageSwitcher() {
           onClick={() => setIsOpen(!isOpen)}
           variant="ghost"
           size="sm"
-          className="bg-white/20 hover:bg-white/30 text-white border-2 border-white/30 backdrop-blur-md flex items-center gap-2"
+          className="bg-white/20 hover:bg-white/30 dark:bg-gray-800/80 dark:hover:bg-gray-700/80 text-gray-800 dark:text-gray-100 border-2 border-gray-300/50 dark:border-gray-600 backdrop-blur-md flex items-center gap-2"
           title={`Current language: ${languageNames[currentLang]}. Click to change.`}
         >
           <Globe className="w-4 h-4" />
