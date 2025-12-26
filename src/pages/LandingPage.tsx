@@ -100,12 +100,12 @@ export default function LandingPage() {
 
       <main id="main-content">
         {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-white min-h-[600px]">
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden bg-white dark:bg-gray-900 min-h-[600px]">
         {/* Companies Carousel Background */}
         <CompaniesCarouselBackground className="opacity-40" />
         
-        {/* Subtle natural gradient background overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50/70 via-blue-50/50 to-white/95 z-10"></div>
+        {/* Subtle natural gradient background overlay - однотонный */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50/70 via-blue-50/50 to-white/95 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 z-10"></div>
         <div className="absolute inset-0 opacity-25 z-10">
           <motion.div
             animate={{
