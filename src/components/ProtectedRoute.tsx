@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 import { GET_ME } from '@/lib/graphql/queries'
 import LoadingSpinner from './ui/LoadingSpinner'
 import { tokenStorage } from '@/lib/auth/tokenStorage'
+import { useSessionTimeout } from '@/hooks/useSessionTimeout'
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -12,9 +13,20 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const location = useLocation()
+  const navigate = useNavigate()
   const token = tokenStorage.getAccessToken()
   const storedRole = tokenStorage.getRole() as 'ADMIN_COMPANY' | 'EMPLOYEE' | null
   const [resolvedRole, setResolvedRole] = useState<typeof storedRole>(storedRole)
+
+  // Enable session timeout for authenticated users
+  useSessionTimeout({
+    timeoutMinutes: 30, // 30 minutes
+    warningMinutes: 5, // Warn 5 minutes before
+    enabled: !!token,
+    onTimeout: () => {
+      navigate('/login', { state: { from: location } })
+    },
+  })
 
   const shouldFetchProfile = !!token && !storedRole
   const { data, loading } = useQuery(GET_ME, {

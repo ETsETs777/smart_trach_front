@@ -405,6 +405,10 @@
     "updateSettings": "Update Settings",
     "settingsUpdated": "Company settings updated!"
   },
+  "session": {
+    "warning": "Your session will expire in {{minutes}} minutes due to inactivity.",
+    "expired": "Your session has expired due to inactivity. Please log in again."
+  },
   "errors": {
     "unknown": "An unknown error occurred",
     "unauthenticated": "You are not authenticated. Please log in.",

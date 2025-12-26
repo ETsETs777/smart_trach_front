@@ -10,6 +10,8 @@ import { Recycle, Mail, Lock, ArrowLeft } from 'lucide-react'
 import { useWasteStore } from '@/store/useWasteStore'
 import GreenGradientBackground from '@/components/ui/GreenGradientBackground'
 import { tokenStorage } from '@/lib/auth/tokenStorage'
+import { withRateLimit, RATE_LIMITS } from '@/lib/utils/rateLimiter'
+import { toastError } from '@/lib/utils/toast'
 
 interface LoginFormData {
   email: string
@@ -28,14 +30,20 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const { data: result } = await login({
-        variables: {
-          input: {
-            email: data.email.trim().toLowerCase(),
-            password: data.password,
-          },
-        },
-      })
+      const { data: result } = await withRateLimit(
+        'LOGIN',
+        () =>
+          login({
+            variables: {
+              input: {
+                email: data.email.trim().toLowerCase(),
+                password: data.password,
+              },
+            },
+          }),
+        RATE_LIMITS.LOGIN.maxRequests,
+        RATE_LIMITS.LOGIN.windowMs,
+      )
 
       if (result?.login?.jwtToken) {
         // Сохраняем токен в sessionStorage (более безопасно, чем localStorage)
@@ -65,7 +73,13 @@ export default function LoginPage() {
     } catch (error: any) {
       console.error('Login error:', error)
       const errorMessage = error?.graphQLErrors?.[0]?.message || error?.message || 'Ошибка входа'
-      toast.error(errorMessage)
+      
+      // Check if it's a rate limit error
+      if (errorMessage.includes('Rate limit exceeded')) {
+        toastError(errorMessage)
+      } else {
+        toastError(errorMessage)
+      }
     }
   }
 

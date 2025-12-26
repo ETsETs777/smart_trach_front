@@ -403,6 +403,10 @@
     "updateSettings": "Einstellungen aktualisieren",
     "settingsUpdated": "Unternehmenseinstellungen aktualisiert!"
   },
+  "session": {
+    "warning": "Ihre Sitzung läuft in {{minutes}} Minuten aufgrund von Inaktivität ab.",
+    "expired": "Ihre Sitzung ist aufgrund von Inaktivität abgelaufen. Bitte melden Sie sich erneut an."
+  },
   "errors": {
     "unknown": "Ein unbekannter Fehler ist aufgetreten",
     "unauthenticated": "Sie sind nicht angemeldet. Bitte melden Sie sich an.",

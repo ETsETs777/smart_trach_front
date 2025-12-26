@@ -16,6 +16,7 @@ import Button from '@/components/ui/Button'
 import logger from '@/lib/logger'
 import { tokenStorage } from '@/lib/auth/tokenStorage'
 import { getCsrfToken } from '@/lib/auth/csrf'
+import { withRateLimit, RATE_LIMITS } from '@/lib/utils/rateLimiter'
 
 type Method = 'photo' | 'manual' | 'barcode' | null
 
@@ -34,21 +35,54 @@ export default function HomePage() {
 
   const handlePhotoUpload = async (file: File) => {
     try {
-      // First, upload the image
-      const formData = new FormData()
-      formData.append('file', file)
+      await withRateLimit(
+        'UPLOAD',
+        async () => {
+          // First, upload the image
+          const formData = new FormData()
+          formData.append('file', file)
 
-      // Upload image first
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-      const csrfToken = await getCsrfToken()
-      const uploadResponse = await fetch(`${apiUrl}/images/upload`, {
-        method: 'POST',
-        body: formData,
-        credentials: 'include', // Include cookies
-        headers: {
-          ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+          // Upload image first
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+          const csrfToken = await getCsrfToken()
+          const uploadResponse = await fetch(`${apiUrl}/images/upload`, {
+            method: 'POST',
+            body: formData,
+            credentials: 'include', // Include cookies
+            headers: {
+              ...(csrfToken && { 'X-CSRF-Token': csrfToken }),
+            },
+          })
+
+          if (!uploadResponse.ok) {
+            const errorText = await uploadResponse.text()
+            throw new Error(`Failed to upload image: ${errorText}`)
+          }
+
+          const imageData = await uploadResponse.json()
+          const imageId = imageData.id
+
+          // Then create waste photo
+          const { data } = await createWastePhoto({
+            variables: {
+              input: {
+                companyId: effectiveCompanyId || 'default-company-id',
+                imageId,
+                collectionAreaId: collectionAreaId || import.meta.env.VITE_DEFAULT_COLLECTION_AREA_ID || null,
+              },
+            },
+          })
+
+          if (data?.createWastePhoto?.id) {
+            // Сохраняем ID для использования
+            const wastePhotoId = data.createWastePhoto.id
+            navigate(`/result/${wastePhotoId}`)
+            toastSuccess(t('home.photoSent'))
+          }
         },
-      })
+        RATE_LIMITS.UPLOAD.maxRequests,
+        RATE_LIMITS.UPLOAD.windowMs,
+      )
 
       if (!uploadResponse.ok) {
         const errorText = await uploadResponse.text()
