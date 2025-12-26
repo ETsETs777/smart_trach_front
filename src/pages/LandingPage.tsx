@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Recycle, Camera, List, QrCode, Trophy, BarChart3, Users, Sparkles, ArrowRight, CheckCircle, Mail, AlertTriangle, XCircle, TrendingDown, HelpCircle, ArrowDown } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import Button from '@/components/ui/Button'
 import CompaniesCarousel from '@/components/CompaniesCarousel'
 import CompaniesCarouselBackground from '@/components/CompaniesCarouselBackground'
@@ -8,54 +9,55 @@ import ThemeToggle from '@/components/ThemeToggle'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 
 export default function LandingPage() {
+  const { t } = useTranslation()
   const features = [
     {
       icon: Camera,
-      title: 'Определение по фото',
-      description: 'Сфотографируйте отход, и AI определит его тип автоматически',
+      title: t('landing.features.photoDetection'),
+      description: t('landing.features.photoDetectionDesc'),
       color: 'from-blue-500 to-cyan-500',
     },
     {
       icon: List,
-      title: 'Ручной выбор',
-      description: 'Выберите тип отхода из списка, если фото недоступно',
+      title: t('landing.features.manualSelection'),
+      description: t('landing.features.manualSelectionDesc'),
       color: 'from-green-500 to-emerald-500',
     },
     {
       icon: QrCode,
-      title: 'Сканирование кода',
-      description: 'Отсканируйте штрихкод на упаковке для быстрого определения',
+      title: t('landing.features.codeScanning'),
+      description: t('landing.features.codeScanningDesc'),
       color: 'from-purple-500 to-pink-500',
     },
   ]
 
   const benefits = [
-    'Снижает количество ошибок при сортировке',
-    'Делает процесс быстрым и понятным',
-    'Мотивирует сотрудников регулярно использовать раздельный сбор',
-    'Даёт аналитику по использованию контейнеров',
+    t('landing.benefitsList.reducesErrors'),
+    t('landing.benefitsList.fastProcess'),
+    t('landing.benefitsList.motivates'),
+    t('landing.benefitsList.analytics'),
   ]
 
   const steps = [
     {
       number: '1',
-      title: 'Подойдите к урне',
-      description: 'С предметом, который нужно выбросить',
+      title: t('landing.steps.step1'),
+      description: t('landing.steps.step1Desc'),
     },
     {
       number: '2',
-      title: 'Определите тип отхода',
-      description: 'Сфотографируйте, выберите вручную или отсканируйте код',
+      title: t('landing.steps.step2'),
+      description: t('landing.steps.step2Desc'),
     },
     {
       number: '3',
-      title: 'Получите рекомендацию',
-      description: 'Система покажет нужный контейнер и инструкции',
+      title: t('landing.steps.step3'),
+      description: t('landing.steps.step3Desc'),
     },
     {
       number: '4',
-      title: 'Выбросьте правильно',
-      description: 'Следуйте инструкциям и получите очки за сортировку',
+      title: t('landing.steps.step4'),
+      description: t('landing.steps.step4Desc'),
     },
   ]
 
@@ -82,12 +84,12 @@ export default function LandingPage() {
               <LanguageSwitcher />
               <Link to="/login">
                 <Button variant="ghost" size="md">
-                  Войти
+                  {t('landing.login')}
                 </Button>
               </Link>
               <Link to="/register">
                 <Button variant="primary" size="md">
-                  Регистрация компании
+                  {t('landing.registerCompany')}
                 </Button>
               </Link>
             </div>
@@ -153,13 +155,13 @@ export default function LandingPage() {
             <div className="flex gap-4 justify-center">
               <Link to="/register">
                 <Button variant="primary" size="xl">
-                  Начать бесплатно
+                  {t('landing.startFree')}
                   <ArrowRight className="w-5 h-5 ml-2 inline" />
                 </Button>
               </Link>
               <Link to="/demo">
                 <Button variant="outline" size="xl">
-                  Попробовать демо
+                  {t('landing.tryDemo')}
                 </Button>
               </Link>
             </div>
@@ -203,13 +205,13 @@ export default function LandingPage() {
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               className="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold mb-6"
             >
-              Вызов
+              {t('landing.challenge')}
             </motion.span>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Проблема
+              {t('landing.problem')}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
-              В офисах есть эко-активность, но сотрудники часто не знают:
+              {t('landing.problemDesc')}
             </p>
           </motion.div>
 
@@ -297,7 +299,7 @@ export default function LandingPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-                    Последствия неправильной сортировки
+                    {t('landing.consequences')}
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700 dark:text-gray-300">
                     <div className="flex items-start gap-3">
@@ -364,7 +366,7 @@ export default function LandingPage() {
               <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto"></div>
             </motion.span>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Решение
+              {t('landing.solution')}
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Установите над урной планшет с Smart Trash
@@ -516,7 +518,7 @@ export default function LandingPage() {
               <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mx-auto"></div>
             </motion.span>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Как это работает
+              {t('landing.howItWorks')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Простой процесс из 4 шагов для эффективной сортировки отходов
@@ -616,13 +618,13 @@ export default function LandingPage() {
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               className="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold mb-6"
             >
-              Почему Smart Trash?
+              {t('landing.whySmartTrash')}
             </motion.span>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Преимущества
+              {t('landing.benefits')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Решения, которые делают раздельный сбор отходов простым и эффективным
+              {t('landing.benefitsDesc')}
             </p>
           </motion.div>
 
@@ -824,7 +826,7 @@ export default function LandingPage() {
                   transition={{ delay: 0.3 }}
                   className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100"
                 >
-                  Готовы начать?
+                  {t('landing.readyToStart')}
                 </motion.h2>
 
                 {/* Description */}
@@ -835,7 +837,7 @@ export default function LandingPage() {
                   transition={{ delay: 0.4 }}
                   className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
                 >
-                  Зарегистрируйте свою компанию и начните использовать Smart Trash уже сегодня
+                  {t('landing.registerCompanyDesc')}
                 </motion.p>
 
                 {/* Benefits list */}
@@ -848,15 +850,15 @@ export default function LandingPage() {
                 >
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span>Быстрый запуск</span>
+                    <span>{t('landing.cta.quickStart')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span>Бесплатный пилот</span>
+                    <span>{t('landing.cta.freePilot')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span>Поддержка 24/7</span>
+                    <span>{t('landing.cta.support247')}</span>
                   </div>
                 </motion.div>
 
@@ -878,7 +880,7 @@ export default function LandingPage() {
                         size="xl"
                         className="w-full sm:w-auto px-8 py-6 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
                       >
-                        Зарегистрировать компанию
+                        {t('landing.registerCompany')}
                         <ArrowRight className="w-6 h-6 ml-2 inline" />
                       </Button>
                     </motion.div>
@@ -893,7 +895,7 @@ export default function LandingPage() {
                         size="xl"
                         className="w-full sm:w-auto px-8 py-6 text-lg font-semibold border-2 hover:bg-gray-50 transition-all duration-300"
                       >
-                        Попробовать демо
+                        {t('landing.tryDemo')}
                       </Button>
                     </motion.div>
                   </Link>
