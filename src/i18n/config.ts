@@ -69,3 +69,83 @@ i18n
 
 export default i18n
 
+
+  return 'en'
+}
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      ru: {
+        translation: ru,
+      },
+      en: {
+        translation: en,
+      },
+      de: {
+        translation: de,
+      },
+    },
+    fallbackLng: 'en',
+    supportedLngs: supportedLanguages,
+    debug: false,
+    interpolation: {
+      escapeValue: false,
+    },
+    detection: {
+      // Order of detection: localStorage (user preference) -> cookie -> navigator (browser/system) -> htmlTag -> querystring -> path
+      order: ['localStorage', 'cookie', 'navigator', 'htmlTag', 'querystring', 'path'],
+      caches: ['localStorage', 'cookie'],
+      lookupLocalStorage: 'i18nextLng',
+      lookupCookie: 'i18next',
+      // Check for system language if no preference is found
+      checkWhitelist: true,
+    },
+    // Set default language based on system if no preference
+    lng: getSystemLanguage(),
+  })
+
+export default i18n
+
+
+  return 'en'
+}
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      ru: {
+        translation: ru,
+      },
+      en: {
+        translation: en,
+      },
+      de: {
+        translation: de,
+      },
+    },
+    fallbackLng: 'en',
+    supportedLngs: supportedLanguages,
+    debug: false,
+    interpolation: {
+      escapeValue: false,
+    },
+    detection: {
+      // Order of detection: localStorage (user preference) -> cookie -> navigator (browser/system) -> htmlTag -> querystring -> path
+      order: ['localStorage', 'cookie', 'navigator', 'htmlTag', 'querystring', 'path'],
+      caches: ['localStorage', 'cookie'],
+      lookupLocalStorage: 'i18nextLng',
+      lookupCookie: 'i18next',
+      // Check for system language if no preference is found
+      checkWhitelist: true,
+    },
+    // Set default language based on system if no preference
+    lng: getSystemLanguage(),
+  })
+
+export default i18n
+

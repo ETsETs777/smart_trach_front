@@ -61,3 +61,29 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
   return <>{children}</>
 }
 
+
+      return <LoadingSpinner fullScreen text="Загрузка..." />
+    }
+
+    if (resolvedRole && resolvedRole !== requiredRole) {
+      const fallbackPath = resolvedRole === 'ADMIN_COMPANY' ? '/admin/dashboard' : '/employee/dashboard'
+      return <Navigate to={fallbackPath} replace />
+    }
+  }
+
+  return <>{children}</>
+}
+
+
+      return <LoadingSpinner fullScreen text="Загрузка..." />
+    }
+
+    if (resolvedRole && resolvedRole !== requiredRole) {
+      const fallbackPath = resolvedRole === 'ADMIN_COMPANY' ? '/admin/dashboard' : '/employee/dashboard'
+      return <Navigate to={fallbackPath} replace />
+    }
+  }
+
+  return <>{children}</>
+}
+

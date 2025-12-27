@@ -206,3 +206,105 @@ html {
   animation: gradient 15s ease infinite;
 }
 
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(243 244 246);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: rgb(30 41 59);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgb(71 85 105);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(156 163 175);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(100 116 139);
+}
+
+/* Animated gradient background */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(243 244 246);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: rgb(30 41 59);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgb(71 85 105);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(156 163 175);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(100 116 139);
+}
+
+/* Animated gradient background */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+

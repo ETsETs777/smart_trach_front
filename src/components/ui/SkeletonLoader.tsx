@@ -130,3 +130,95 @@ export default function SkeletonLoader({
 }
 
 
+
+          </motion.div>
+        ))}
+      </div>
+    )
+  }
+
+  if (variant === 'list') {
+    return (
+      <div className={skeletonClasses} style={skeletonStyle}>
+        {Array.from({ length: count || 3 }).map((_, index) => (
+          <motion.div
+            key={index}
+            variants={animationVariants}
+            initial="initial"
+            animate="animate"
+            className="flex items-center gap-3 p-3 bg-gray-200 dark:bg-gray-700 rounded-lg"
+          >
+            <div className="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-lg flex-shrink-0" />
+            <div className="flex-1 space-y-2">
+              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-2/3" />
+              <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3" />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {Array.from({ length: count }).map((_, index) => (
+        <motion.div
+          key={index}
+          className={skeletonClasses}
+          style={skeletonStyle}
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+        />
+      ))}
+    </>
+  )
+}
+
+
+
+          </motion.div>
+        ))}
+      </div>
+    )
+  }
+
+  if (variant === 'list') {
+    return (
+      <div className={skeletonClasses} style={skeletonStyle}>
+        {Array.from({ length: count || 3 }).map((_, index) => (
+          <motion.div
+            key={index}
+            variants={animationVariants}
+            initial="initial"
+            animate="animate"
+            className="flex items-center gap-3 p-3 bg-gray-200 dark:bg-gray-700 rounded-lg"
+          >
+            <div className="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-lg flex-shrink-0" />
+            <div className="flex-1 space-y-2">
+              <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-2/3" />
+              <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3" />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {Array.from({ length: count }).map((_, index) => (
+        <motion.div
+          key={index}
+          className={skeletonClasses}
+          style={skeletonStyle}
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+        />
+      ))}
+    </>
+  )
+}
+
+

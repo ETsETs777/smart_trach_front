@@ -234,3 +234,75 @@ export default function HomePage() {
   )
 }
 
+
+              >
+                {t('common.back')}
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      ) : null}
+
+      {/* Stats or additional info */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-16 text-center"
+      >
+        <div className="inline-flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 glass rounded-2xl px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6">
+          <div>
+            <div className="text-4xl font-bold text-green-600">♻️</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.ecoFriendly')}</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-blue-600">⚡</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.fast')}</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-purple-600">🎯</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.accurate')}</div>
+          </div>
+        </div>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+
+
+              >
+                {t('common.back')}
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      ) : null}
+
+      {/* Stats or additional info */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-16 text-center"
+      >
+        <div className="inline-flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 glass rounded-2xl px-6 sm:px-8 md:px-12 py-4 sm:py-5 md:py-6">
+          <div>
+            <div className="text-4xl font-bold text-green-600">♻️</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.ecoFriendly')}</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-blue-600">⚡</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.fast')}</div>
+          </div>
+          <div>
+            <div className="text-4xl font-bold text-purple-600">🎯</div>
+            <div className="text-sm text-white/80 mt-2">{t('home.accurate')}</div>
+          </div>
+        </div>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+

@@ -1053,3 +1053,23 @@ export default function LandingPage() {
   )
 }
 
+
+            </div>
+          </div>
+        </div>
+      </footer>
+      </main>
+    </div>
+  )
+}
+
+
+            </div>
+          </div>
+        </div>
+      </footer>
+      </main>
+    </div>
+  )
+}
+

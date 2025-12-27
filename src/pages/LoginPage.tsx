@@ -187,3 +187,41 @@ export default function LoginPage() {
   )
 }
 
+
+                Зарегистрироваться
+              </Link>
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Вернуться на главную
+            </Link>
+          </div>
+        </Card>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+
+
+                Зарегистрироваться
+              </Link>
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Вернуться на главную
+            </Link>
+          </div>
+        </Card>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+

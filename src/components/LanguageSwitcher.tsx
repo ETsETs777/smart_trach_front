@@ -78,3 +78,93 @@ export default function LanguageSwitcher() {
 }
 
 
+
+          title={`Current language: ${languageNames[currentLang]}. Click to change.`}
+        >
+          <Globe className="w-4 h-4" />
+          <span className="font-semibold uppercase">{currentLang}</span>
+          <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </Button>
+      </motion.div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="absolute top-full left-0 mt-2 z-20 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden min-w-[150px]"
+            >
+              {supportedLanguages.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => changeLanguage(lang)}
+                  className={`w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors flex items-center justify-between ${
+                    currentLang === lang ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700'
+                  }`}
+                >
+                  <span>{languageNames[lang]}</span>
+                  {currentLang === lang && (
+                    <span className="text-green-600">✓</span>
+                  )}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+
+
+          title={`Current language: ${languageNames[currentLang]}. Click to change.`}
+        >
+          <Globe className="w-4 h-4" />
+          <span className="font-semibold uppercase">{currentLang}</span>
+          <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </Button>
+      </motion.div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              className="absolute top-full left-0 mt-2 z-20 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden min-w-[150px]"
+            >
+              {supportedLanguages.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => changeLanguage(lang)}
+                  className={`w-full px-4 py-2 text-left hover:bg-gray-100 transition-colors flex items-center justify-between ${
+                    currentLang === lang ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700'
+                  }`}
+                >
+                  <span>{languageNames[lang]}</span>
+                  {currentLang === lang && (
+                    <span className="text-green-600">✓</span>
+                  )}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+

@@ -164,3 +164,51 @@ export default function LazyImage({
   )
 }
 
+
+          <motion.img
+            key="image"
+            src={optimizedSrc}
+            alt={alt}
+            onLoad={handleLoad}
+            onError={handleError}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isLoaded ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            className={`w-full h-full object-cover ${isLoaded ? '' : 'opacity-0'}`}
+            loading="lazy"
+            {...(responsive && {
+              srcSet: generateSrcSet(optimizedSrc, srcsetWidths),
+              sizes: generateSizes(sizes),
+            })}
+            {...props}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+
+          <motion.img
+            key="image"
+            src={optimizedSrc}
+            alt={alt}
+            onLoad={handleLoad}
+            onError={handleError}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isLoaded ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+            className={`w-full h-full object-cover ${isLoaded ? '' : 'opacity-0'}`}
+            loading="lazy"
+            {...(responsive && {
+              srcSet: generateSrcSet(optimizedSrc, srcsetWidths),
+              sizes: generateSizes(sizes),
+            })}
+            {...props}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+

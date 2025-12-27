@@ -421,3 +421,171 @@ export default function RegisterPage() {
   )
 }
 
+
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Логотип компании (опционально)
+                  </label>
+                  {logoPreview ? (
+                    <div className="relative inline-block">
+                      <img
+                        src={logoPreview}
+                        alt="Logo preview"
+                        className="w-32 h-32 object-cover rounded-xl border-2 border-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLogoPreview(null)
+                          setValue('logoId', undefined)
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-green-500 transition-colors">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-8 h-8 mb-2 text-gray-400" />
+                        <p className="text-sm text-gray-500">Нажмите для загрузки</p>
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const logoId = await handleLogoUpload(file)
+                            if (logoId) {
+                              setValue('logoId', logoId)
+                            }
+                          }
+                        }}
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full"
+              isLoading={loading}
+            >
+              Зарегистрироваться
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Уже есть аккаунт?{' '}
+              <Link to="/login" className="text-green-600 hover:text-green-700 font-semibold">
+                Войти
+              </Link>
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 mt-4 text-sm text-gray-600 hover:text-gray-800"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Вернуться на главную
+            </Link>
+          </div>
+        </Card>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+
+
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Логотип компании (опционально)
+                  </label>
+                  {logoPreview ? (
+                    <div className="relative inline-block">
+                      <img
+                        src={logoPreview}
+                        alt="Logo preview"
+                        className="w-32 h-32 object-cover rounded-xl border-2 border-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLogoPreview(null)
+                          setValue('logoId', undefined)
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-green-500 transition-colors">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <Upload className="w-8 h-8 mb-2 text-gray-400" />
+                        <p className="text-sm text-gray-500">Нажмите для загрузки</p>
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const logoId = await handleLogoUpload(file)
+                            if (logoId) {
+                              setValue('logoId', logoId)
+                            }
+                          }
+                        }}
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full"
+              isLoading={loading}
+            >
+              Зарегистрироваться
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Уже есть аккаунт?{' '}
+              <Link to="/login" className="text-green-600 hover:text-green-700 font-semibold">
+                Войти
+              </Link>
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 mt-4 text-sm text-gray-600 hover:text-gray-800"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Вернуться на главную
+            </Link>
+          </div>
+        </Card>
+      </motion.div>
+      </div>
+    </GreenGradientBackground>
+  )
+}
+

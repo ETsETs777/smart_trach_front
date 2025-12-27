@@ -390,3 +390,15 @@ export default function ResultPage() {
   )
 }
 
+
+      </main>
+    </div>
+  )
+}
+
+
+      </main>
+    </div>
+  )
+}
+
