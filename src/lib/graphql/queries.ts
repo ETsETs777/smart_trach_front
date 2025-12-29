@@ -369,3 +369,64 @@ export const GET_MY_DAILY_CHALLENGE_PROGRESS = gql`
   }
 `
 
+export const GET_TEAM_COMPETITIONS = gql`
+  query GetTeamCompetitions($companyId: ID!) {
+    teamCompetitions(companyId: $companyId) {
+      id
+      title
+      description
+      startDate
+      endDate
+      isActive
+      maxTeams
+      participants {
+        id
+        teamName
+        totalPoints
+        rank
+        members {
+          id
+          fullName
+          email
+        }
+      }
+    }
+  }
+`
+
+export const GET_TEAM_COMPETITION_PARTICIPANTS = gql`
+  query GetTeamCompetitionParticipants($competitionId: ID!) {
+    teamCompetitionParticipants(competitionId: $competitionId) {
+      id
+      teamName
+      totalPoints
+      rank
+      members {
+        id
+        fullName
+        email
+      }
+    }
+  }
+`
+
+export const GET_SEASONAL_EVENTS = gql`
+  query GetSeasonalEvents($companyId: ID) {
+    seasonalEvents(companyId: $companyId) {
+      id
+      title
+      description
+      startDate
+      endDate
+      isActive
+      pointsMultiplier
+      experienceMultiplier
+      specialAchievements {
+        id
+        title
+        description
+      }
+    }
+  }
+`
+

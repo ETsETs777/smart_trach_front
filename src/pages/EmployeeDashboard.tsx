@@ -16,6 +16,8 @@ import {
 } from 'lucide-react'
 import AchievementsList from '@/components/AchievementsList'
 import DailyChallengesList from '@/components/DailyChallengesList'
+import TeamCompetitionsList from '@/components/TeamCompetitionsList'
+import SeasonalEventsList from '@/components/SeasonalEventsList'
 import LevelProgressBar from '@/components/LevelProgressBar'
 import { GET_COMPANY_LEADERBOARD, GET_MY_PROGRESS } from '@/lib/graphql/queries'
 import { useQuery } from '@apollo/client'
@@ -188,8 +190,16 @@ function EmployeeDashboard() {
           </Card>
         </div>
 
+        {/* Seasonal Events */}
+        <Card className="p-6 mb-6 border-white/20">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-white">Сезонные события</h2>
+          </div>
+          <SeasonalEventsList />
+        </Card>
+
         {/* Daily Challenges + Achievements */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <Card className="p-6 border-white/20">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-white">Ежедневные задания</h2>
@@ -208,6 +218,14 @@ function EmployeeDashboard() {
             <AchievementsList />
           </Card>
         </div>
+
+        {/* Team Competitions */}
+        <Card className="p-6 border-white/20">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-white">Командные соревнования</h2>
+          </div>
+          <TeamCompetitionsList />
+        </Card>
 
         {/* Profile & History shortcuts */}
         <div className="grid grid-cols-2 gap-4 mt-6">
