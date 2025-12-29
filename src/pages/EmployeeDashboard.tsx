@@ -19,6 +19,7 @@ import DailyChallengesList from '@/components/DailyChallengesList'
 import TeamCompetitionsList from '@/components/TeamCompetitionsList'
 import SeasonalEventsList from '@/components/SeasonalEventsList'
 import LevelProgressBar from '@/components/LevelProgressBar'
+import InAppNotifications from '@/components/InAppNotifications'
 import { GET_COMPANY_LEADERBOARD, GET_MY_PROGRESS } from '@/lib/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { useWasteStore } from '@/store/useWasteStore'
@@ -68,10 +69,13 @@ function EmployeeDashboard() {
             </h1>
             <p className="text-white/90 mt-2">Ваша статистика и достижения</p>
           </div>
-          <Button onClick={handleLogout} variant="ghost" size="lg">
-            <LogOut className="w-5 h-5 mr-2" />
-            Выход
-          </Button>
+          <div className="flex items-center gap-4">
+            <InAppNotifications />
+            <Button onClick={handleLogout} variant="ghost" size="lg">
+              <LogOut className="w-5 h-5 mr-2" />
+              Выход
+            </Button>
+          </div>
         </div>
 
         {/* Level Progress */}
