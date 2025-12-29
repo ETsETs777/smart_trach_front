@@ -15,7 +15,9 @@ import {
   Award
 } from 'lucide-react'
 import AchievementsList from '@/components/AchievementsList'
-import { GET_COMPANY_LEADERBOARD } from '@/lib/graphql/queries'
+import DailyChallengesList from '@/components/DailyChallengesList'
+import LevelProgressBar from '@/components/LevelProgressBar'
+import { GET_COMPANY_LEADERBOARD, GET_MY_PROGRESS } from '@/lib/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { useWasteStore } from '@/store/useWasteStore'
 import { tokenStorage } from '@/lib/auth/tokenStorage'
@@ -24,9 +26,13 @@ function EmployeeDashboard() {
   const navigate = useNavigate()
   const { companyId } = useWasteStore()
 
-  const { data } = useQuery(GET_COMPANY_LEADERBOARD, {
+  const { data: leaderboardData } = useQuery(GET_COMPANY_LEADERBOARD, {
     variables: { companyId: companyId || 'default-company-id' },
     skip: !companyId,
+  })
+
+  const { data: progressData, loading: progressLoading } = useQuery(GET_MY_PROGRESS, {
+    pollInterval: 30000, // Обновлять каждые 30 секунд
   })
 
   const handleLogout = () => {
@@ -34,13 +40,18 @@ function EmployeeDashboard() {
     navigate('/')
   }
 
-  // TODO: Получить реальные данные через GraphQL
+  const progress = progressData?.myProgress
+  const leaderboard = leaderboardData?.companyAnalytics?.leaderboard || []
+  
+  // Находим позицию текущего пользователя в рейтинге
+  const currentUserRank = leaderboard.findIndex((entry: any) => entry.employee?.id) + 1 || null
+
   const stats = {
-    totalSorts: 42,
-    currentRank: 5,
-    achievements: 3,
-    streak: 7,
-    topCount: data?.companyAnalytics?.leaderboard?.[0]?.totalClassifiedPhotos || 0,
+    totalSorts: progress?.totalPoints || 0,
+    currentRank: currentUserRank || '-',
+    achievements: 0, // TODO: получить из запроса ачивок
+    streak: progress?.currentStreak || 0,
+    topCount: leaderboard[0]?.totalClassifiedPhotos || 0,
   }
 
   return (
@@ -61,46 +72,82 @@ function EmployeeDashboard() {
           </Button>
         </div>
 
+        {/* Level Progress */}
+        {progress && (
+          <Card className="p-6 mb-8 border-white/20">
+            <LevelProgressBar
+              level={progress.level}
+              progress={progress.levelProgress}
+              experience={progress.experience}
+              experienceToNextLevel={progress.experienceToNextLevel}
+            />
+          </Card>
+        )}
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <Recycle className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-1">
-              {stats.totalSorts}
-            </div>
-            <div className="text-sm text-white/80">Сортировок</div>
+            {progressLoading ? (
+              <SkeletonLoader className="h-10 w-20 mb-1" />
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-white mb-1">
+                  {stats.totalSorts}
+                </div>
+                <div className="text-sm text-white/80">Очков</div>
+              </>
+            )}
           </div>
 
           <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <Trophy className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-1">
-              #{stats.currentRank}
-            </div>
-            <div className="text-sm text-white/80">Место в рейтинге</div>
+            {progressLoading ? (
+              <SkeletonLoader className="h-10 w-20 mb-1" />
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-white mb-1">
+                  {stats.currentRank !== '-' ? `#${stats.currentRank}` : '-'}
+                </div>
+                <div className="text-sm text-white/80">Место в рейтинге</div>
+              </>
+            )}
           </div>
 
           <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <Award className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-1">
-              {stats.achievements}
-            </div>
-            <div className="text-sm text-white/80">Ачивок получено</div>
+            {progressLoading ? (
+              <SkeletonLoader className="h-10 w-20 mb-1" />
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-white mb-1">
+                  {progress?.level || 1}
+                </div>
+                <div className="text-sm text-white/80">Уровень</div>
+              </>
+            )}
           </div>
 
           <div className="glass rounded-2xl p-6 border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <TrendingUp className="w-8 h-8 text-white" />
             </div>
-            <div className="text-3xl font-bold text-white mb-1">
-              {stats.streak}
-            </div>
-            <div className="text-sm text-white/80">Дней подряд</div>
+            {progressLoading ? (
+              <SkeletonLoader className="h-10 w-20 mb-1" />
+            ) : (
+              <>
+                <div className="text-3xl font-bold text-white mb-1">
+                  {stats.streak}
+                </div>
+                <div className="text-sm text-white/80">Дней подряд</div>
+              </>
+            )}
           </div>
         </div>
 
@@ -141,36 +188,13 @@ function EmployeeDashboard() {
           </Card>
         </div>
 
-        {/* Recent Activity + Achievements */}
+        {/* Daily Challenges + Achievements */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="p-6 border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-white">Последние активности</h2>
-              <Button variant="ghost" size="sm" onClick={() => navigate('/history')} className="text-white hover:bg-white/20">
-                <History className="w-4 h-4 mr-2" />
-                Вся история
-              </Button>
+              <h2 className="text-2xl font-bold text-white">Ежедневные задания</h2>
             </div>
-            <div className="space-y-3">
-              {[1, 2, 3].map((item) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: item * 0.1 }}
-                  className="flex items-center gap-4 p-4 bg-white/10 rounded-xl border border-white/20"
-                >
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                    <Recycle className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-white">Сортировка отходов</div>
-                    <div className="text-sm text-white/80">Пластик • +10 очков</div>
-                  </div>
-                  <div className="text-sm text-white/60">2 часа назад</div>
-                </motion.div>
-              ))}
-            </div>
+            <DailyChallengesList />
           </Card>
 
           <Card className="p-6 border-white/20">

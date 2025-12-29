@@ -318,3 +318,54 @@ export const GET_COLLECTION_AREA_BINS = gql`
   }
 `
 
+export const GET_MY_PROGRESS = gql`
+  query GetMyProgress {
+    myProgress {
+      level
+      experience
+      totalPoints
+      currentStreak
+      bestStreak
+      experienceToNextLevel
+      levelProgress
+    }
+  }
+`
+
+export const GET_DAILY_CHALLENGES = gql`
+  query GetDailyChallenges($companyId: ID!) {
+    dailyChallenges(companyId: $companyId) {
+      id
+      title
+      description
+      criterionType
+      target
+      rewardPoints
+      rewardExperience
+      startDate
+      endDate
+      isActive
+    }
+  }
+`
+
+export const GET_MY_DAILY_CHALLENGE_PROGRESS = gql`
+  query GetMyDailyChallengeProgress($companyId: ID!) {
+    myDailyChallengeProgress(companyId: $companyId) {
+      id
+      currentProgress
+      isCompleted
+      completedAt
+      challenge {
+        id
+        title
+        description
+        criterionType
+        target
+        rewardPoints
+        rewardExperience
+      }
+    }
+  }
+`
+
